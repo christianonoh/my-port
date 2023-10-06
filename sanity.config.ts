@@ -3,7 +3,7 @@ import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 
-export default defineConfig({
+const config = defineConfig({
   name: 'default',
   title: 'My Portfolio',
 
@@ -16,3 +16,5 @@ export default defineConfig({
     types: schemaTypes,
   },
 })
+
+export default config;
