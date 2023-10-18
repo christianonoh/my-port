@@ -1,11 +1,12 @@
-import getProfile from '@/sanity/sanity.query';
+import { getProfile, getJobs } from '@/sanity/sanity.query';
 import { PortableText } from "@portabletext/react";
 import Image from 'next/image';
 import { BiEnvelope, BiDownload, BiLinkExternal } from 'react-icons/bi';
+import Job from '../components/Job';
 
 const About = async () => {
   const profile = await getProfile();
-  console.log(profile);
+  const jobs = await getJobs();
   return (
     <main className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
       {profile &&
@@ -82,6 +83,18 @@ const About = async () => {
           </div>
         ))
       }
+      <section className="mt-32">
+        <div className="mb-16">
+          <h2 className="font-semibold text-4xl mb-4">Work Experience</h2>
+        </div>
+
+        <div className="flex flex-col gap-y-12">
+          {jobs &&
+            jobs.map((job) => (
+              <Job job={job} />
+            ))}
+        </div>
+      </section>
     </main>
   );
 };
