@@ -9,9 +9,10 @@ export type Profile = {
     image: string,
   },
   shortBio: string,
+  email: string,
   location: string,
   fullBio: PortableTextBlock[],
-  resumeUrl: string,
+  resumeURL: string,
   socialLinks: string[],
   skills: string[],
 }
