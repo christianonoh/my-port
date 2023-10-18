@@ -9,7 +9,7 @@ const Navbar = () => {
         <Link
           href="/"
           className="p-1 bg-slate-50 rounded-lg">
-          <Image src={logo} alt="logo" width={25}/>
+          <Image src={logo} alt="logo" height={25}/>
         </Link>
         <nav>
           <ul
