@@ -1,10 +1,10 @@
 import { groq } from 'next-sanity';
+import { Profile } from '@/types/profile';
 import sanityClient from "./sanity.client";
 
-
-const getProfile = async () => {
+const getProfile = async (): Promise<Profile[]> => {
   return sanityClient.fetch(
-    groq`*[_type == "profile"][0]{
+    groq`*[_type == "profile"]{
       _id,
       fullName,
       headline,
@@ -16,7 +16,6 @@ const getProfile = async () => {
       "resumeURL": resumeURL.asset->url,
       socialLinks,
       skills
-      }
     }
   `);
 }
