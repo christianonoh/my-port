@@ -1,4 +1,4 @@
-import getProfile from '@/sanity/sanity.query'
+import { getProfile } from '@/sanity/sanity.query'
 import HeroSvg from "./icons/HeroSvg"
 
 export default async function Home() {

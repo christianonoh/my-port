@@ -1,8 +1,9 @@
 import { groq } from 'next-sanity';
-import { Profile } from '@/types/profile';
+import { ProfileType } from '@/types/profileType';
 import sanityClient from "./sanity.client";
+import { JobType } from '@/types/jobType';
 
-const getProfile = async (): Promise<Profile[]> => {
+export const getProfile = async (): Promise<ProfileType[]> => {
   return sanityClient.fetch(
     groq`*[_type == "profile"]{
       _id,
@@ -19,4 +20,17 @@ const getProfile = async (): Promise<Profile[]> => {
     }
   `);
 }
-export default getProfile;
+
+export const getJobs = async (): Promise<JobType[]> => {
+  return sanityClient.fetch(
+    groq`*[_type == "job"]{
+      _id,
+      companyName,
+      startDate,
+      endDate,
+      description,
+      "companyLogo": companyLogo.asset->url,
+      skills
+    }`
+  );
+}
