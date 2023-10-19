@@ -91,7 +91,7 @@ const About = async () => {
         <div className="flex flex-col gap-y-12">
           {jobs &&
             jobs.map((job) => (
-              <Job job={job} />
+              <Job job={job} key={job._id} />
             ))}
         </div>
       </section>
