@@ -7,10 +7,7 @@ type Props = {
 
 const Job = ({ job }: Props) => {
   return (
-    <div
-      key={job._id}
-      className="flex items-start lg:gap-x-6 gap-x-4 max-w-2xl relative before:absolute before:bottom-0 before:top-[4.5rem] before:left-7 before:w-[1px] before:h-[calc(100%-50px)] before:bg-zinc-800"
-    >
+    <div className="flex items-start lg:gap-x-6 gap-x-4 max-w-2xl relative before:absolute before:bottom-0 before:top-[4.5rem] before:left-7 before:w-[1px] before:h-[calc(100%-50px)] before:bg-zinc-800">
       <a
         href={job.url}
         rel="noreferrer noopener"
