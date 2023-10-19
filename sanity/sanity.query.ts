@@ -51,3 +51,18 @@ export const getProjects = async (): Promise<ProjectType[]> => {
     }`
   );
 }
+
+export const getProject = async (slug: string) => {
+  return sanityClient.fetch(
+    groq`*[_type == "project" && slug.current == $slug][0]{
+      _id,
+      title,
+      tagline,
+      "logo": logo.asset->url,
+      projectUrl,
+      coverImage { alt, "image": asset->url },
+      description
+    }`,
+    { slug }
+  );
+}
