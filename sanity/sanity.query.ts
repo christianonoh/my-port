@@ -2,6 +2,7 @@ import { groq } from 'next-sanity';
 import { ProfileType } from '@/types/profileType';
 import sanityClient from "./sanity.client";
 import { JobType } from '@/types/jobType';
+import { ProjectType } from '@/types/projectType';
 
 export const getProfile = async (): Promise<ProfileType[]> => {
   return sanityClient.fetch(
@@ -26,11 +27,27 @@ export const getJobs = async (): Promise<JobType[]> => {
     groq`*[_type == "job"]{
       _id,
       companyName,
+      jobTitle,
       startDate,
       endDate,
       description,
       "companyLogo": companyLogo.asset->url,
       skills
+    }`
+  );
+}
+
+export const getProjects = async (): Promise<ProjectType[]> => {
+  return sanityClient.fetch(
+    groq`*[_type == "project"]{
+      _id,
+      title,
+      tagline,
+      "slug": slug.current,
+      "logo": logo.asset->url,
+      projectUrl,
+      "coverImage": coverImage.asset->url,
+      description
     }`
   );
 }
