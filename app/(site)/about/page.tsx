@@ -22,7 +22,7 @@ const About = async () => {
                   <PortableText value={data.fullBio} />
                 </div>
               </div>
-              <div className="flex flex-col lg:justify-self-center justify-self-start gap-y-8 lg:order-1 order-none mb-12">
+              <div className="flex flex-col justify-self-center gap-y-8 lg:order-1 order-none mb-12">
                 <div>
                   <Image
                     src={data.profileImage.image}

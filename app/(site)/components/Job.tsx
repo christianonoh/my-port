@@ -1,4 +1,3 @@
-import { getJobs } from "@/sanity/sanity.query";
 import { JobType } from "@/types/jobType";
 import Image from "next/image";
 
