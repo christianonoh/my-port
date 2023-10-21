@@ -2,9 +2,10 @@ import { getProjects } from "@/sanity/sanity.query";
 import Image from "next/image";
 import Link from "next/link";
 
+export const revalidate = 60 * 60 * 24;  // 24 hours
+
 const Project = async () => {
   const projects = await getProjects();
-  console.log(projects);
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6">
       <section className="max-w-2xl mb-16">

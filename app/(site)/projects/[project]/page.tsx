@@ -24,6 +24,8 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
+export const revalidate = 60 * 60 * 24; // 24 hours
+
 const Project = async ({ params }: Props) => {
   const slug = params.project;
   const project = await getProject(slug);
