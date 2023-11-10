@@ -1,15 +1,15 @@
 import Link from "next/link";
-import logo from "../../icons/logo.webp"
+import logo from "/public/logo.svg";
 import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <header className="py-6 md:px-16 px-6 border-b border-zinc-800 z-30 md:mb-28 mb-20">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
+    <header className="z-30 px-6 py-6 mb-20 border-b md:px-16 border-zinc-800 md:mb-28">
+      <div className="flex items-center justify-between max-w-6xl mx-auto">
         <Link
           href="/"
-          className="p-1 bg-slate-50 rounded-lg">
-          <Image src={logo} alt="logo" height={25}/>
+          className="">
+          <Image src={logo} alt="logo" height={40}/>
         </Link>
         <nav>
           <ul
@@ -18,7 +18,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/about"
-                className="hover:text-purple-400 duration-300"
+                className="duration-300 hover:text-purple-400"
               >
                 About
               </Link>
@@ -26,7 +26,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/projects"
-                className="hover:text-purple-400 duration-300"
+                className="duration-300 hover:text-purple-400"
               >
                 Projects
               </Link>
