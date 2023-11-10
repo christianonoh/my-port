@@ -1,4 +1,6 @@
-import { getProjects } from "@/sanity/sanity.query";
+import { sanityFetch } from "@/sanity/sanity.client";
+import { getProjects, projectsGroq } from "@/sanity/sanity.query";
+import { ProjectType } from "@/types/projectType";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,13 +8,17 @@ export const revalidate = 60 * 60 * 24;  // 24 hours
 
 const Project = async () => {
   const projects = await getProjects();
+  const project: ProjectType[] = await sanityFetch({
+    query: projectsGroq,
+    tags: ['project']
+  })
   return (
-    <main className="max-w-7xl mx-auto md:px-16 px-6">
+    <main className="px-6 mx-auto max-w-7xl md:px-16">
       <section className="max-w-2xl mb-16">
         <h1 className="text-3xl font-bold tracking-tight sm:text-5xl mb-6 lg:leading-[3.7rem] leading-tight">
           Featured projects I&apos;ve built over the years
         </h1>
-        <p className="text-base text-zinc-400 leading-relaxed">
+        <p className="text-base leading-relaxed text-zinc-400">
           I&apos;ve worked on tons of little projects over the years but these
           are the ones that I&apos;m most proud of. Many of them are
           open-source, so if you see something that piques your interest, check
@@ -20,8 +26,8 @@ const Project = async () => {
           improved.
         </p>
       </section>
-      <section className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 mb-12">
-        {projects.map((project) => (
+      <section className="grid grid-cols-1 gap-5 mb-12 xl:grid-cols-3 md:grid-cols-2">
+        {project.map((project) => (
           <Link
           href={`/projects/${project.slug}`}
             key={project._id}
@@ -32,10 +38,10 @@ const Project = async () => {
               width={60}
               height={60}
               alt={project.title}
-              className="bg-zinc-800 rounded-md p-2"
+              className="p-2 rounded-md bg-zinc-800"
             />
             <div>
-              <h2 className="font-semibold mb-1">{project.title}</h2>
+              <h2 className="mb-1 font-semibold">{project.title}</h2>
               <div className="text-sm text-zinc-400">{project.tagline}</div>
             </div>
           </Link>

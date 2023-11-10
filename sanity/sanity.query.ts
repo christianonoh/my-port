@@ -1,6 +1,6 @@
 import { groq } from 'next-sanity';
 import { ProfileType } from '@/types/profileType';
-import sanityClient from "./sanity.client";
+import sanityClient, { sanityFetch } from "./sanity.client";
 import { JobType } from '@/types/jobType';
 import { ProjectType } from '@/types/projectType';
 
@@ -48,9 +48,21 @@ export const getProjects = async (): Promise<ProjectType[]> => {
       projectUrl,
       "coverImage": coverImage.asset->url,
       description
-    }`
+    }`,
   );
 }
+
+export const projectsGroq = `*[_type == "project"]{
+  _id,
+  title,
+  tagline,
+  "slug": slug.current,
+  "logo": logo.asset->url,
+  projectUrl,
+  "coverImage": coverImage.asset->url,
+  description
+}`
+
 
 export const getProject = async (slug: string) => {
   return sanityClient.fetch(
