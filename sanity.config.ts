@@ -2,6 +2,9 @@ import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './sanity/schemas'
+import { myTheme } from './theme'
+import StudioNavbar from './app/(site)/components/global/StudioNavbar'
+import Logo from './app/(site)/components/global/Logo'
 
 const config = defineConfig({
   name: 'default',
@@ -15,6 +18,13 @@ const config = defineConfig({
   schema: {
     types: schemaTypes,
   },
+  theme: myTheme,
+  studio: {
+    components: {
+      logo: Logo,
+      navbar: StudioNavbar,
+    },
+}
 })
 
 export default config;
