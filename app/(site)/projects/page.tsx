@@ -1,17 +1,11 @@
-import { sanityFetch } from "@/sanity/sanity.client";
-import { getProjects, projectsGroq } from "@/sanity/sanity.query";
-import { ProjectType } from "@/types/projectType";
+import { getProjects } from "@/sanity/sanity.query";
 import Image from "next/image";
 import Link from "next/link";
 
-export const revalidate = 60 * 60 * 24;  // 24 hours
-
 const Project = async () => {
+
   const projects = await getProjects();
-  const project: ProjectType[] = await sanityFetch({
-    query: projectsGroq,
-    tags: ['project']
-  })
+
   return (
     <main className="px-6 mx-auto max-w-7xl md:px-16">
       <section className="max-w-2xl mb-16">
@@ -27,7 +21,7 @@ const Project = async () => {
         </p>
       </section>
       <section className="grid grid-cols-1 gap-5 mb-12 xl:grid-cols-3 md:grid-cols-2">
-        {project.map((project) => (
+        {projects?.map((project) => (
           <Link
           href={`/projects/${project.slug}`}
             key={project._id}
