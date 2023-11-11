@@ -3,8 +3,8 @@ import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './sanity/schemas'
 import { myTheme } from './theme'
-import StudioNavbar from './app/(site)/components/global/StudioNavbar'
-import Logo from './app/(site)/components/global/Logo'
+import StudioNavbar from './components/global/StudioNavbar'
+import Logo from './components/global/Logo'
 
 const config = defineConfig({
   name: 'default',

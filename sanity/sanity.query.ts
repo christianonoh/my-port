@@ -73,14 +73,14 @@ export const getProject = (slug: string) => {
     query: projectGroq,
     params: { slug },
     tags: [`project:${slug}`],
-  })
+  });
 }
 
 // Get all projects 
 export const getJobs = () => {
   return sanityFetch<JobType[] | []>({
     query: jobsGroq,
-    tags: ['job'],
+    tags: ['job', 'profile'],
   })
 }
 // Get all projects 
