@@ -1,4 +1,4 @@
-import { getProject } from "@/sanity/sanity.query";
+import { getProject } from "@/sanity/sanity.fetch";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 

@@ -1,4 +1,4 @@
-import { getProfile, getJobs } from '@/sanity/sanity.query';
+import { getProfile, getJobs } from '@/sanity/sanity.fetch';
 import { PortableText } from "@portabletext/react";
 import Image from 'next/image';
 import { BiEnvelope, BiDownload, BiLinkExternal } from 'react-icons/bi';

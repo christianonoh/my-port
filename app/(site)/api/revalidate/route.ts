@@ -1,32 +1,35 @@
-// ./src/app/api/revalidate/route.ts
-import {revalidateTag} from 'next/cache'
-import {type NextRequest, NextResponse} from 'next/server'
-import {parseBody} from 'next-sanity/webhook'
+import { revalidateSecret } from '@/sanity/sanity.api'
+import { revalidateTag } from 'next/cache'
+import { type NextRequest, NextResponse } from 'next/server'
+import { parseBody } from 'next-sanity/webhook'
 
 export async function POST(req: NextRequest) {
   try {
-    const { isValidSignature, body } = await parseBody<{ _type: string }>(
-      req,
-      process.env.SANITY_REVALIDATE_SECRET,
-    );    
-
+    const { body, isValidSignature } = await parseBody<{
+      _type: string
+      slug?: string | undefined
+    }>(req, revalidateSecret)
     if (!isValidSignature) {
       const message = 'Invalid signature'
-      return new Response(JSON.stringify({message, isValidSignature, body}), {status: 401})
+      return new Response(message, { status: 401 })
     }
 
     if (!body?._type) {
-      const message = 'Bad Request'
-      return new Response(JSON.stringify({ message, body }), { status: 400 });
+      return new Response('Bad Request', { status: 400 })
     }
-
-    // If the `_type` is `page`, then all `client.fetch` calls with
-    // `{next: {tags: ['page']}}` will be revalidated
+    console.log('Working!!!!!!!!')
     revalidateTag(body._type)
-
-    return NextResponse.json({body})
-  } catch (err) {
+    if (body.slug) {
+      revalidateTag(`${body._type}:${body.slug}`)
+    }
+    return NextResponse.json({
+      status: 200,
+      revalidated: true,
+      now: Date.now(),
+      body,
+    })
+  } catch (err: any) {
     console.error(err)
-    return new Response((err as Error).message, {status: 500})
+    return new Response(err.message, { status: 500 })
   }
 }

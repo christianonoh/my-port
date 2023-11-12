@@ -1,4 +1,4 @@
-import { getProjects } from "@/sanity/sanity.query";
+import { getProjects } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import Link from "next/link";
 
