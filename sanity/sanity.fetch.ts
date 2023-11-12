@@ -34,7 +34,6 @@ const sanityFetch = async <QueryResponse>({
       token: token,
       perspective: 'previewDrafts',
     }),
-    cache: 'no-store',
     next: {
       //revalidate: 30, // for simple, time-based revalidation
       revalidate: isDraftMode ? REVALIDATE_SKIP_CACHE : REVALIDATE_CACHE_FOREVER,
