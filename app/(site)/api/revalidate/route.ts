@@ -14,7 +14,8 @@ export async function POST(req: NextRequest) {
       const message = 'Invalid signature'
       return new Response(message, { status: 401 })
     }
-
+    console.log(`body: ${body}`);
+    console.log(`isValidSignature: ${isValidSignature}`)
     if (!body?._type) {
       return new Response('Bad Request', { status: 400 })
     }
