@@ -1,8 +1,7 @@
-import { getProfile } from '@/sanity/sanity.query'
+import { getProfile } from '@/sanity/sanity.fetch'
 import HeroSvg from "./icons/HeroSvg"
 
 export default async function Home() {
-
   const profile = await getProfile();
   return (
     <main className="px-6 mx-auto max-w-7xl lg:px-16">
