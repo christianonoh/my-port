@@ -5,7 +5,8 @@ const config: ClientConfig = {
   projectId,
   dataset,
   apiVersion,
-  useCdn: revalidateSecret ? false : true,
+  // useCdn: revalidateSecret ? false : true,
+  useCdn: true,
   perspective: 'published',
 }
 
