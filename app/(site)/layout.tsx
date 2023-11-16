@@ -4,6 +4,10 @@ import { Inter } from 'next/font/google'
 import Footer from '../../components/global/Footer'
 import Navbar from '../../components/global/Navbar'
 import Head from '../../components/Head'
+import { draftMode } from 'next/headers'
+import { token } from '@/sanity/sanity.fetch'
+import dynamic from 'next/dynamic'
+import { PreviewBanner } from '@/components/preview/PreviewBanner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,17 +26,29 @@ export const metadata: MyMetadata = {
   url: 'https://github.com/christianonoh',
 }
 
+const PreviewProvider = dynamic(
+  () => import('@/components/preview/PreviewProvider'),
+)
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const isDraftMode = draftMode().isEnabled
   return (
     <html lang="en">
       <Head />
       <body className={`${inter.className} bg-zinc-900 text-white`}>
+        {isDraftMode && <PreviewBanner />}
         <Navbar />
-        {children}
+        {isDraftMode ? (
+          <PreviewProvider token={token!}>
+            {children}
+          </PreviewProvider>
+        ) : (
+          children
+        )}
         <Footer />
       </body>
     </html>
