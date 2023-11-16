@@ -2,7 +2,6 @@
 const nextConfig = {
   images: {
     domains: ['cdn.sanity.io'],
-    metadataBase: 'https://christianonoh.vercel.app',
   },
 }
 
