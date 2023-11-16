@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { ProfileType } from '@/types/profileType';
 import { JobType } from '@/types/jobType';
 import { ProjectType } from '@/types/projectType';
@@ -10,7 +12,7 @@ import { client } from './sanity.client';
 const DEFAULT_PARAMS = {} as QueryParams
 const DEFAULT_TAGS = [] as string[]
 
-export const token = process.env.SANITY_API_READ_TOKEN
+export const token = process.env.SANITY_API_READ_TOKEN;
 
 const sanityFetch = async <QueryResponse>({
   query,
@@ -72,6 +74,6 @@ export const getJobs = () => {
 export const getProfile = () => {
   return sanityFetch<ProfileType[] | []>({
     query: profileGroq,
-    tags: ['profile'],
+    tags: ['profile', 'job'],
   })
 }
