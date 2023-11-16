@@ -3,10 +3,10 @@ export const resolveHref = (
   slug?: string,
 ): string | undefined => {
   switch (documentType) {
-    case 'profile' || 'job':
-      return 'about/'
-    case 'page':
-      return slug ? `/${slug}` : undefined
+    case 'profile':
+      return '/'
+    case 'job':
+      return '/about'
     case 'project':
       return slug ? `/projects/${slug}` : undefined
     default:
