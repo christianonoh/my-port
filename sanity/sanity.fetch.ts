@@ -7,6 +7,7 @@ import { profileGroq, jobsGroq, projectsGroq, projectGroq } from './sanity.queri
 import type {QueryParams} from '@sanity/client';
 import {draftMode} from 'next/headers';
 import { client } from './sanity.client';
+import { revalidateSecret } from './sanity.api';
 
 
 const DEFAULT_PARAMS = {} as QueryParams
@@ -28,17 +29,22 @@ const sanityFetch = async <QueryResponse>({
     throw new Error('The `SANITY_API_READ_TOKEN` environment variable is required.')
   }
 
-  const REVALIDATE_SKIP_CACHE = 0
-  const REVALIDATE_CACHE_FOREVER = false
+    // @TODO this won't be necessary after https://github.com/sanity-io/client/pull/299 lands
+    const sanityClient =
+    client.config().useCdn && isDraftMode
+      ? client.withConfig({ useCdn: false })
+      : client
 
-  return client.fetch<QueryResponse>(query, params, {
+  return sanityClient.fetch<QueryResponse>(query, params, {
+    // We only cache if there's a revalidation webhook setup
+    cache: revalidateSecret ? 'force-cache' : 'no-store',
     ...(isDraftMode && {
+      cache: undefined,
       token: token,
       perspective: 'previewDrafts',
     }),
     next: {
-      //revalidate: 30, // for simple, time-based revalidation
-      revalidate: isDraftMode ? REVALIDATE_SKIP_CACHE : REVALIDATE_CACHE_FOREVER,
+      ...(isDraftMode && { revalidate: 30 }),
       tags, // for tag-based revalidation
     },
   })
@@ -48,7 +54,7 @@ const sanityFetch = async <QueryResponse>({
 
 // Get all projects 
 export const getProjects = () => {
-  return sanityFetch<ProjectType[] | []>({
+  return sanityFetch<ProjectType[] | null>({
     query: projectsGroq,
     tags: ['project'],
   })
@@ -59,20 +65,20 @@ export const getProject = (slug: string) => {
   return sanityFetch<ProjectType>({
     query: projectGroq,
     params: { slug },
-    tags: [`project:${slug}`],
+    tags: [`project:${slug}`, 'project'],
   });
 }
 
 // Get all projects 
 export const getJobs = () => {
-  return sanityFetch<JobType[] | []>({
+  return sanityFetch<JobType[] | null>({
     query: jobsGroq,
     tags: ['job', 'profile'],
   })
 }
 // Get all projects 
 export const getProfile = () => {
-  return sanityFetch<ProfileType[] | []>({
+  return sanityFetch<ProfileType[] | null>({
     query: profileGroq,
     tags: ['profile', 'job'],
   })
