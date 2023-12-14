@@ -27,6 +27,12 @@ const project = {
       options: { source: 'title' },
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'technologies',
+      title: 'Technologies',
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'technology'}}],
+    }),
     {
       name: 'logo',
       title: 'Logo',
@@ -35,6 +41,11 @@ const project = {
     {
       name: 'projectUrl',
       title: 'Project URL',
+      type: 'url',
+    },
+    {
+      name: 'githubUrl',
+      title: 'Github URL',
       type: 'url',
     },
     {
