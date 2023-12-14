@@ -1,4 +1,4 @@
-import { JobType } from "@/types/jobType";
+import { JobType } from "@/types";
 import Image from "next/image";
 
 type Props = {

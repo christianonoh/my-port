@@ -2,7 +2,7 @@ import { getProfile, getJobs, getTechnologies } from "@/sanity/sanity.fetch";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { BiEnvelope, BiDownload, BiLinkExternal } from "react-icons/bi";
-import Job from "../../../../components/Job";
+import Job from "../../../components/Job";
 import TransitionEffect from "@/components/TransitionEffect";
 import AnimatedText from "@/components/AnimatedText";
 import Technology from "@/components/shared/Technology";
