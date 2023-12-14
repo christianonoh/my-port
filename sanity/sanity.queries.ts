@@ -3,7 +3,7 @@ const profileGroq = `
     _id,
     fullName,
     headline,
-    profileImage {alt, "image": asset->url},
+    profileImage {alt, "image": asset-> },
     shortBio,
     location,
     fullBio,
@@ -35,7 +35,8 @@ const projectsGroq = `*[_type == "project"]{
     "logo": logo.asset->url,
     projectUrl,
     "coverImage": coverImage.asset->url,
-    description
+    description,
+    "technologies": technologies[]->,
   }`;
 
 const projectGroq = `
@@ -45,8 +46,16 @@ const projectGroq = `
     tagline,
     "logo": logo.asset->url,
     projectUrl,
-    coverImage { alt, "image": asset->url },
+    coverImage { alt, "image": asset-> },
+    technologies[]->,
     description
   }`;
 
-export { profileGroq, jobsGroq, projectsGroq, projectGroq }
+const technologiesGroq = `
+  *[_type == "technology"]{
+    _id,
+    title,
+    description
+  }`;
+
+export { profileGroq, jobsGroq, projectsGroq, projectGroq, technologiesGroq };
