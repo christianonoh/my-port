@@ -15,7 +15,7 @@ export default async function Home() {
             profile.map((data) => (
               <div
                 key={data._id}
-                className="max-w-2xl lg:max-w-2xl flex flex-col items-center self-center"
+                className="max-w-2xl lg:max-w-max flex flex-col items-center self-center"
               >
                 <AnimatedText
                   text={data.headline}
