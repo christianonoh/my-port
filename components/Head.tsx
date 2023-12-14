@@ -1,6 +1,8 @@
+import Head from "next/head";
+
 const HeadTag = () => {
   return (
-    <head>
+    <Head>
       <link
         rel="apple-touch-icon"
         sizes="180x180"
@@ -28,7 +30,7 @@ const HeadTag = () => {
       <meta name="msapplication-TileColor" content="#603cba" />
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#ffffff" />
-    </head>
+    </Head>
   );
 };
 
