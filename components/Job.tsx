@@ -1,4 +1,4 @@
-import { JobType } from "@/types/jobType";
+import { JobType } from "@/types";
 import Image from "next/image";
 
 type Props = {
@@ -18,6 +18,7 @@ const Job = ({ job }: Props) => {
           className="object-cover"
           alt={`${job.companyName} logo`}
           fill
+          sizes="60px"
         />
       </a>
       <div className="flex flex-col items-start">

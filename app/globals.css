@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.red { border: 1px solid #f00; }
-
-.blue { border: 1px solid #00f; }
+:root {
+  --primary-color: 192 132 252;
+  --secondary-color: #00f;
+  --max-width: 7rem;
+}
 
 .app {
   @apply relative z-10 flex flex-col items-center justify-center px-6 mx-auto max-w-7xl sm:px-16;
+}
+
+.prose strong {
+  @apply text-accent;
 }
