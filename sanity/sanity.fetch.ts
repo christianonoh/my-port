@@ -2,16 +2,18 @@ import "server-only";
 
 import {
   profileGroq,
-  jobsGroq,
+  worksGroq,
   projectsGroq,
   projectGroq,
   technologiesGroq,
+  educationGroq,
+  skillsGroq,
 } from "./sanity.queries";
 import type { QueryParams } from "@sanity/client";
 import { draftMode } from "next/headers";
 import { client } from "./sanity.client";
 import { revalidateSecret } from "./sanity.api";
-import { JobType, ProfileType, ProjectType, TechnologyType } from "@/types";
+import { ProfileType, ProjectType, WorkDetailsType } from "@/types";
 
 const DEFAULT_PARAMS = {} as QueryParams;
 const DEFAULT_TAGS = [] as string[];
@@ -42,8 +44,8 @@ const sanityFetch = async <QueryResponse>({
 
   return sanityClient.fetch<QueryResponse>(query, params, {
     // We only cache if there's a revalidation webhook setup
-    cache: revalidateSecret ? "force-cache" : "no-store",
-    // cache: "no-store",
+    // cache: revalidateSecret ? "force-cache" : "no-store",
+    cache: "no-store",
     ...(isDraftMode && {
       cache: undefined,
       token: token,
@@ -77,8 +79,8 @@ export const getProject = (slug: string) => {
 
 // Get all projects
 export const getJobs = () => {
-  return sanityFetch<JobType[] | null>({
-    query: jobsGroq,
+  return sanityFetch<WorkDetailsType[] | null>({
+    query: worksGroq,
     tags: ["job", "profile"],
   });
 };
@@ -89,10 +91,27 @@ export const getProfile = () => {
     tags: ["profile", "job"],
   });
 };
+
 // Get all Technologies
 export const getTechnologies = () => {
   return sanityFetch<any[] | null>({
     query: technologiesGroq,
     tags: ["technology"],
+  });
+};
+
+// Get all Technologies
+export const getSkills = () => {
+  return sanityFetch<any[] | null>({
+    query: skillsGroq,
+    tags: ["technology"],
+  });
+};
+
+// Get all Educations
+export const getEducations = () => {
+  return sanityFetch<any[] | null>({
+    query: educationGroq,
+    tags: ["education"],
   });
 };
