@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 const Technology = ({
@@ -10,6 +11,7 @@ const Technology = ({
   href = "#",
   enableHover = true,
   slug,
+  logo,
 }: {
   title: string;
   className?: string;
@@ -17,6 +19,7 @@ const Technology = ({
   description: string;
   enableHover?: boolean;
   slug?: string;
+  logo?: any;
 }) => {
   const [showDescription, setShowDescription] = useState(false);
   const [techSlug, setTechSlug] = useState("");
@@ -38,13 +41,23 @@ const Technology = ({
   return (
     <div
       key={title}
-      className={`relative bg-[#1d1d20] border border-transparent technology hover:border-zinc-700 rounded-md px-2 py-1 ${slug}  ${
+      className={`relative bg-[#1d1d20] border border-transparent technology flex items-center gap-2 hover:border-zinc-700 rounded-md px-2 py-1 ${slug}  ${
         enableHover ? " cursor-pointer" : ""
       }`}
       onMouseEnter={() => handleMouseEnter(slug ?? "")}
       onMouseLeave={handleMouseLeave}
     >
-      {title}
+      {logo && (
+        <Image
+          src={logo.url}
+          width={24}
+          height={24}
+          className="object-cover rounded-[1px] object-center w-4 aspect-square bg-light p-[1px]"
+          alt={`${title} logo`}
+          sizes="24px"
+        />
+      )}
+      <span className="text-xs sm:text-base">{title}</span>
       {enableHover && showDescription && (
         <motion.div
           initial={{ opacity: 0 }}
