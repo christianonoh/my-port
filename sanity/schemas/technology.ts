@@ -21,6 +21,13 @@ export default defineType({
         maxLength: 30,
       },
     }),
+    {
+      name: "proficient",
+      title: "Are you proficient with this technology?",
+      type: "boolean",
+      description: "Toggle to enable or disable the technology on your site.",
+      initialValue: true,
+    },
     defineField({
       name: "description",
       title: "Description",
