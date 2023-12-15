@@ -46,14 +46,14 @@ const Project = async () => {
                   <div className="text-sm text-zinc-400">{project.tagline}</div>
                 </div>
               </span>
-              {project?.technologies && (
+              {project?.stack && (
                 <div className="flex gap-2 flex-wrap">
-                  {project.technologies.splice(0, 3).map((tech: any) => (
+                  {project.stack.splice(0, 3).map((tech: any) => (
                     <div
-                      key={tech}
-                      className="text-xs uppercase text-accent whitespace-nowrap text-center bg-light/10 py-1 px-3 rounded-xl"
+                      key={tech.key}
+                      className="text-xs uppercase text-accent whitespace-nowrap text-center bg-light/10 py-1 px-3 rounded"
                     >
-                      {tech.title}
+                      {tech.key}
                     </div>
                   ))}
                 </div>
