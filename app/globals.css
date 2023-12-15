@@ -15,3 +15,23 @@
 .prose strong {
   @apply text-accent;
 }
+
+.headlink {
+  cursor: pointer;
+  position: relative;
+}
+
+.headlink::before {
+  content: "#";
+  position: absolute;
+  left: -10px;
+  bottom: 4px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  @apply text-gray text-xs;
+}
+
+.headlink:hover::before {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
