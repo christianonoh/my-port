@@ -34,32 +34,36 @@ const projectsGroq = `*[_type == "project"]{
     tagline,
     "slug": slug.current,
     "logo": logo.asset->url,
-    projectUrl,
-    "coverImage": coverImage.asset->url,
-    description,
-    "technologies": technologies[]->,
+    "stack": stack[]{
+      "key": key->title,
+      "value": value
+    },
   }`;
 
 const projectGroq = `
   *[_type == "project" && slug.current == $slug][0]{
     _id,
+    "slug": slug.current,
     title,
-    tagline,
     "logo": logo.asset->url,
     projectUrl,
     coverImage { alt, "image": asset-> },
-    technologies[]->,
-    description
+    stack,
+    summary,
+    githubUrl,
+    features,
+    milestone,
+    problemStatement
   }`;
 
 const technologiesGroq = `
-*[_type == "technology"]{
+*[_type == "technology" && proficient == true]{
   _id,
   title,
   "slug": slug.current,
   description,
   "logo":logo.asset->
-}`;
+} | order(title asc)`;
 
 const skillsGroq = `
 *[_type == "skill"]{
