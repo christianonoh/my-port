@@ -14,17 +14,18 @@ const profileGroq = `
   }
 `;
 
-const jobsGroq = `
-  *[_type == "job"]{
-    _id,
-    companyName,
-    jobTitle,
-    startDate,
-    endDate,
-    description,
-    "companyLogo": companyLogo.asset->url,
-    skills
-  }
+const worksGroq = `
+*[_type == "work"]{
+  _id,
+  companyName,
+  position,
+  startDate,
+  endDate,
+  description,
+  location,
+  "companyLogo": companyLogo.asset->url,
+  skills,
+} | order(startDate asc)
 `;
 
 const projectsGroq = `*[_type == "project"]{
@@ -52,10 +53,43 @@ const projectGroq = `
   }`;
 
 const technologiesGroq = `
-  *[_type == "technology"]{
-    _id,
-    title,
-    description
-  }`;
+*[_type == "technology"]{
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  "logo":logo.asset->
+}`;
 
-export { profileGroq, jobsGroq, projectsGroq, projectGroq, technologiesGroq };
+const skillsGroq = `
+*[_type == "skill"]{
+  _id,
+  title,
+  "slug": slug.current,
+  description
+}`;
+
+const educationGroq = `
+*[_type == "education"]{
+  _id,
+  discipline,
+  schoolName,
+  schoolUrl,
+  description,
+  location,
+  startDate,
+  endDate,
+  "schoolLogo": schoolLogo.asset->url,
+  skills,
+} | order(startDate asc)
+`;
+
+export {
+  profileGroq,
+  worksGroq,
+  projectsGroq,
+  projectGroq,
+  technologiesGroq,
+  educationGroq,
+  skillsGroq,
+};
