@@ -32,7 +32,7 @@ export default async function Home() {
                         <a
                           href={value}
                           rel="noreferer noopener"
-                          className="flex items-center mb-5 duration-300 gap-x-3 hover:text-purple-400"
+                          className="flex items-center mb-5 duration-300 gap-x-3 hover:text-accent"
                         >
                           {key[0].toUpperCase() + key.toLowerCase().slice(1)}
                         </a>
