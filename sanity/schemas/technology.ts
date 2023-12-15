@@ -25,6 +25,8 @@ export default defineType({
       name: "description",
       title: "Description",
       type: "text",
+      validation: (Rule) =>
+        Rule.max(200).warning("Shorter descriptions are encouraged."),
     }),
     defineField({
       name: "logo",
