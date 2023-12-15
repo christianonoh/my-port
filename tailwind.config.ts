@@ -13,6 +13,7 @@ const config: Config = {
         dark: "rgb(24 24 27)",
         light: "rgb(255 255 255)",
         accent: "rgb(192 132 252)",
+        gray: "rgb(161 161 170)",
       },
       animation: {
         "spin-slow": "spin 8s linear infinite",
