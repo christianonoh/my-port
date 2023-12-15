@@ -12,18 +12,12 @@ const Navbar = () => {
         <nav>
           <ul className="flex items-center gap-x-8">
             <li>
-              <Link
-                href="/about"
-                className="duration-300 hover:text-purple-400"
-              >
+              <Link href="/about" className="duration-300 hover:text-accent">
                 About
               </Link>
             </li>
             <li>
-              <Link
-                href="/projects"
-                className="duration-300 hover:text-purple-400"
-              >
+              <Link href="/projects" className="duration-300 hover:text-accent">
                 Projects
               </Link>
             </li>
