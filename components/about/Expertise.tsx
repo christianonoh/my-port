@@ -8,7 +8,7 @@ const Expertise = async () => {
   return (
     <section className="mt-24 max-w-[731.250px] mx-auto lg:mx-0 lg:max-w-2xl">
       <h2 className="font-semibold text-4xl mb-4">Expertise</h2>
-      <p className="text-zinc-400 max-w-lg">
+      <p className="text-sm sm:text-lg dark:text-gray text-gray-dark max-w-lg">
         I&apos;ve spent few years working on my soft skills, methodologies and
         tools. In no particular order, here are a few of them.
       </p>
