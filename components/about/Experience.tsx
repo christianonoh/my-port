@@ -30,7 +30,7 @@ const Details = ({
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="ml-12 sm:ml-20 lg:ml-24 inline-block"
       >
-        <h3 className="capitalize font-bold text-2xl whitespace-nowrap ">
+        <h3 className="capitalize font-bold text-lg sm:text-2xl whitespace-nowrap ">
           <a
             href={companyUrl ?? ""}
             target="_blank"
@@ -39,15 +39,19 @@ const Details = ({
             {companyName}
           </a>
         </h3>
-        <span className="capitalize font-bold inline-block w-full text-lg whitespace-nowrap">
+        <span className="capitalize font-bold inline-block w-full  text-sm sm:text-lg whitespace-nowrap">
           {position}
         </span>
-        <span className="capitalize inline-block w-full text-light/50">
-          {formatDate(startDate, "MMMM, yyyy")} -{" "}
-          {endDate ? formatDate(endDate, "MMMM, yyyy") : "Present"}
-          {location ? ` | ${location}` : ""}
+        <span className="capitalize text-sm sm:text-base text-gray">
+          <span>
+            {formatDate(startDate, "MMMM, yyyy")} -{" "}
+            {endDate ? formatDate(endDate, "MMMM, yyyy") : "Present"}
+          </span>
+          <span className="whitespace-nowrap">
+            {location ? ` | ${location}` : ""}
+          </span>
         </span>
-        <div className="text-light/90 w-full prose prose-sm md:prose-lg mt-4">
+        <div className="dark:text-gray-light text-gray-dark w-full prose prose-sm md:prose-lg mt-4">
           <PortableText value={description} />
         </div>
       </motion.div>
@@ -71,7 +75,7 @@ const Experience = ({ jobs }: { jobs: WorkDetailsType[] | null }) => {
       <div className="relative w-full" ref={ref}>
         <motion.div
           style={{ scaleY: scrollYProgress }}
-          className="absolute left-9 top-0 w-1 h-full origin-top bg-light"
+          className="absolute left-7 sm:left-9 top-0 w-1 h-full origin-top dark:bg-light bg-dark"
         />
         <ul className="flex w-full flex-col items-start justify-between ml-4">
           {jobs &&
@@ -85,7 +89,7 @@ const Experience = ({ jobs }: { jobs: WorkDetailsType[] | null }) => {
                 description={job.description ?? []}
                 location={job.location ?? ""}
                 startDate={job.startDate}
-                endDate={"2023-12-21"}
+                endDate={job.endDate}
                 companyLogo={job.companyLogo ?? undefined}
               />
             ))}
