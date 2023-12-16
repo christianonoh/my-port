@@ -41,7 +41,7 @@ const Technology = ({
   return (
     <div
       key={title}
-      className={`relative bg-[#1d1d20] border border-transparent technology flex items-center gap-2 hover:border-zinc-700 rounded-md px-2 py-1 ${slug}  ${
+      className={`relative dark:bg-dark bg-light shadow-sm dark:shadow-light/10 border border-transparent technology flex items-center gap-2 dark:hover:border-gray-dark hover:border-gray-light rounded-md px-2 py-1 ${slug}  ${
         enableHover ? " cursor-pointer" : ""
       }`}
       onMouseEnter={() => handleMouseEnter(slug ?? "")}
@@ -63,7 +63,7 @@ const Technology = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`absolute bg-accent text-center text-xs text-white p-2 w-48 z-10 top-8 rounded-md mt-2 transition-all ease-in-out duration-1000 ${
+          className={`absolute bg-accent-dark dark:bg-accent text-center text-xs text-light dark:text-dark p-2 w-48 z-10 top-8 rounded-md mt-2 transition-all ease-in-out duration-1000 ${
             // Check if the hovered item exists and if there's more space on the right
             document.querySelector(`.${techSlug}`) &&
             window.innerWidth -
