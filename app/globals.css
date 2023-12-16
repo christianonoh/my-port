@@ -13,7 +13,7 @@
 }
 
 .prose strong {
-  @apply text-accent;
+  @apply dark:text-accent text-accent-dark;
 }
 
 .headlink {
@@ -35,3 +35,16 @@
   opacity: 1;
   transition: opacity 0.3s;
 }
+
+.height__screen {
+  height: 100vh;
+  height: 100svh;
+}
+
+.prose li::marker {
+  @apply !text-gray-dark dark:!text-gray;
+}
+/* 
+.prose {
+  @apply dark:prose-invert;
+} */
