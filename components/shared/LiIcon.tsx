@@ -1,6 +1,5 @@
 "use client";
 
-import { RefObject } from "react";
 import { motion, useScroll } from "framer-motion";
 import React from "react";
 import Image from "next/image";
@@ -12,13 +11,13 @@ const LiIcon = ({ reference, logoUrl, companyName = "" }: any) => {
   });
 
   return (
-    <figure className="absolute left-0 stroke-light">
+    <figure className="absolute left-0 dark:stroke-light stroke-dark">
       <span
         rel="noreferrer noopener"
-        className="min-h-[60px] min-w-[60px] rounded-md overflow-clip relative"
+        className="sm:min-h-[60px] sm:min-w-[60px] min-h-[40px] min-w-[40px] rounded-md overflow-clip relative"
       >
         <svg
-          className="-rotate-90"
+          className="-rotate-90 w-14 h-14 sm:w-auto sm:h-auto min-w-[40px]"
           width={75}
           height={75}
           viewBox="0 0 100 100"
@@ -34,7 +33,7 @@ const LiIcon = ({ reference, logoUrl, companyName = "" }: any) => {
             cx="50%"
             cy="50%"
             r="40"
-            className=" stroke-[5px] fill-dark"
+            className=" stroke-[5px] dark:fill-dark fill-light"
           />
           <circle
             cx="50%"
