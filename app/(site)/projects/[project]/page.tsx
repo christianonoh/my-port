@@ -32,7 +32,7 @@ const Project = async ({ params }: Props) => {
   return (
     <>
       <TransitionEffect />
-      <main className="max-w-6xl w-full px-8 mx-auto lg:px-16  py-12 lg:py-24">
+      <main className="max-w-6xl w-full px-8 mx-auto lg:px-16  my-20 lg:my-32">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <AnimatedText
@@ -44,13 +44,15 @@ const Project = async ({ params }: Props) => {
               <a
                 href={project.projectUrl}
                 rel="noreferrer noopener"
-                className="bg-[#1d1d20] text-white hover:border-zinc-700 border border-transparent rounded-md px-4 py-2"
+                className="dark:bg-dark dark:text-white dark:hover:border-gray-dark bg-light
+                text-gray-dark
+                hover:border-gray-light border border-transparent rounded-md px-4 py-2 shadow-sm"
               >
                 Explore
               </a>
             </span>
           </div>
-          <div className="relative w-full h-[450px]">
+          <div className="relative w-full h-[280px] sm:h-[380px]  md:h-[450px]">
             <Image
               className="border rounded-xl border-zinc-800 object-cover object-top w-full h-full"
               fill
@@ -83,14 +85,17 @@ const Project = async ({ params }: Props) => {
                   Tech Stack
                 </h3>
               </a>
-              <div className="flex flex-col mt-8 prose prose-lg leading-7 gap-y-6">
+              <div className="flex flex-col mt-8 prose prose-sm sm:prose-lg leading-7 gap-y-6">
                 <ul>
                   {project.stack.map((tech: any) => (
                     <li key={tech.key}>
-                      <span className="font-semibold text-accent whitespace-nowrap ">
+                      <span className="font-semibold dark:text-accent text-accent-dark whitespace-nowrap ">
                         {tech.key}:
                       </span>
-                      <span className=" text-gray"> {tech.value}</span>
+                      <span className=" dark:text-gray text-gray-dark">
+                        {" "}
+                        {tech.value}
+                      </span>
                     </li>
                   ))}
                 </ul>
