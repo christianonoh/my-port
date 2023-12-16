@@ -19,27 +19,19 @@ export interface ProfileType extends Base {
   skills: string[];
 }
 
-// export interface JobType extends Base {
-//   jobTitle: string;
-//   companyName: string;
-//   startDate: Date | string;
-//   endDate?: Date;
-//   description: PortableTextBlock[];
-//   url?: string;
-//   companyLogo: string;
-//   location: string;
-//   skills: string[];
-// }
-
 export interface ProjectType extends Base {
   title: string;
   tagline: string;
   slug: string;
   logo: string;
-  projectUrl: string;
+  stack: any[];
+  summary: PortableTextBlock[];
+  projectUrl?: string;
+  githubUrl?: string;
   coverImage: any;
-  description: PortableTextBlock[];
-  technologies?: any;
+  milestone?: PortableTextBlock[];
+  features?: PortableTextBlock[];
+  problemStatement?: PortableTextBlock[];
 }
 
 export interface TechnologyType extends Base {
