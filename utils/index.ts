@@ -26,3 +26,5 @@ export const siteMetadata = {
   // Add other social media links as needed
   locale: "en-US",
 };
+
+export const cx = (...classNames: any) => classNames.filter(Boolean).join(" ");
