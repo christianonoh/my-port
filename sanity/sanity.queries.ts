@@ -48,7 +48,10 @@ const projectGroq = `
     "logo": logo.asset->url,
     projectUrl,
     coverImage { alt, "image": asset-> },
-    stack,
+    "stack": stack[]{
+      "key": key->title,
+      "value": value
+    },
     summary,
     githubUrl,
     features,
