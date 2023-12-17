@@ -1,5 +1,5 @@
-import AnimatedText from "@/components/AnimatedText";
-import TransitionEffect from "@/components/TransitionEffect";
+import AnimatedText from "@/components/shared/AnimatedText";
+import TransitionEffect from "@/components/shared/TransitionEffect";
 import { getProjects } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import Link from "next/link";

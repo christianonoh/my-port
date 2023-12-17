@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "../../components/shared/Footer";
 import Navbar from "../../components/shared/Navbar";
-import Head from "../../components/Head";
+import Head from "../../components/shared/Head";
 import { draftMode } from "next/headers";
 import { token } from "@/sanity/sanity.fetch";
 import dynamic from "next/dynamic";

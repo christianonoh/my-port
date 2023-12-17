@@ -1,7 +1,7 @@
 import { getProfile } from "@/sanity/sanity.fetch";
 import HeroSvg from "../../components/icons/HeroSvg";
-import TransitionEffect from "@/components/TransitionEffect";
-import AnimatedText from "@/components/AnimatedText";
+import TransitionEffect from "@/components/shared/TransitionEffect";
+import AnimatedText from "@/components/shared/AnimatedText";
 import HireMe from "@/components/shared/HireMe";
 
 export default async function Home() {
