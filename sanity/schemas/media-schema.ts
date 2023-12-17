@@ -30,11 +30,11 @@ const media = {
     },
     {
       name: "file",
-      type: "file",
-      title: "File",
-      description: "Upload the media file",
+      type: "image", // Use "image" type instead of "file"
+      title: "Image",
+      description: "Upload the image file",
       options: {
-        accept: "image/*,video/*",
+        accept: "image/*",
       },
     },
   ],
