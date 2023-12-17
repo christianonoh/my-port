@@ -3,6 +3,8 @@ import TransitionEffect from "@/components/shared/TransitionEffect";
 import ProjectBlockText from "@/components/project/ProjectBlockText";
 import { getProject } from "@/sanity/sanity.fetch";
 import Image from "next/image";
+import siteMetadata from "@/utils/siteMetaData";
+import { urlForImage } from "@/sanity/sanity.image";
 
 type Props = {
   params: {
@@ -15,13 +17,44 @@ export async function generateMetadata({ params }: Props) {
   const slug = params.project;
   const project = await getProject(slug);
 
+  const ogImages = [
+    {
+      url: urlForImage(project.coverImage?.image)?.width(800).height(600).url(),
+      width: 800,
+      height: 600,
+    },
+    {
+      url: urlForImage(project.coverImage?.image)
+        ?.width(1200)
+        .height(630)
+        .url(),
+      width: 1200,
+      height: 630,
+    },
+    {
+      url: urlForImage(project.coverImage?.image)
+        ?.width(1800)
+        .height(1600)
+        .url(),
+      width: 1800,
+      height: 1600,
+      alt: "My custom alt",
+    },
+  ];
+
   return {
     title: `${project.title} | Project`,
     description: project.tagline,
     openGraph: {
-      images: project.coverImage?.image || "add-a-fallback-project-image-here",
+      images: ogImages || siteMetadata.socialBanner,
       title: project.title,
       description: project.tagline,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.tagline,
+      images: ogImages || siteMetadata.socialBanner,
     },
   };
 }
