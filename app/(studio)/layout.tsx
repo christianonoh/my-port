@@ -1,7 +1,11 @@
-import Head from "../../components/Head";
+import Head from "../../components/shared/Head";
 import "../globals.css";
 
-export default function StudioLayout({children}: {children: React.ReactNode}) {
+export default function StudioLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <Head />

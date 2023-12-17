@@ -13,5 +13,38 @@
 }
 
 .prose strong {
-  @apply text-accent;
+  @apply dark:text-accent text-accent-dark;
 }
+
+.headlink {
+  cursor: pointer;
+  position: relative;
+}
+
+.headlink::before {
+  content: "#";
+  position: absolute;
+  left: -10px;
+  bottom: 4px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  @apply text-gray text-xs;
+}
+
+.headlink:hover::before {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.height__screen {
+  height: 100vh;
+  height: 100svh;
+}
+
+.prose li::marker {
+  @apply !text-gray-dark dark:!text-gray;
+}
+/* 
+.prose {
+  @apply dark:prose-invert;
+} */

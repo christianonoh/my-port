@@ -1,8 +1,13 @@
-import AnimatedText from "@/components/AnimatedText";
-import TransitionEffect from "@/components/TransitionEffect";
+import AnimatedText from "@/components/shared/AnimatedText";
+import TransitionEffect from "@/components/shared/TransitionEffect";
 import { getProjects } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Projects",
+};
 
 const Project = async () => {
   const projects = await getProjects();
@@ -10,13 +15,13 @@ const Project = async () => {
   return (
     <>
       <TransitionEffect />
-      <main className="px-6 mx-auto max-w-7xl md:px-16">
-        <section className="max-w-2xl mb-16  mt-12 lg:mt-32">
+      <main className="px-6 mx-auto max-w-7xl md:px-16 my-20 lg:my-32">
+        <section className="max-w-2xl mb-16 ">
           <AnimatedText
             text="Featured projects I've built over the years"
-            className="mb-8 lg:!text-6xl sm:!text-4xl md:!text-5xl  !text-3xl lg:leading-relaxed leading-relaxed text-center lg:text-left max-w-xl"
+            className="mb-8 lg:!text-6xl sm:!text-4xl md:!text-5xl  !text-3xl lg:leading-relaxed leading-relaxed lg:text-left max-w-xl"
           />
-          <p className="text-base leading-relaxed text-zinc-400">
+          <p className="text-base leading-relaxed dark:text-gray text-gray-dark">
             I&apos;ve worked on tons of little projects over the years but these
             are the ones that I&apos;m most proud of. Many of them are
             open-source, so if you see something that piques your interest,
@@ -29,31 +34,31 @@ const Project = async () => {
             <Link
               href={`/projects/${project.slug}`}
               key={project._id}
-              className="flex flex-col gap-4 bg-dark border border-transparent hover:border-zinc-700 p-4 rounded-lg ease-in-out"
+              className="flex flex-col gap-2 sm:gap-4 dark:bg-dark bg-light border border-transparent dark:hover:border-gray-dark hover:border-gray-light shadow-sm p-4 rounded-lg ease-in-out"
             >
-              <span className="flex items-center gap-x-4">
+              <span className="flex items-center gap-x-2 sm:gap-x-4">
                 <Image
                   src={project.logo}
                   width={60}
                   height={60}
                   alt={project.title}
-                  className="p-2 rounded-md bg-zinc-800"
+                  className="p-2 rounded-md dark:bg-dark bg-light"
                 />
                 <div>
-                  <h2 className="mb-1 text-2xl font-semibold">
+                  <h2 className="mb-1 sm:text-2xl text-base font-semibold">
                     {project.title}
                   </h2>
-                  <div className="text-sm text-zinc-400">{project.tagline}</div>
+                  <div className="text-sm text-gray">{project.tagline}</div>
                 </div>
               </span>
-              {project?.technologies && (
+              {project?.stack && (
                 <div className="flex gap-2 flex-wrap">
-                  {project.technologies.splice(0, 3).map((tech: any) => (
+                  {project.stack.splice(0, 3).map((tech: any) => (
                     <div
-                      key={tech}
-                      className="text-xs uppercase text-accent whitespace-nowrap text-center bg-light/10 py-1 px-3 rounded-xl"
+                      key={tech.key}
+                      className="sm:text-xs text-[8px] shadow-sm font-semibold uppercase dark:text-accent text-accent-dark whitespace-nowrap text-center dark:bg-gray-dark/20 bg-gray-light/10 sm:py-1 sm:px-3 py-[1px] px-1.5 rounded"
                     >
-                      {tech.title}
+                      {tech.key}
                     </div>
                   ))}
                 </div>
