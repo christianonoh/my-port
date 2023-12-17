@@ -31,7 +31,7 @@ const About = async () => {
                   </div>
                 </div>
                 <div className=" lg:order-1 col-span-1 order-none mb-12 flex flex-col justify-start items-center">
-                  <div className="lg:sticky top-24 flex flex-col justify-self-center gap-y-8 transition-all ease-in-out duration-200">
+                  <div className="lg:sticky top-0 flex flex-col justify-self-center gap-y-8 transition-all ease-in-out duration-200">
                     <>
                       <Image
                         src={data.profileImage.image.url}
