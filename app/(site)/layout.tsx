@@ -8,25 +8,63 @@ import { draftMode } from "next/headers";
 import { token } from "@/sanity/sanity.fetch";
 import dynamic from "next/dynamic";
 import { PreviewBanner } from "@/components/preview/PreviewBanner";
+import siteMetadata from "@/utils/siteMetaData";
 
 const inter = Inter({ subsets: ["latin"] });
 
 type MyMetadata = Metadata & {
-  image: string;
   url: string;
 };
 
 export const metadata: MyMetadata = {
-  title: "Christian Onoh - Portfolio",
-  description:
-    "Christian Onoh is a full-stack developer with experience in JavaScript, React, Ruby on Rails, Node.js, and more. Check out his portfolio to see his work!",
-  authors: [{ name: "Christian Onoh" }],
-  metadataBase: new URL("https://christianonoh.vercel.app"),
-  keywords:
-    "portfolio, full-stack developer, React, Node.js, Ruby, Ruby on Rails, Next.js, front-end developer, back-end developer, software engineer",
-  image:
-    "https://cdn.sanity.io/images/n5aosvhy/production/0b4eb353efbd838adcbaaea22e49369eeeef6cd3-2019x2560.png",
-  url: "https://github.com/christianonoh",
+  metadataBase: new URL(siteMetadata.siteUrl),
+  title: {
+    template: `%s | ${siteMetadata.title}`,
+    default: `${siteMetadata.title} | Software Developer`, // a default is required when creating a template
+  },
+  description: siteMetadata.description,
+  authors: { name: siteMetadata.author },
+  url: siteMetadata.siteUrl,
+
+  openGraph: {
+    title: siteMetadata.title,
+    description: siteMetadata.description,
+    url: siteMetadata.siteUrl,
+    siteName: siteMetadata.title,
+    images: [
+      {
+        url: siteMetadata.socialBanner,
+        width: 800,
+        height: 600,
+      },
+      {
+        url: siteMetadata.socialBanner,
+        width: 1800,
+        height: 1600,
+        alt: "Christian Onoh",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteMetadata.title,
+    images: [siteMetadata.socialBanner],
+  },
 };
 
 const PreviewProvider = dynamic(
