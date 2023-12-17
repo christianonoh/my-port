@@ -4,6 +4,7 @@ import project from "./project-schema";
 import technology from "./technology";
 import skill from "./skill";
 import education from "./education-schema";
+import media from "./media-schema";
 
 export const schemaTypes = [
   profile,
@@ -12,4 +13,5 @@ export const schemaTypes = [
   technology,
   skill,
   education,
+  media,
 ];
