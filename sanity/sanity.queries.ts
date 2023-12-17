@@ -44,6 +44,7 @@ const projectGroq = `
   *[_type == "project" && slug.current == $slug][0]{
     _id,
     "slug": slug.current,
+    tagline,
     title,
     "logo": logo.asset->url,
     projectUrl,
