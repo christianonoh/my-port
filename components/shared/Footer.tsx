@@ -1,4 +1,4 @@
-import { siteMetadata } from "@/utils";
+import siteMetadata from "@/utils/siteMetaData";
 import { GithubIcon, LinkedinIcon, XIcon } from "../icons";
 
 const Footer = () => {

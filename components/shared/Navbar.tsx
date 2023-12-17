@@ -5,7 +5,7 @@ import logo from "/public/logo.svg";
 import Image from "next/image";
 import { useThemeSwitch } from "../hooks/useThemeSwitch";
 import { useState } from "react";
-import { cx, siteMetadata } from "@/utils";
+import { cx } from "@/utils";
 import {
   ThemeButton,
   FacebookIcon,
@@ -15,6 +15,7 @@ import {
   XIcon,
   GithubIcon,
 } from "../icons";
+import siteMetadata from "@/utils/siteMetaData";
 
 const Navbar = () => {
   const [mode, setMode] = useThemeSwitch();

@@ -5,7 +5,8 @@ import { motion, useScroll } from "framer-motion";
 import { WorkDetailsType } from "@/types";
 import LiIcon from "../shared/LiIcon";
 import { PortableText } from "@portabletext/react";
-import { formatDate, siteMetadata } from "@/utils";
+import { formatDate } from "@/utils";
+import siteMetadata from "@/utils/siteMetaData";
 
 const Details = ({
   position,
