@@ -7,6 +7,11 @@ import AnimatedText from "@/components/shared/AnimatedText";
 import Experience from "@/components/about/Experience";
 import Expertise from "@/components/about/Expertise";
 import Education from "@/components/about/Education";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+};
 
 const About = async () => {
   const profile = await getProfile();

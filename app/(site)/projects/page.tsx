@@ -3,6 +3,11 @@ import TransitionEffect from "@/components/shared/TransitionEffect";
 import { getProjects } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Projects",
+};
 
 const Project = async () => {
   const projects = await getProjects();
