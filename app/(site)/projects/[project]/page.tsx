@@ -19,23 +19,17 @@ export async function generateMetadata({ params }: Props) {
 
   const ogImages = [
     {
-      url: urlForImage(project.coverImage?.image)?.width(800).height(600).url(),
+      url: urlForImage(project.coverImage?.image)?.width(800).url(),
       width: 800,
       height: 600,
     },
     {
-      url: urlForImage(project.coverImage?.image)
-        ?.width(1200)
-        .height(630)
-        .url(),
+      url: urlForImage(project.coverImage?.image)?.width(1200).url(),
       width: 1200,
       height: 630,
     },
     {
-      url: urlForImage(project.coverImage?.image)
-        ?.width(1800)
-        .height(1600)
-        .url(),
+      url: urlForImage(project.coverImage?.image)?.width(1800).url(),
       width: 1800,
       height: 1600,
       alt: "My custom alt",
@@ -46,15 +40,20 @@ export async function generateMetadata({ params }: Props) {
     title: `${project.title} | Project`,
     description: project.tagline,
     openGraph: {
-      images: ogImages || siteMetadata.socialBanner,
+      images: ogImages,
       title: project.title,
       description: project.tagline,
+
+      url: `${siteMetadata.siteUrl}/projects/${project.slug}`,
+      siteName: siteMetadata.title,
+      locale: "en_US",
+      type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title: project.title,
       description: project.tagline,
-      images: ogImages || siteMetadata.socialBanner,
+      images: ogImages || siteMetadata.socialBanner
     },
   };
 }
