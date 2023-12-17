@@ -8,7 +8,6 @@ import { draftMode } from "next/headers";
 import { token } from "@/sanity/sanity.fetch";
 import dynamic from "next/dynamic";
 import { PreviewBanner } from "@/components/preview/PreviewBanner";
-import { AnimatePresence } from "framer-motion";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,7 +43,7 @@ export default function RootLayout({
     <html lang="en">
       <Head />
       <body
-        className={`${inter.className} bg-zinc-900 text-white flex flex-col min-h-screen`}
+        className={`${inter.className} dark:bg-dark relative bg-light dark:text-white text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
       >
         {isDraftMode && <PreviewBanner />}
         <Navbar />
