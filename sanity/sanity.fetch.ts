@@ -8,6 +8,7 @@ import {
   technologiesGroq,
   educationGroq,
   skillsGroq,
+  mediaGroq,
 } from "./sanity.queries";
 import type { QueryParams } from "@sanity/client";
 import { draftMode } from "next/headers";
@@ -113,5 +114,14 @@ export const getEducations = () => {
   return sanityFetch<any[] | null>({
     query: educationGroq,
     tags: ["education"],
+  });
+};
+
+// Get single media
+export const getMedia = (slug: string) => {
+  return sanityFetch<any>({
+    query: mediaGroq,
+    params: { slug },
+    tags: [`media:${slug}`, "media"],
   });
 };

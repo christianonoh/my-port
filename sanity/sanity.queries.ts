@@ -91,6 +91,11 @@ const educationGroq = `
 } | order(startDate asc)
 `;
 
+const mediaGroq = `
+*[_type == "media" && slug.current == $slug][0]{
+  ...,
+}`;
+
 export {
   profileGroq,
   worksGroq,
@@ -99,4 +104,5 @@ export {
   technologiesGroq,
   educationGroq,
   skillsGroq,
+  mediaGroq,
 };
