@@ -20,7 +20,7 @@ const ProjectBlockText = ({
           {title}
         </h3>
       </a>
-      <div className="flex flex-col mt-8 prose leading-7 gap-y-6 prose-sm  sm:prose-lg dark:text-gray text-gray-dark">
+      <div className="mt-8 prose leading-7 prose-sm  sm:prose-lg dark:text-gray text-gray-dark">
         <PortableText value={content} />
       </div>
     </div>
