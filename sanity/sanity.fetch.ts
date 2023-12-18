@@ -74,7 +74,7 @@ export const getProject = (slug: string) => {
   return sanityFetch<ProjectType>({
     query: projectGroq,
     params: { slug },
-    tags: [`project:${slug}`, "project"],
+    tags: ["project"],
   });
 };
 
@@ -122,6 +122,6 @@ export const getMedia = (slug: string) => {
   return sanityFetch<any>({
     query: mediaGroq,
     params: { slug },
-    tags: [`media:${slug}`, "media"],
+    tags: ["media"],
   });
 };
