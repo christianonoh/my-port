@@ -5,8 +5,7 @@ const config: ClientConfig = {
   projectId,
   dataset,
   apiVersion,
-  useCdn:
-    revalidateSecret && process.env.NODE_ENV !== "development" ? false : true,
+  useCdn: process.env.NODE_ENV === "development" ? true : false,
   perspective: "published",
 };
 
