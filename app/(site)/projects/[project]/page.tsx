@@ -94,7 +94,7 @@ const Project = async ({ params }: Props) => {
               </a>
             </span>
           </div>
-          <div className="relative w-full h-[280px] sm:h-[380px]  md:h-[450px]">
+          <div className="relative w-full h-40 pt-[52.5%]">
             <Image
               className="border rounded-xl border-zinc-800 object-cover object-top w-full h-full"
               fill
