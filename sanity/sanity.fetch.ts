@@ -11,9 +11,7 @@ import {
   mediaGroq,
 } from "./sanity.queries";
 import type { QueryParams } from "@sanity/client";
-import { draftMode } from "next/headers";
 import { client } from "./sanity.client";
-import { revalidateSecret } from "./sanity.api";
 import { ProfileType, ProjectType, WorkDetailsType } from "@/types";
 
 const DEFAULT_PARAMS = {} as QueryParams;
