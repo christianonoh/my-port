@@ -81,7 +81,7 @@ export default function RootLayout({
     <html lang="en">
       <Head />
       <body
-        className={`${inter.className} dark:bg-dark relative bg-light dark:text-white text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
+        className={`${inter.className} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
       >
         {isDraftMode && <PreviewBanner />}
         <Navbar />
