@@ -5,6 +5,7 @@ import { getProject } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import siteMetadata from "@/utils/siteMetaData";
 import { urlForImage } from "@/sanity/sanity.image";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: {
@@ -66,6 +67,10 @@ export async function generateMetadata({ params }: Props) {
 const Project = async ({ params }: Props) => {
   const slug = params.project;
   const project = await getProject(slug);
+
+  if (!project) {
+    notFound();
+  }
   return (
     <>
       <TransitionEffect />
