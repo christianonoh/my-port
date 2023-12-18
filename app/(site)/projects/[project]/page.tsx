@@ -14,48 +14,53 @@ type Props = {
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props) {
-  const slug = params.project;
-  const project = await getProject(slug);
+  try {
+    const slug = params.project;
+    const project = await getProject(slug);
 
-  const ogImages = [
-    {
-      url: urlForImage(project.coverImage?.image)?.width(800).url(),
-      width: 800,
-      height: 600,
-    },
-    {
-      url: urlForImage(project.coverImage?.image)?.width(1200).url(),
-      width: 1200,
-      height: 630,
-    },
-    {
-      url: urlForImage(project.coverImage?.image)?.width(1800).url(),
-      width: 1800,
-      height: 1600,
-      alt: "My custom alt",
-    },
-  ];
+    if (!project) {
+      return {
+        title: "Not Found",
+        description: "The page you requested does not exist.",
+      };
+    }
 
-  return {
-    title: `${project.title} | Project`,
-    description: project.tagline,
-    openGraph: {
-      images: ogImages,
-      title: project.title,
+    const ogImages = [
+      {
+        url: urlForImage(project.coverImage?.image)?.width(1200).url(),
+        width: 1200,
+        height: 630,
+      },
+    ];
+
+    return {
+      title: `${project.title} | Project`,
       description: project.tagline,
-
-      url: `${siteMetadata.siteUrl}/projects/${project.slug}`,
-      siteName: siteMetadata.title,
-      locale: "en_US",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: project.title,
-      description: project.tagline,
-      images: ogImages || siteMetadata.socialBanner
-    },
-  };
+      alternates: {
+        canonical: `/projects/${project.slug}`,
+      },
+      openGraph: {
+        images: ogImages,
+        title: project.title,
+        description: project.tagline,
+        siteName: siteMetadata.title,
+        locale: "en_US",
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: project.title,
+        description: project.tagline,
+        images: ogImages || siteMetadata.socialBanner,
+      },
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      title: "Not Found",
+      description: "The page you requested does not exist.",
+    };
+  }
 }
 
 const Project = async ({ params }: Props) => {
