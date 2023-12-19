@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "../../components/shared/Footer";
 import Navbar from "../../components/shared/Navbar";
-import Head from "../../components/shared/Head";
 import { draftMode } from "next/headers";
 import { token } from "@/sanity/sanity.fetch";
 import dynamic from "next/dynamic";
@@ -79,7 +78,6 @@ export default function RootLayout({
   const isDraftMode = draftMode().isEnabled;
   return (
     <html lang="en">
-      <Head />
       <body
         className={`${inter.className} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
       >

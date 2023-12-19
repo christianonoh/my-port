@@ -11,18 +11,35 @@ const Footer = () => {
         </small>
         <span className="flex flex-col gap-4">
           <span className="flex gap-8 items-center   mt-12 mx-auto">
-            <a href={siteMetadata.twitter} target="_blank">
+            <a
+              href={siteMetadata.twitter}
+              target="_blank"
+              aria-label="Connect with me on Twitter"
+            >
               <XIcon className="h-4 w-auto fill-dark dark:fill-light hover:fill-accent-dark dark:hover:fill-accent  transition-all duration-300 ease-in-out" />
             </a>
-            <a href={siteMetadata.github} target="_blank">
+            <a
+              href={siteMetadata.github}
+              target="_blank"
+              aria-label="Connect with me on Github"
+            >
               <GithubIcon className="h-4 w-auto hover:fill-accent-dark  fill-dark dark:fill-light dark:hover:fill-accent  transition-all duration-300 ease-in-out" />
             </a>
-            <a href={siteMetadata.linkedin} target="_blank">
+            <a
+              href={siteMetadata.linkedin}
+              target="_blank"
+              aria-label="Connect with me on Linkedin"
+            >
               <LinkedinIcon className="h-4 w-auto hover:fill-accent-dark dark:hover:fill-accent  fill-dark dark:fill-light  transition-all duration-300 ease-in-out" />
             </a>
           </span>
-          <small className="text-center underline">
-            <Link href="/sitemap.xml">sitemap.xml</Link>
+          <small
+            className="text-center underline"
+            aria-label="Connect with me on Twitter"
+          >
+            <Link href="/sitemap.xml" aria-label="Visit My Sitemap">
+              sitemap.xml
+            </Link>
           </small>
         </span>
 
@@ -31,6 +48,7 @@ const Footer = () => {
             href="https://github.com/christianonoh"
             target="_blank"
             rel="noreferrer noopener"
+            aria-label="Connect with me on Github"
           >
             Developed by{" "}
             <span className="text-accent hover:text-accent-dark">

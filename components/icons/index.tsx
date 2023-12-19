@@ -22,6 +22,7 @@ export const Hamburger = ({
 }) => {
   return (
     <button
+      aria-label="Hamburger Menu Toggle Button"
       className="z-50 p-2 rounded-full hover:bg-gray/10 dark:hover:bg-light/10 sm:hidden transition-all duration-300 ease-in-out"
       onClick={() => handleToggle(toggled)}
     >
@@ -104,6 +105,7 @@ export const TwitterIcon = (props: SVGProps<SVGSVGElement>) => (
 export const ThemeButton = ({ setMode, mode }: any) => {
   return (
     <button
+      aria-label="Theme Toggle Button"
       onClick={() => {
         setMode(mode === "light" ? "dark" : "light");
       }}

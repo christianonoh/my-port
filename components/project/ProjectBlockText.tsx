@@ -12,7 +12,7 @@ const ProjectBlockText = ({
   const slug = slugger.slug(title);
   return (
     <div className="flex flex-col mt-8 mb-4">
-      <a href={`#${slug}`}>
+      <a href={`#${slug}`} aria-label="Link to Heading">
         <h3
           className="capitalize headlink font-semibold text-2xl mt-12"
           id={slug}

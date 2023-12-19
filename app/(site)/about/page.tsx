@@ -21,7 +21,7 @@ const About = async () => {
   return (
     <>
       <TransitionEffect />
-      <main className="max-w-7xl w-full overflow-hidden mx-auto px-6 md:px-12 lg:px-16 my-20 lg:my-32">
+      <main className="max-w-7xl w-full overflow-hidden mx-auto px-6 md:px-12 lg:px-16 my-20 lg:my-28">
         {profile &&
           profile.map((data) => (
             <div key={data._id}>
@@ -51,13 +51,16 @@ const About = async () => {
                       />
                       <div className="flex gap-4 w-full">
                         <a
+                          aria-label="View Resume"
                           href={`${data.resumeURL}`}
+                          target="_blank"
                           className="flex flex-1 items-center justify-center gap-x-2 dark:hover:border-gray-dark dark:bg-dark  hover:border-gray-light bg-light border border-transparent
                        rounded-md duration-200 py-2 text-center cursor-pointer font-medium text-sm sm:text-lg shadow-sm dark:shadow-light/10"
                         >
                           View Resume <BiLinkExternal className="text-base" />
                         </a>
                         <a
+                          aria-label="Download Resume"
                           href={`${data.resumeURL}?dl=${data.fullName.replace(
                             /\s+/g,
                             "_"
@@ -72,6 +75,7 @@ const About = async () => {
                     <ul>
                       <li>
                         <a
+                          aria-label="Send Email"
                           href={`mailto:${data.email}`}
                           className="flex flex-1 items-center justify-center gap-x-2 dark:hover:border-gray-dark dark:bg-dark  hover:border-gray-light bg-light border border-transparent
                        rounded-md duration-200 py-2 text-center cursor-pointer font-medium text-sm sm:text-lg shadow-sm dark:shadow-light/10"

@@ -74,7 +74,7 @@ const Project = async ({ params }: Props) => {
   return (
     <>
       <TransitionEffect />
-      <main className="max-w-6xl w-full px-8 mx-auto lg:px-16  my-20 lg:my-32">
+      <main className="max-w-6xl w-full px-8 mx-auto lg:px-16  my-20 lg:my-28">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <AnimatedText
@@ -86,6 +86,8 @@ const Project = async ({ params }: Props) => {
               <a
                 href={project.projectUrl}
                 rel="noreferrer noopener"
+                target="_blank"
+                aria-label="View Live Project"
                 className="dark:bg-dark dark:text-white dark:hover:border-gray-dark bg-light
                 text-gray-dark
                 hover:border-gray-light border border-transparent rounded-md px-4 py-2 shadow-sm"
@@ -119,7 +121,7 @@ const Project = async ({ params }: Props) => {
 
           {project.stack && (
             <div className="flex flex-col mt-8 mb-4">
-              <a href="#tech-stack">
+              <a href="#tech-stack" aria-label="Tech Stack">
                 <h3
                   className="capitalize headlink font-semibold text-2xl mt-12 "
                   id="tech-stack"

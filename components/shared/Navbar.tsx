@@ -8,9 +8,7 @@ import { useState } from "react";
 import { cx } from "@/utils";
 import {
   ThemeButton,
-  FacebookIcon,
   Hamburger,
-  TwitterIcon,
   LinkedinIcon,
   XIcon,
   GithubIcon,
@@ -93,19 +91,31 @@ const Navbar = () => {
               </li>
             </ul>
             <span className="flex gap-8 items-center   mt-12 mx-auto">
-              <a href={siteMetadata.twitter} target="_blank">
+              <a
+                href={siteMetadata.twitter}
+                target="_blank"
+                aria-label="Connect with me on Twitter"
+              >
                 <XIcon
                   className="h-6 w-auto fill-dark dark:fill-light hover:fill-accent-dark dark:hover:fill-accent hover:bg-gray/10 dark:hover:bg-light/10  transition-all duration-300 ease-in-out"
                   onClick={handleToggle}
                 />
               </a>
-              <a href={siteMetadata.github} target="_blank">
+              <a
+                href={siteMetadata.github}
+                target="_blank"
+                aria-label="Connect with me on Github"
+              >
                 <GithubIcon
                   className="h-6 w-auto hover:fill-accent-dark  fill-dark dark:fill-light dark:hover:fill-accent hover:bg-gray/10 dark:hover:bg-light/10  transition-all duration-300 ease-in-out"
                   onClick={handleToggle}
                 />
               </a>
-              <a href={siteMetadata.linkedin} target="_blank">
+              <a
+                href={siteMetadata.linkedin}
+                target="_blank"
+                aria-label="Connect with me on Linkedin"
+              >
                 <LinkedinIcon
                   className="h-6 w-auto hover:fill-accent-dark dark:hover:fill-accent  fill-dark dark:fill-light hover:bg-gray/10 dark:hover:bg-light/10  transition-all duration-300 ease-in-out"
                   onClick={handleToggle}

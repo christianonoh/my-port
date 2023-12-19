@@ -36,6 +36,7 @@ const Details = ({
             href={schoolUrl ?? ""}
             target="_blank"
             className="text-accent capitalize"
+            aria-label="Visit School Website"
           >
             {schoolName}
           </a>

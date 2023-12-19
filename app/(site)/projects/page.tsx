@@ -15,7 +15,7 @@ const Project = async () => {
   return (
     <>
       <TransitionEffect />
-      <main className="px-6 mx-auto max-w-7xl md:px-16 my-20 lg:my-32">
+      <main className="px-6 mx-auto max-w-7xl md:px-16 my-20 lg:my-28">
         <section className="max-w-2xl mb-16 ">
           <AnimatedText
             text="Featured projects I've built over the years"
