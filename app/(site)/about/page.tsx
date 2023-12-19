@@ -1,4 +1,9 @@
-import { getProfile, getWorks, getEducations } from "@/sanity/sanity.fetch";
+import {
+  getProfile,
+  getWorks,
+  getEducations,
+  sanityFetch,
+} from "@/sanity/sanity.fetch";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { BiEnvelope, BiDownload, BiLinkExternal } from "react-icons/bi";
@@ -8,6 +13,8 @@ import Experience from "@/components/about/Experience";
 import Expertise from "@/components/about/Expertise";
 import Education from "@/components/about/Education";
 import { Metadata } from "next";
+import { WorkDetailsType } from "@/types";
+import { worksGroq } from "@/sanity/sanity.queries";
 
 export const metadata: Metadata = {
   title: "About",
@@ -15,8 +22,11 @@ export const metadata: Metadata = {
 
 const About = async () => {
   const profile = await getProfile();
-  const jobs = await getWorks();
   const schools = await getEducations();
+  const jobs: WorkDetailsType[] = await sanityFetch({
+    query: worksGroq,
+    tags: ["work"],
+  });
 
   return (
     <>

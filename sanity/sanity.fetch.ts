@@ -19,7 +19,7 @@ const DEFAULT_TAGS = [] as string[];
 
 export const token = process.env.SANITY_API_READ_TOKEN;
 
-const sanityFetch = async <QueryResponse>({
+export const sanityFetch = async <QueryResponse>({
   query,
   params = DEFAULT_PARAMS,
   tags = DEFAULT_TAGS,
