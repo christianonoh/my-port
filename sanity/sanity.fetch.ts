@@ -57,7 +57,7 @@ export const getProject = (slug: string) => {
 export const getJobs = () => {
   return sanityFetch<WorkDetailsType[] | null>({
     query: worksGroq,
-    tags: ["job", "profile"],
+    tags: ["work", "profile"],
   });
 };
 // Get all projects
