@@ -64,7 +64,7 @@ export const getJobs = () => {
 export const getProfile = () => {
   return sanityFetch<ProfileType[] | null>({
     query: profileGroq,
-    tags: ["profile", "job"],
+    tags: ["profile", "work"],
   });
 };
 
@@ -80,7 +80,7 @@ export const getTechnologies = () => {
 export const getSkills = () => {
   return sanityFetch<any[] | null>({
     query: skillsGroq,
-    tags: ["technology"],
+    tags: ["skill"],
   });
 };
 
