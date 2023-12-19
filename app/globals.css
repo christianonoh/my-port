@@ -2,18 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: 192 132 252;
-  --secondary-color: #00f;
-  --max-width: 7rem;
-}
-
-.app {
-  @apply relative z-10 flex flex-col items-center justify-center px-6 mx-auto max-w-7xl sm:px-16;
+body,
+header,
+.height__screen {
+  background-image: url("/bg.svg");
 }
 
 .prose strong {
   @apply dark:text-gray-light text-dark;
+}
+
+h1,
+h2,
+h3 {
+  @apply !font-rubik;
+}
+
+.nav__item > .active {
+  @apply relative;
+}
+
+.nav__item > .active::before {
+  @apply absolute -bottom-4 left-0 w-full h-1 bg-accent-dark dark:bg-accent content-[''] transition-all ease-in-out duration-300;
 }
 
 .prose h1,
@@ -52,7 +62,3 @@
 .prose li::marker {
   @apply !text-gray-dark dark:!text-gray;
 }
-/* 
-.prose {
-  @apply dark:prose-invert;
-} */

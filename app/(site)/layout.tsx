@@ -1,6 +1,6 @@
 import "../globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Rubik } from "next/font/google";
 import Footer from "../../components/shared/Footer";
 import Navbar from "../../components/shared/Navbar";
 import { draftMode } from "next/headers";
@@ -10,6 +10,12 @@ import { PreviewBanner } from "@/components/preview/PreviewBanner";
 import siteMetadata from "@/utils/siteMetaData";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const rubik = Rubik({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-rubik",
+});
 
 type MyMetadata = Metadata & {
   url: string;
@@ -79,7 +85,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
+        className={`${inter.className} ${rubik.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
       >
         {isDraftMode && <PreviewBanner />}
         <Navbar />

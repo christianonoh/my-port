@@ -20,14 +20,9 @@ const useThemeSwitch = (): [Theme, Dispatch<SetStateAction<Theme>>] => {
   const getUserPreference = (): Theme => {
     const userPreference = window.localStorage.getItem(storageKey);
     if (userPreference) {
-      console.log(`User preference: ${userPreference}`);
       return userPreference as Theme;
     }
-    console.log(
-      `System preference: ${
-        window.matchMedia(prefersDarkQuery).matches ? "dark" : "light"
-      }`
-    );
+
     return window.matchMedia(prefersDarkQuery).matches ? "dark" : "light";
   };
 

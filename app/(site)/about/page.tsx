@@ -54,6 +54,7 @@ const About = async () => {
                         height={600}
                         quality={100}
                         placeholder="blur"
+                        sizes="@media (max-width: 470px) 100vw, 400px"
                         priority
                         blurDataURL={data.profileImage.image.metadata.lqip}
                         alt={data.profileImage.alt}
