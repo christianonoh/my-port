@@ -34,7 +34,7 @@ export const sanityFetch = async <QueryResponse>({
   });
 };
 
-//  SANITY FETCH QUERIES
+//  SANITY FETCH FUNCTIONS
 
 // Get all projects
 export const getProjects = () => {
