@@ -54,17 +54,17 @@ export const getProject = (slug: string) => {
 };
 
 // Get all projects
-export const getJobs = () => {
+export const getWorks = () => {
   return sanityFetch<WorkDetailsType[] | null>({
     query: worksGroq,
-    tags: ["work", "profile"],
+    tags: ["work"],
   });
 };
 // Get all projects
 export const getProfile = () => {
   return sanityFetch<ProfileType[] | null>({
     query: profileGroq,
-    tags: ["profile", "work"],
+    tags: ["profile"],
   });
 };
 
@@ -76,7 +76,7 @@ export const getTechnologies = () => {
   });
 };
 
-// Get all Technologies
+// Get all Skills
 export const getSkills = () => {
   return sanityFetch<any[] | null>({
     query: skillsGroq,

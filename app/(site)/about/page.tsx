@@ -1,4 +1,4 @@
-import { getProfile, getJobs, getEducations } from "@/sanity/sanity.fetch";
+import { getProfile, getWorks, getEducations } from "@/sanity/sanity.fetch";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { BiEnvelope, BiDownload, BiLinkExternal } from "react-icons/bi";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const About = async () => {
   const profile = await getProfile();
-  const jobs = await getJobs();
+  const jobs = await getWorks();
   const schools = await getEducations();
 
   return (
