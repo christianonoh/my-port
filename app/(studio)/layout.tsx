@@ -1,4 +1,3 @@
-import Head from "../../components/shared/Head";
 import "../globals.css";
 
 export default function StudioLayout({
@@ -8,7 +7,6 @@ export default function StudioLayout({
 }) {
   return (
     <html lang="en">
-      <Head />
       <body>{children}</body>
     </html>
   );

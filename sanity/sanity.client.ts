@@ -1,13 +1,13 @@
 import { createClient, type ClientConfig } from "@sanity/client";
-import { dataset, projectId, apiVersion, revalidateSecret } from './sanity.api';
+import { dataset, projectId, apiVersion, revalidateSecret } from "./sanity.api";
 
 const config: ClientConfig = {
   projectId,
   dataset,
   apiVersion,
-  useCdn: revalidateSecret ? false : true,
-  perspective: 'published',
-}
+  useCdn: process.env.NODE_ENV === "development" ? true : false,
+  perspective: "published",
+};
 
 const client = createClient(config);
 

@@ -15,7 +15,7 @@ const Project = async () => {
   return (
     <>
       <TransitionEffect />
-      <main className="px-6 mx-auto max-w-7xl md:px-16 my-20 lg:my-32">
+      <main className="px-6 mx-auto max-w-7xl md:px-16 my-20 lg:my-28">
         <section className="max-w-2xl mb-16 ">
           <AnimatedText
             text="Featured projects I've built over the years"
@@ -48,7 +48,9 @@ const Project = async () => {
                   <h2 className="mb-1 sm:text-2xl text-base font-semibold">
                     {project.title}
                   </h2>
-                  <div className="text-sm text-gray">{project.tagline}</div>
+                  <div className="text-sm dark:text-gray text-gray-dark line-clamp-2">
+                    {project.tagline}
+                  </div>
                 </div>
               </span>
               {project?.stack && (
@@ -56,7 +58,7 @@ const Project = async () => {
                   {project.stack.splice(0, 3).map((tech: any) => (
                     <div
                       key={tech.key}
-                      className="sm:text-xs text-[8px] shadow-sm font-semibold uppercase dark:text-accent text-accent-dark whitespace-nowrap text-center dark:bg-gray-dark/20 bg-gray-light/10 sm:py-1 sm:px-3 py-[1px] px-1.5 rounded"
+                      className="sm:text-xs text-[8px] shadow-sm font-semibold uppercase dark:text-accent/70 text-accent-dark/70 whitespace-nowrap text-center dark:bg-gray-dark/20 bg-gray-light/30 sm:py-1 sm:px-3 py-[1px] px-1.5 rounded"
                     >
                       {tech.key}
                     </div>

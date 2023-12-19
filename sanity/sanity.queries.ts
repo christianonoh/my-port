@@ -38,7 +38,7 @@ const projectsGroq = `*[_type == "project"]{
       "key": key->title,
       "value": value
     },
-  }`;
+  } | order(title asc)`;
 
 const projectGroq = `
   *[_type == "project" && slug.current == $slug][0]{

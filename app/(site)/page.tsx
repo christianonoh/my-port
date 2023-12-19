@@ -9,7 +9,7 @@ export default async function Home() {
   return (
     <>
       <TransitionEffect />
-      <main className="px-6 mx-auto max-w-7xl lg:px-16 my-20 lg:my-32">
+      <main className="px-6 mx-auto max-w-7xl lg:px-16 my-20 lg:my-28">
         <section className="flex flex-col items-start justify-between lg:flex-row lg:items-center lg:justify-center gap-x-12">
           {profile &&
             profile.map((data) => (
@@ -32,6 +32,8 @@ export default async function Home() {
                         <a
                           href={value}
                           rel="noreferer noopener"
+                          target="_blank"
+                          aria-label="Connect with me"
                           className="flex items-center mb-5 duration-300 gap-x-3 hover:text-accent dark:hover:text-accent"
                         >
                           {key[0].toUpperCase() + key.toLowerCase().slice(1)}

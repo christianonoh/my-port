@@ -36,6 +36,7 @@ const Details = ({
             href={schoolUrl ?? ""}
             target="_blank"
             className="text-accent capitalize"
+            aria-label="Visit School Website"
           >
             {schoolName}
           </a>
@@ -66,8 +67,6 @@ const Education = ({ schools }: { schools: EducationDetailsType[] | null }) => {
     target: ref,
     offset: ["start end", "center start"],
   });
-  const school = schools ? schools[0] : "nothings";
-  console.log(school);
 
   return (
     <section className="mt-32 max-w-[731.250px] mx-auto lg:mx-0">

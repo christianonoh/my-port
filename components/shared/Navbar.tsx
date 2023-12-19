@@ -8,27 +8,28 @@ import { useState } from "react";
 import { cx } from "@/utils";
 import {
   ThemeButton,
-  FacebookIcon,
   Hamburger,
-  TwitterIcon,
   LinkedinIcon,
   XIcon,
   GithubIcon,
 } from "../icons";
 import siteMetadata from "@/utils/siteMetaData";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [mode, setMode] = useThemeSwitch();
   const [toggled, setToggled] = useState(false);
+  const pathname = usePathname();
 
   const handleToggle = () => {
+    document.documentElement.classList.toggle("overflow-hidden");
     setToggled((prev) => {
       return !prev;
     });
   };
 
   return (
-    <header className="sticky top-0 z-30 backdrop-blur-lg px-6 dark:bg-dark/80 bg-light/80 sm:py-6 py-4 border-b md:px-16 dark:border-gray border-gray-light">
+    <header className="sticky top-0 z-30 font-rubik backdrop-blur-lg px-6 dark:bg-dark/80 bg-light/80 sm:py-6 py-4 border-b md:px-16 dark:border-gray border-gray-light">
       <div className="flex items-center justify-between max-w-6xl mx-auto">
         <Link href="/" className="">
           <Image
@@ -43,18 +44,24 @@ const Navbar = () => {
 
           {/* Desktop Navbar */}
           <ul className="sm:flex items-center gap-x-8 hidden ">
-            <li>
+            <li className="nav__item">
               <Link
                 href="/about"
-                className="duration-300 dark:hover:text-accent hover:text-accent-dark"
+                className={cx(
+                  pathname === "/about" ? "active" : "",
+                  "duration-300 dark:hover:text-accent hover:text-accent-dark"
+                )}
               >
                 About
               </Link>
             </li>
-            <li>
+            <li className="nav__item">
               <Link
                 href="/projects"
-                className="duration-300 dark:hover:text-accent hover:text-accent-dark"
+                className={cx(
+                  pathname === "/projects" ? "active" : "",
+                  "duration-300 dark:hover:text-accent hover:text-accent-dark"
+                )}
               >
                 Projects
               </Link>
@@ -68,7 +75,7 @@ const Navbar = () => {
               "flex sm:hidden flex-col justify-around w-full dark:bg-dark/90 bg-light/90 shadow-sm absolute z-10 left-0 height__screen transform transition-transform duration-300 ease-in-out top-0"
             )}
           >
-            <ul className="max-w-sm mx-auto flex items-center gap-4 flex-col w-full tracking-wider font-bold text-gray-dark dark:text-white text-lg px-5 mt-20 backdrop-blur-md">
+            <ul className="max-w-sm mx-auto flex items-center gap-4 flex-col w-full tracking-wider font-bold text-gray-dark dark:text-white text-lg px-5 mt-20 ">
               <li
                 className="w-full flex items-center flex-col "
                 onClick={handleToggle}
@@ -93,19 +100,31 @@ const Navbar = () => {
               </li>
             </ul>
             <span className="flex gap-8 items-center   mt-12 mx-auto">
-              <a href={siteMetadata.twitter} target="_blank">
+              <a
+                href={siteMetadata.twitter}
+                target="_blank"
+                aria-label="Connect with me on Twitter"
+              >
                 <XIcon
                   className="h-6 w-auto fill-dark dark:fill-light hover:fill-accent-dark dark:hover:fill-accent hover:bg-gray/10 dark:hover:bg-light/10  transition-all duration-300 ease-in-out"
                   onClick={handleToggle}
                 />
               </a>
-              <a href={siteMetadata.github} target="_blank">
+              <a
+                href={siteMetadata.github}
+                target="_blank"
+                aria-label="Connect with me on Github"
+              >
                 <GithubIcon
                   className="h-6 w-auto hover:fill-accent-dark  fill-dark dark:fill-light dark:hover:fill-accent hover:bg-gray/10 dark:hover:bg-light/10  transition-all duration-300 ease-in-out"
                   onClick={handleToggle}
                 />
               </a>
-              <a href={siteMetadata.linkedin} target="_blank">
+              <a
+                href={siteMetadata.linkedin}
+                target="_blank"
+                aria-label="Connect with me on Linkedin"
+              >
                 <LinkedinIcon
                   className="h-6 w-auto hover:fill-accent-dark dark:hover:fill-accent  fill-dark dark:fill-light hover:bg-gray/10 dark:hover:bg-light/10  transition-all duration-300 ease-in-out"
                   onClick={handleToggle}

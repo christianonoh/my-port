@@ -21,6 +21,9 @@ const config: Config = {
       animation: {
         "spin-slow": "spin 8s linear infinite",
       },
+      fontFamily: {
+        rubik: ["var(--font-rubik)"],
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

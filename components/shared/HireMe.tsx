@@ -10,7 +10,7 @@ const HireMe = () => {
         <Link
           href={`mailto:chibyk5000@gmail.com`}
           passHref
-          className="flex justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 dark:bg-light dark:text-dark bg-dark dark:border border-2 border-solid text-light rounded-full font-semibold w-16 h-16 sm:w-20 sm:h-20 text-sm sm:text-base hover:bg-light hover:text-dark transition-all duration-300"
+          className="flex dark:hover:bg-dark dark:hover:text-light justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 dark:bg-light dark:text-dark bg-dark dark:border border-2 border-solid text-light rounded-full font-semibold w-16 h-16 sm:w-20 sm:h-20 text-sm sm:text-base hover:bg-light hover:text-dark transition-all duration-300"
         >
           Hire me
         </Link>

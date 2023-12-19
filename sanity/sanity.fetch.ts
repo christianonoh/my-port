@@ -11,9 +11,7 @@ import {
   mediaGroq,
 } from "./sanity.queries";
 import type { QueryParams } from "@sanity/client";
-import { draftMode } from "next/headers";
 import { client } from "./sanity.client";
-import { revalidateSecret } from "./sanity.api";
 import { ProfileType, ProjectType, WorkDetailsType } from "@/types";
 
 const DEFAULT_PARAMS = {} as QueryParams;
@@ -21,7 +19,7 @@ const DEFAULT_TAGS = [] as string[];
 
 export const token = process.env.SANITY_API_READ_TOKEN;
 
-const sanityFetch = async <QueryResponse>({
+export const sanityFetch = async <QueryResponse>({
   query,
   params = DEFAULT_PARAMS,
   tags = DEFAULT_TAGS,
@@ -30,36 +28,13 @@ const sanityFetch = async <QueryResponse>({
   params?: QueryParams;
   tags: string[];
 }): Promise<QueryResponse> => {
-  const isDraftMode = draftMode().isEnabled;
-  if (isDraftMode && !token) {
-    throw new Error(
-      "The `SANITY_API_READ_TOKEN` environment variable is required."
-    );
-  }
-
-  // @TODO this won't be necessary after https://github.com/sanity-io/client/pull/299 lands
-  const sanityClient =
-    client.config().useCdn && isDraftMode
-      ? client.withConfig({ useCdn: true })
-      : client;
-
-  return sanityClient.fetch<QueryResponse>(query, params, {
-    // We only cache if there's a revalidation webhook setup
-    // cache: revalidateSecret ? "force-cache" : "no-store",
-    cache: "no-store",
-    ...(isDraftMode && {
-      cache: undefined,
-      token: token,
-      perspective: "previewDrafts",
-    }),
-    next: {
-      ...(isDraftMode && { revalidate: 30 }),
-      tags, // for tag-based revalidation
-    },
+  return client.fetch<QueryResponse>(query, params, {
+    cache: process.env.NODE_ENV === "development" ? "no-store" : "force-cache",
+    next: { tags },
   });
 };
 
-//  SANITY FETCH QUERIES
+//  SANITY FETCH FUNCTIONS
 
 // Get all projects
 export const getProjects = () => {
@@ -74,22 +49,22 @@ export const getProject = (slug: string) => {
   return sanityFetch<ProjectType>({
     query: projectGroq,
     params: { slug },
-    tags: [`project:${slug}`, "project"],
+    tags: ["project"],
   });
 };
 
 // Get all projects
-export const getJobs = () => {
+export const getWorks = () => {
   return sanityFetch<WorkDetailsType[] | null>({
     query: worksGroq,
-    tags: ["job", "profile"],
+    tags: ["work"],
   });
 };
 // Get all projects
 export const getProfile = () => {
   return sanityFetch<ProfileType[] | null>({
     query: profileGroq,
-    tags: ["profile", "job"],
+    tags: ["profile"],
   });
 };
 
@@ -101,11 +76,11 @@ export const getTechnologies = () => {
   });
 };
 
-// Get all Technologies
+// Get all Skills
 export const getSkills = () => {
   return sanityFetch<any[] | null>({
     query: skillsGroq,
-    tags: ["technology"],
+    tags: ["skill"],
   });
 };
 
@@ -122,6 +97,6 @@ export const getMedia = (slug: string) => {
   return sanityFetch<any>({
     query: mediaGroq,
     params: { slug },
-    tags: [`media:${slug}`, "media"],
+    tags: ["media"],
   });
 };
