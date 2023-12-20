@@ -8,6 +8,7 @@ import { token } from "@/sanity/sanity.fetch";
 import dynamic from "next/dynamic";
 import { PreviewBanner } from "@/components/preview/PreviewBanner";
 import siteMetadata from "@/utils/siteMetaData";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -91,6 +92,13 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${rubik.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
       >
+        <Script id="theme" strategy="beforeInteractive">
+          {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              document.documentElement.classList.add('dark')
+            } else {
+              document.documentElement.classList.remove('dark')
+            }`}
+        </Script>
         {isDraftMode && <PreviewBanner />}
         <Navbar />
         {isDraftMode ? (
