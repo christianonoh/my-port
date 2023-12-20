@@ -1,5 +1,5 @@
 import "../globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Rubik } from "next/font/google";
 import Footer from "../../components/shared/Footer";
 import Navbar from "../../components/shared/Navbar";
@@ -75,6 +75,10 @@ export const metadata: MyMetadata = {
 const PreviewProvider = dynamic(
   () => import("@/components/preview/PreviewProvider")
 );
+
+export const viewport: Viewport = {
+  themeColor: "#5D3587",
+};
 
 export default function RootLayout({
   children,
