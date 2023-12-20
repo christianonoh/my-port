@@ -1,15 +1,16 @@
 {
-  "theme_color": "#5D3587",
-  "background_color": "#F5F7F8",
-  "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
+  "id": "christian_onoh",
   "name": "Christian Onoh",
   "short_name": "CC Onoh",
   "description": "Christian Onoh is a software developer who is passionate about building solutions with a focus on high-performance, design, and user experience. ",
   "icons": [
     {
       "src": "/favicon/icon-192x192.png",
+      "sizes": "72x72 96x96 128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon/icon-maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
@@ -29,5 +30,10 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "theme_color": "#5D3587",
+  "background_color": "#F5F7F8",
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait"
 }
