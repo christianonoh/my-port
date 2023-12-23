@@ -1,11 +1,14 @@
 import AnimatedText from "@/components/shared/AnimatedText";
 import TransitionEffect from "@/components/shared/TransitionEffect";
 import ProjectBlockText from "@/components/project/ProjectBlockText";
-import { getProject } from "@/sanity/sanity.fetch";
+import { getProject, sanityFetch } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import siteMetadata from "@/utils/siteMetaData";
 import { urlForImage } from "@/sanity/sanity.image";
 import { notFound } from "next/navigation";
+import { projectsGroq } from "@/sanity/sanity.queries";
+import { ProjectType } from "@/types";
+import { groq } from "next-sanity";
 
 type Props = {
   params: {
@@ -62,6 +65,20 @@ export async function generateMetadata({ params }: Props) {
       description: "The page you requested does not exist.",
     };
   }
+}
+
+// Prepare Next.js to know which routes already exist
+export async function generateStaticParams() {
+  const query = groq`*[_type == "post" && defined(slug.current)][]{
+   "slug": slug.current
+  }`;
+  // Important, use the plain Sanity Client here
+  const projects = await sanityFetch<ProjectType[] | []>({
+    query: query,
+    tags: ["project"],
+  });
+
+  return projects.map((project: any) => project);
 }
 
 const Project = async ({ params }: Props) => {
