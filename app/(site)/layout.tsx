@@ -92,13 +92,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${rubik.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
       >
-        <Script id="theme" strategy="beforeInteractive">
-          {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-              document.documentElement.classList.add('dark')
-            } else {
-              document.documentElement.classList.remove('dark')
-            }`}
-        </Script>
+        <Script async src="https://burgeranalytics.vercel.app/script.js" data-website-id="d7d729ea-39c0-4b64-a9c9-f0d835c05b20" />
         {isDraftMode && <PreviewBanner />}
         <Navbar />
         {isDraftMode ? (
