@@ -1,20 +1,24 @@
 import AnimatedText from "@/components/shared/AnimatedText";
-import TransitionEffect from "@/components/shared/TransitionEffect";
-import { getProjects } from "@/sanity/sanity.fetch";
+import { sanityFetch } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
+import { projectsGroq } from "@/sanity/sanity.queries";
+import { ProjectType } from "@/types";
+import Transition from "@/components/shared/Transition";
 
 export const metadata: Metadata = {
   title: "Projects",
 };
 
 const Project = async () => {
-  const projects = await getProjects();
+  const projects = await sanityFetch<ProjectType[] | null>({
+    query: projectsGroq,
+    tags: ["project"],
+  });
 
   return (
-    <>
-      <TransitionEffect />
+    <Transition>
       <main className="px-6 mx-auto max-w-7xl md:px-16 my-20 lg:my-28">
         <section className="max-w-2xl mb-16 ">
           <AnimatedText
@@ -69,7 +73,7 @@ const Project = async () => {
           ))}
         </section>
       </main>
-    </>
+    </Transition>
   );
 };
 

@@ -1,14 +1,13 @@
 import AnimatedText from "@/components/shared/AnimatedText";
-import TransitionEffect from "@/components/shared/TransitionEffect";
 import ProjectBlockText from "@/components/project/ProjectBlockText";
 import { getProject, sanityFetch } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import siteMetadata from "@/utils/siteMetaData";
 import { urlForImage } from "@/sanity/sanity.image";
 import { notFound } from "next/navigation";
-import { projectsGroq } from "@/sanity/sanity.queries";
 import { ProjectType } from "@/types";
 import { groq } from "next-sanity";
+import Transition from "@/components/shared/Transition";
 
 type Props = {
   params: {
@@ -89,8 +88,7 @@ const Project = async ({ params }: Props) => {
     notFound();
   }
   return (
-    <>
-      <TransitionEffect />
+    <Transition>
       <main className="max-w-6xl w-full px-8 mx-auto lg:px-16  my-20 lg:my-28">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
@@ -172,7 +170,7 @@ const Project = async ({ params }: Props) => {
           )}
         </div>
       </main>
-    </>
+    </Transition>
   );
 };
 

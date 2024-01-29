@@ -1,13 +1,11 @@
 import {
   getProfile,
-  getWorks,
   getEducations,
   sanityFetch,
 } from "@/sanity/sanity.fetch";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { BiEnvelope, BiDownload, BiLinkExternal } from "react-icons/bi";
-import TransitionEffect from "@/components/shared/TransitionEffect";
 import AnimatedText from "@/components/shared/AnimatedText";
 import Experience from "@/components/about/Experience";
 import Expertise from "@/components/about/Expertise";
@@ -15,6 +13,7 @@ import Education from "@/components/about/Education";
 import { Metadata } from "next";
 import { WorkDetailsType } from "@/types";
 import { worksGroq } from "@/sanity/sanity.queries";
+import Transition from "@/components/shared/Transition";
 
 export const metadata: Metadata = {
   title: "About",
@@ -29,8 +28,7 @@ const About = async () => {
   });
 
   return (
-    <>
-      <TransitionEffect />
+    <Transition>
       <main className="max-w-7xl w-full overflow-hidden mx-auto px-6 md:px-12 lg:px-16 my-20 lg:my-28">
         {profile &&
           profile.map((data) => (
@@ -105,7 +103,7 @@ const About = async () => {
         <Experience jobs={jobs} />
         <Education schools={schools} />
       </main>
-    </>
+    </Transition>
   );
 };
 

@@ -1,14 +1,23 @@
-import { getProfile } from "@/sanity/sanity.fetch";
+import { getEducations, getProfile, sanityFetch } from "@/sanity/sanity.fetch";
 import HeroSvg from "../../components/icons/HeroSvg";
-import TransitionEffect from "@/components/shared/TransitionEffect";
 import AnimatedText from "@/components/shared/AnimatedText";
 import HireMe from "@/components/shared/HireMe";
+import Expertise from "@/components/about/Expertise";
+import Experience from "@/components/about/Experience";
+import Education from "@/components/about/Education";
+import { WorkDetailsType } from "@/types";
+import { worksGroq } from "@/sanity/sanity.queries";
+import Transition from "@/components/shared/Transition";
 
 export default async function Home() {
   const profile = await getProfile();
+  const schools = await getEducations();
+  const jobs: WorkDetailsType[] = await sanityFetch({
+    query: worksGroq,
+    tags: ["work"],
+  });
   return (
-    <>
-      <TransitionEffect />
+    <Transition>
       <main className="px-6 mx-auto max-w-7xl lg:px-16 my-20 lg:my-28">
         <section className="flex flex-col items-start justify-between lg:flex-row lg:items-center lg:justify-center gap-x-12">
           {profile &&
@@ -45,8 +54,11 @@ export default async function Home() {
             ))}
           <HeroSvg />
         </section>
+        <Expertise />
+        <Experience jobs={jobs} />
+        <Education schools={schools} />
       </main>
       <HireMe />
-    </>
+    </Transition>
   );
 }
