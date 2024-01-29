@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { PreviewBanner } from "@/components/preview/PreviewBanner";
 import siteMetadata from "@/utils/siteMetaData";
 import Script from "next/script";
+import { setThemeBeforeLoad } from "@/utils/setThemeOnLoad";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -89,10 +90,16 @@ export default function RootLayout({
   const isDraftMode = draftMode().isEnabled;
   return (
     <html lang="en">
+      <script dangerouslySetInnerHTML={{ __html: setThemeBeforeLoad }} />
+      <head></head>
       <body
         className={`${inter.className} ${rubik.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
       >
-        <Script async src="https://burgeranalytics.vercel.app/script.js" data-website-id="d7d729ea-39c0-4b64-a9c9-f0d835c05b20" />
+        <Script
+          async
+          src="https://burgeranalytics.vercel.app/script.js"
+          data-website-id="d7d729ea-39c0-4b64-a9c9-f0d835c05b20"
+        />
         {isDraftMode && <PreviewBanner />}
         <Navbar />
         {isDraftMode ? (
