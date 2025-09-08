@@ -35,10 +35,10 @@ const About = async () => {
             <div key={data._id}>
               <section className="grid lg:grid-cols-2 grid-cols-1 gap-x-6 justify-center justify-items-center ">
                 <div className="order-2 col-span-1 lg:order-none">
-                  <AnimatedText
+                  {/* <AnimatedText
                     text={`Friends call me Burger 🍔 But I'm also ${data.fullName}`}
                     className="mb-8 lg:!text-6xl sm:!text-4xl md:!text-5xl  !text-3xl lg:leading-relaxed leading-relaxed text-center lg:text-left max-w-xl"
-                  />
+                  /> */}
                   <div className="flex flex-col prose prose-sm  sm:prose-lg gap-y-3 dark:text-gray text-gray-dark leading-relaxed">
                     <PortableText value={data.fullBio} />
                   </div>
@@ -99,8 +99,8 @@ const About = async () => {
               </section>
             </div>
           ))}
-        <Expertise />
         <Experience jobs={jobs} />
+        <Expertise />
         <Education schools={schools} />
       </main>
     </Transition>
