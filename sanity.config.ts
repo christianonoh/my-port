@@ -1,6 +1,7 @@
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 import { visionTool } from "@sanity/vision";
+import { codeInput } from "@sanity/code-input";
 import { schemaTypes } from "./sanity/schemas";
 import { myTheme } from "./theme";
 import StudioNavbar from "./components/shared/StudioNavbar";
@@ -77,6 +78,7 @@ const config = defineConfig({
       urlSecretId: previewSecretId,
       matchTypes: PREVIEWABLE_DOCUMENT_TYPES,
     }),
+    codeInput(),
     visionTool({ defaultApiVersion: apiVersion }),
   ],
 
