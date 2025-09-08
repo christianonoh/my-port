@@ -19,7 +19,7 @@ const Project = async () => {
 
   return (
     <Transition>
-      <main className="px-6 mx-auto max-w-7xl md:px-16 my-20 lg:my-28">
+      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-16">
         <section className="max-w-2xl mb-16 ">
           <AnimatedText
             text="Featured projects I've built over the years"

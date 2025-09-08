@@ -89,7 +89,7 @@ const Project = async ({ params }: Props) => {
   }
   return (
     <Transition>
-      <main className="max-w-6xl w-full px-8 mx-auto lg:px-16  my-20 lg:my-28">
+      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-16">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <AnimatedText
