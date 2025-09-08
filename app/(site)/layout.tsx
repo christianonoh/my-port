@@ -1,6 +1,6 @@
 import "../globals.css";
 import type { Metadata, Viewport } from "next";
-import { Inter, Rubik } from "next/font/google";
+import { Inter, Rubik, Outfit } from "next/font/google";
 import Footer from "../../components/shared/Footer";
 import Navbar from "../../components/shared/Navbar";
 import { draftMode } from "next/headers";
@@ -10,6 +10,7 @@ import { PreviewBanner } from "@/components/preview/PreviewBanner";
 import siteMetadata from "@/utils/siteMetaData";
 import Script from "next/script";
 import { setThemeBeforeLoad } from "@/utils/setThemeOnLoad";
+import ContactMe from "@/components/shared/ContactMe";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,13 @@ const rubik = Rubik({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-rubik",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-outfit",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 type MyMetadata = Metadata & {
@@ -93,7 +101,7 @@ export default function RootLayout({
       <script dangerouslySetInnerHTML={{ __html: setThemeBeforeLoad }} />
       <head></head>
       <body
-        className={`${inter.className} ${rubik.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base sm:text-lg flex-col min-h-screen`}
+        className={`${inter.className} ${rubik.variable} ${outfit.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base lg:text-base flex-col min-h-screen`}
       >
         <Script
           async
@@ -107,6 +115,7 @@ export default function RootLayout({
         ) : (
           children
         )}
+        <ContactMe />
         <Footer />
       </body>
     </html>

@@ -29,7 +29,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 font-rubik backdrop-blur-lg px-6 dark:bg-dark/80 bg-light/80 sm:py-6 py-4 border-b md:px-16 dark:border-gray border-gray-light">
+    <header className="sticky top-0 z-30 font-outfit backdrop-blur-lg px-6 dark:bg-dark/80 bg-light/80 sm:py-6 py-4 border-b md:px-16 dark:border-gray border-gray-light">
       <div className="flex items-center justify-between max-w-6xl mx-auto">
         <Link href="/" className="">
           <Image
@@ -49,7 +49,7 @@ const Navbar = () => {
                 href="/about"
                 className={cx(
                   pathname === "/about" ? "active" : "",
-                  "duration-300 dark:hover:text-accent hover:text-accent-dark"
+                  "duration-300 dark:hover:text-accent hover:text-accent-dark font-semibold text-base lg:text-lg tracking-wide"
                 )}
               >
                 About
@@ -60,10 +60,21 @@ const Navbar = () => {
                 href="/projects"
                 className={cx(
                   pathname === "/projects" ? "active" : "",
-                  "duration-300 dark:hover:text-accent hover:text-accent-dark"
+                  "duration-300 dark:hover:text-accent hover:text-accent-dark font-semibold text-base lg:text-lg tracking-wide"
                 )}
               >
                 Projects
+              </Link>
+            </li>
+            <li className="nav__item">
+              <Link
+                href="/blog"
+                className={cx(
+                  pathname.startsWith("/blog") ? "active" : "",
+                  "duration-300 dark:hover:text-accent hover:text-accent-dark font-semibold text-base lg:text-lg tracking-wide"
+                )}
+              >
+                Blog
               </Link>
             </li>
           </ul>
@@ -75,14 +86,14 @@ const Navbar = () => {
               "flex sm:hidden flex-col justify-around w-full dark:bg-dark/90 bg-light/90 shadow-sm absolute z-10 left-0 height__screen transform transition-transform duration-300 ease-in-out top-0"
             )}
           >
-            <ul className="max-w-sm mx-auto flex items-center gap-4 flex-col w-full tracking-wider font-bold text-gray-dark dark:text-white text-lg px-5 mt-20 ">
+            <ul className="max-w-sm mx-auto flex items-center gap-4 flex-col w-full tracking-wide font-bold text-gray-dark dark:text-white text-lg px-5 mt-20 ">
               <li
                 className="w-full flex items-center flex-col "
                 onClick={handleToggle}
               >
                 <Link
                   href="/about"
-                  className="duration-300 hover:text-accent-dark dark:hover:text-accent py-6 text-3xl font-semibold text-center border-b-2 border-gray/10 border-spacing-x-4 "
+                  className="duration-300 hover:text-accent-dark dark:hover:text-accent py-6 text-3xl font-bold text-center border-b-2 border-gray/10 border-spacing-x-4 tracking-wide "
                 >
                   About
                 </Link>
@@ -93,9 +104,20 @@ const Navbar = () => {
               >
                 <Link
                   href="/projects"
-                  className="duration-300 hover:text-accent-dark dark:hover:text-accent py-6 text-3xl font-semibold text-center border-b-2 border-gray/10 border-spacing-x-4 "
+                  className="duration-300 hover:text-accent-dark dark:hover:text-accent py-6 text-3xl font-bold text-center border-b-2 border-gray/10 border-spacing-x-4 tracking-wide "
                 >
                   Projects
+                </Link>
+              </li>
+              <li
+                className="w-full flex items-center flex-col "
+                onClick={handleToggle}
+              >
+                <Link
+                  href="/blog"
+                  className="duration-300 hover:text-accent-dark dark:hover:text-accent py-6 text-3xl font-bold text-center border-b-2 border-gray/10 border-spacing-x-4 tracking-wide "
+                >
+                  Blog
                 </Link>
               </li>
             </ul>
