@@ -23,6 +23,7 @@ const config: Config = {
       },
       fontFamily: {
         rubik: ["var(--font-rubik)"],
+        outfit: ["var(--font-outfit)"],
       },
     },
   },
