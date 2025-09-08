@@ -54,11 +54,10 @@ export default async function Home() {
             ))}
           <HeroSvg />
         </section>
-        <Expertise />
         <Experience jobs={jobs} />
+        <Expertise />
         <Education schools={schools} />
       </main>
-      <HireMe />
     </Transition>
   );
 }
