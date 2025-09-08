@@ -25,7 +25,7 @@ const worksGroq = `
   location,
   "companyLogo": companyLogo.asset->url,
   skills,
-} | order(startDate asc)
+} | order(startDate desc)
 `;
 
 const projectsGroq = `*[_type == "project"]{
@@ -89,13 +89,60 @@ const educationGroq = `
   endDate,
   "schoolLogo": schoolLogo.asset->url,
   skills,
-} | order(startDate asc)
+} | order(startDate desc)
 `;
 
 const mediaGroq = `
 *[_type == "media" && slug.current == $slug][0]{
   ...,
 }`;
+
+const blogPostsGroq = `
+*[_type == "blogPost"] | order(publishedAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  "coverImage": coverImage{alt, "image": asset->},
+  category,
+  tags,
+  publishedAt,
+  featured,
+  readingTime
+}`;
+
+const featuredBlogPostsGroq = `
+*[_type == "blogPost" && featured == true] | order(publishedAt desc)[0...3] {
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  "coverImage": coverImage{alt, "image": asset->},
+  category,
+  tags,
+  publishedAt,
+  readingTime
+}`;
+
+const blogPostGroq = `
+*[_type == "blogPost" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  "coverImage": coverImage{alt, "image": asset->},
+  content,
+  category,
+  tags,
+  publishedAt,
+  featured,
+  readingTime
+}`;
+
+const blogCategoriesGroq = `
+*[_type == "blogPost"] {
+  category
+} | order(category asc)`;
 
 export {
   profileGroq,
@@ -106,4 +153,8 @@ export {
   educationGroq,
   skillsGroq,
   mediaGroq,
+  blogPostsGroq,
+  featuredBlogPostsGroq,
+  blogPostGroq,
+  blogCategoriesGroq,
 };

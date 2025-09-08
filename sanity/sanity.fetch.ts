@@ -9,6 +9,9 @@ import {
   educationGroq,
   skillsGroq,
   mediaGroq,
+  blogPostsGroq,
+  featuredBlogPostsGroq,
+  blogPostGroq,
 } from "./sanity.queries";
 import type { QueryParams } from "@sanity/client";
 import { client } from "./sanity.client";
@@ -98,5 +101,30 @@ export const getMedia = (slug: string) => {
     query: mediaGroq,
     params: { slug },
     tags: ["media"],
+  });
+};
+
+// Get all blog posts
+export const getBlogPosts = () => {
+  return sanityFetch<any[] | null>({
+    query: blogPostsGroq,
+    tags: ["blogPost"],
+  });
+};
+
+// Get featured blog posts
+export const getFeaturedBlogPosts = () => {
+  return sanityFetch<any[] | null>({
+    query: featuredBlogPostsGroq,
+    tags: ["blogPost"],
+  });
+};
+
+// Get single blog post
+export const getBlogPost = (slug: string) => {
+  return sanityFetch<any>({
+    query: blogPostGroq,
+    params: { slug },
+    tags: ["blogPost"],
   });
 };
