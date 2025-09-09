@@ -36,11 +36,11 @@ export default function ContactPage() {
       <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-16">
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-dark dark:text-light mb-6">
-            Let's Work Together
+            Let&apos;s Work Together
           </h1>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl text-lg">
-            Have a project in mind or just want to say hello? I'd love to hear from you.
-            Drop me a message and I'll get back to you as soon as possible.
+            Have a project in mind or just want to say hello? I&apos;d love to hear from you.
+            Drop me a message and I&apos;ll get back to you as soon as possible.
           </p>
         </div>
 
@@ -57,9 +57,9 @@ export default function ContactPage() {
                 Get in Touch
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                I'm always interested in new opportunities and collaborations. 
+                I&apos;m always interested in new opportunities and collaborations. 
                 Whether you have a project in mind, want to discuss ideas, or just 
-                want to connect, I'd be happy to hear from you.
+                want to connect, I&apos;d be happy to hear from you.
               </p>
               <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
