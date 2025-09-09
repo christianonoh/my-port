@@ -42,6 +42,17 @@ const Navbar = () => {
         <nav className="flex items-center gap-4 sm:gap-8">
           <ThemeButton mode={mode} setMode={setMode} />
 
+          <span className="nav__item sm:hidden">
+              <Link
+                href="/blog"
+                className={cx(
+                  pathname.startsWith("/blog") ? "active" : "",
+                  "duration-300 dark:hover:text-accent hover:text-accent-dark font-semibold text-base lg:text-lg tracking-wide"
+                )}
+              >
+                Blog
+              </Link>
+            </span>
           {/* Desktop Navbar */}
           <ul className="sm:flex items-center gap-x-8 hidden ">
             <li className="nav__item">
