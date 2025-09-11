@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=22.0.0"
   },
+  "npmrc": "legacy-peer-deps=true",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
