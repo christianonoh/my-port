@@ -10,15 +10,15 @@ import { groq } from "next-sanity";
 import Transition from "@/components/shared/Transition";
 
 type Props = {
-  params: {
+  params: Promise<{
     project: string;
-  };
+  }>;
 };
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props) {
   try {
-    const slug = params.project;
+    const { project: slug } = await params;
     const project = await getProject(slug);
 
     if (!project) {
@@ -81,7 +81,7 @@ export async function generateStaticParams() {
 }
 
 const Project = async ({ params }: Props) => {
-  const slug = params.project;
+  const { project: slug } = await params;
   const project = await getProject(slug);
 
   if (!project) {

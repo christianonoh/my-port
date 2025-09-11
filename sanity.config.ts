@@ -6,12 +6,7 @@ import { schemaTypes } from "./sanity/schemas";
 import { myTheme } from "./theme";
 import StudioNavbar from "./components/shared/StudioNavbar";
 import Logo from "./components/shared/Logo";
-import Iframe, {
-  defineUrlResolver,
-  IframeOptions,
-} from "sanity-plugin-iframe-pane";
-import { pageStructure, singletonPlugin } from "./plugins/settings";
-import { previewUrl } from "sanity-plugin-iframe-pane/preview-url";
+import { Iframe, IframeOptions } from "sanity-plugin-iframe-pane";
 import {
   apiVersion,
   dataset,
@@ -32,14 +27,20 @@ export const PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS = [
 // Used to generate URLs for drafts and live previews
 export const PREVIEW_BASE_URL = "/api/draft";
 
-export const urlResolver = defineUrlResolver({
-  base: PREVIEW_BASE_URL,
-  requiresSlug: PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS,
-});
+// URL resolver function for the iframe preview
+export const urlResolver = (document: any) => {
+  if (!document?._type) return undefined;
+  
+  const slug = document.slug?.current;
+  if (PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS.includes(document._type) && !slug) {
+    return new Error('Missing slug');
+  }
+  
+  return `${PREVIEW_BASE_URL}?type=${document._type}&slug=${slug || ''}&secret=PLACEHOLDER`;
+};
 
 export const iframeOptions = {
   url: urlResolver,
-  urlSecretId: previewSecretId,
 } satisfies IframeOptions;
 
 const config = defineConfig({
@@ -56,7 +57,7 @@ const config = defineConfig({
       // and have access to content in the form in real-time.
       // It's part of the Studio's “Structure Builder API” and is documented here:
       // https://www.sanity.io/docs/structure-builder-reference
-      defaultDocumentNode: (S, { schemaType }) => {
+      defaultDocumentNode: (S: any, { schemaType }: any) => {
         if ((PREVIEWABLE_DOCUMENT_TYPES as string[]).includes(schemaType)) {
           return S.document().views([
             // Default form view
@@ -71,13 +72,7 @@ const config = defineConfig({
     }),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
     // singletonPlugin([home.name, settings.name]),
-    // Add the "Open preview" action
-    previewUrl({
-      base: PREVIEW_BASE_URL,
-      requiresSlug: PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS,
-      urlSecretId: previewSecretId,
-      matchTypes: PREVIEWABLE_DOCUMENT_TYPES,
-    }),
+    // Preview URL action - temporarily removed for migration
     codeInput(),
     visionTool({ defaultApiVersion: apiVersion }),
   ],

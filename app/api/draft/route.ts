@@ -1,10 +1,9 @@
-import { previewSecretId } from '@/sanity/sanity.api'
 import { client } from '@/sanity/sanity.client'
 import { token } from '@/sanity/sanity.fetch'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { resolveHref } from '@/sanity/sanity.links'
-import { isValidSecret } from 'sanity-plugin-iframe-pane/is-valid-secret'
+import { validatePreviewUrl } from '@sanity/preview-url-secret'
 
 
 export async function GET(request: Request) {
@@ -23,12 +22,8 @@ export async function GET(request: Request) {
   }
 
   const authenticatedClient = client.withConfig({ token })
-  const validSecret = await isValidSecret(
-    authenticatedClient,
-    previewSecretId,
-    secret,
-  )
-  if (!validSecret) {
+  const validation = await validatePreviewUrl(authenticatedClient, request.url)
+  if (!validation.isValid) {
     return new Response('Invalid secret', { status: 401 })
   }
 
@@ -40,7 +35,7 @@ export async function GET(request: Request) {
     )
   }
 
-  draftMode().enable()
+  (await draftMode()).enable()
 
   redirect(href)
 }

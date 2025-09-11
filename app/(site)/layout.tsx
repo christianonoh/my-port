@@ -90,12 +90,12 @@ export const viewport: Viewport = {
   themeColor: "#5D3587",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const isDraftMode = draftMode().isEnabled;
+  const isDraftMode = (await draftMode()).isEnabled;
   return (
     <html lang="en">
       <script dangerouslySetInnerHTML={{ __html: setThemeBeforeLoad }} />

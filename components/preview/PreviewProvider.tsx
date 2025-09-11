@@ -1,12 +1,8 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-import { suspend } from 'suspend-react'
-
-const LiveQueryProvider = dynamic(() => import('next-sanity/preview'))
-
-// suspend-react cache is global, so we use a unique key to avoid collisions
-const UniqueKey = Symbol('@/sanity/sanity.client')
+// TODO: Update to use new next-sanity v10 live query API
+// LiveQueryProvider has been replaced in next-sanity v10
+// For now, we'll just render children without live query functionality
 
 export default function PreviewProvider({
   children,
@@ -15,16 +11,6 @@ export default function PreviewProvider({
   children: React.ReactNode
   token: string
 }) {
-  const { client } = suspend(() => import('@/sanity/sanity.client'), [UniqueKey])
   if (!token) throw new TypeError('Missing token')
-  return (
-    <LiveQueryProvider
-      client={client}
-      token={token}
-      // Uncomment below to see debug reports
-      // logger={console}
-    >
-      {children}
-    </LiveQueryProvider>
-  )
+  return <>{children}</>
 }
