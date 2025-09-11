@@ -102,19 +102,31 @@ export const TwitterIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const ThemeButton = ({ setMode, mode }: any) => {
+export const ThemeButton = ({ setMode, mode, isPending }: any) => {
   return (
     <button
       aria-label="Theme Toggle Button"
       onClick={() => {
-        setMode(mode === "light" ? "dark" : "light");
+        setMode();
       }}
+      disabled={isPending}
       className={cx(
-        "w-6 z-30 h-6 p-1 flex rounded-full items-center justify-center transition-all duration-200 ease-in-out",
-        mode === "light" ? "bg-dark text-light" : "bg-light text-dark"
+        "w-6 z-30 h-6 p-1 flex rounded-full items-center justify-center transition-all duration-200 ease-in-out relative",
+        mode === "light" ? "bg-dark text-light" : "bg-light text-dark",
+        isPending && "opacity-75 cursor-not-allowed"
       )}
     >
-      {mode === "light" ? <MoonIcon className="" /> : <SunIcon className="" />}
+      <div className={cx(
+        "transition-all duration-200",
+        isPending && "animate-pulse"
+      )}>
+        {mode === "light" ? <MoonIcon className="" /> : <SunIcon className="" />}
+      </div>
+      {isPending && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin opacity-50"></div>
+        </div>
+      )}
     </button>
   );
 };

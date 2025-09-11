@@ -3,7 +3,7 @@
 import Link from "next/link";
 import logo from "/public/logo.svg";
 import Image from "next/image";
-import { useThemeSwitch } from "../hooks/useThemeSwitch";
+import { useOptimisticTheme } from "../../hooks/useOptimisticTheme";
 import { useState } from "react";
 import { cx } from "@/utils";
 import {
@@ -17,7 +17,7 @@ import siteMetadata from "@/utils/siteMetaData";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const [mode, setMode] = useThemeSwitch();
+  const { theme, toggleTheme, isPending } = useOptimisticTheme();
   const [toggled, setToggled] = useState(false);
   const pathname = usePathname();
 
@@ -40,7 +40,7 @@ const Navbar = () => {
           />
         </Link>
         <nav className="flex items-center gap-4 sm:gap-8">
-          <ThemeButton mode={mode} setMode={setMode} />
+          <ThemeButton mode={theme} setMode={toggleTheme} isPending={isPending} />
 
           <span className="nav__item sm:hidden">
               <Link

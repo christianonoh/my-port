@@ -1,6 +1,6 @@
 "use client";
 
-import React, { RefObject, useRef } from "react";
+import React, { useRef } from "react";
 import { motion, useScroll } from "framer-motion";
 import { EducationDetailsType, WorkDetailsType } from "@/types";
 import LiIcon from "../shared/LiIcon";
@@ -18,7 +18,7 @@ const Details = ({
   endDate,
   schoolLogo,
 }: EducationDetailsType) => {
-  const ref: RefObject<HTMLLIElement> = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
   return (
     <li
       ref={ref}

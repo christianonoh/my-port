@@ -9,8 +9,8 @@ import dynamic from "next/dynamic";
 import { PreviewBanner } from "@/components/preview/PreviewBanner";
 import siteMetadata from "@/utils/siteMetaData";
 import Script from "next/script";
-import { setThemeBeforeLoad } from "@/utils/setThemeOnLoad";
 import ContactMe from "@/components/shared/ContactMe";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -98,25 +98,33 @@ export default async function RootLayout({
   const isDraftMode = (await draftMode()).isEnabled;
   return (
     <html lang="en">
-      <script dangerouslySetInnerHTML={{ __html: setThemeBeforeLoad }} />
-      <head></head>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body
         className={`${inter.className} ${rubik.variable} ${outfit.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base lg:text-base flex-col min-h-screen`}
       >
-        <Script
-          async
-          src="https://burgeranalytics.vercel.app/script.js"
-          data-website-id="d7d729ea-39c0-4b64-a9c9-f0d835c05b20"
-        />
-        {isDraftMode && <PreviewBanner />}
-        <Navbar />
-        {isDraftMode ? (
-          <PreviewProvider token={token!}>{children}</PreviewProvider>
-        ) : (
-          children
-        )}
-        <ContactMe />
-        <Footer />
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="system" 
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Script
+            async
+            src="https://burgeranalytics.vercel.app/script.js"
+            data-website-id="d7d729ea-39c0-4b64-a9c9-f0d835c05b20"
+          />
+          {isDraftMode && <PreviewBanner />}
+          <Navbar />
+          {isDraftMode ? (
+            <PreviewProvider token={token!}>{children}</PreviewProvider>
+          ) : (
+            children
+          )}
+          <ContactMe />
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

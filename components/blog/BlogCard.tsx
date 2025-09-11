@@ -17,9 +17,10 @@ interface BlogCardProps {
     publishedAt: string;
     readingTime?: number;
   };
+  featured?: boolean;
 }
 
-export default function BlogCard({ post }: BlogCardProps) {
+export default function BlogCard({ post, featured = false }: BlogCardProps) {
   const publishedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
