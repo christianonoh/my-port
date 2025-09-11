@@ -79,11 +79,11 @@ export default async function BlogPage() {
           </div>
           
           {blogPosts && blogPosts.length > 0 ? (
-            <div className="space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:gap-8">
+            <div className="space-y-6 md:space-y-0 grid md:grid-cols-2 md:gap-8">
               {blogPosts.map((post, index) => (
                 <div 
                   key={post._id}
-                  className={`${index === 0 ? 'md:col-span-2' : ''}`}
+                  // className={`${index === 0 ? 'md:col-span-2' : ''}`}
                 >
                   <BlogCard post={post} featured={index === 0} />
                 </div>
