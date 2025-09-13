@@ -37,7 +37,7 @@ export const urlResolver = (document: any) => {
   
   const params = new URLSearchParams();
   params.set('type', document._type);
-  params.set('secret', process.env.SANITY_PREVIEW_SECRET || 'my-secret-preview-token-12345');
+  params.set('secret', process.env.SANITY_PREVIEW_SECRET || '');
   if (slug) params.set('slug', slug);
   
   return `${PREVIEW_BASE_URL}?${params.toString()}`;

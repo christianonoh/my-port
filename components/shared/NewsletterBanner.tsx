@@ -93,7 +93,7 @@ const NewsletterBanner = () => {
         <div className="relative">
           <button
             onClick={() => setShowForm(false)}
-            className="absolute -top-4 -right-4 z-10 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-full p-1.5 shadow-md transition-colors"
+            className="absolute top-2 right-2 z-10 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-full p-1.5 shadow-md transition-colors"
             aria-label="Close newsletter form"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

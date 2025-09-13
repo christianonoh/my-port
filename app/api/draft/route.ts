@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   }
 
   // Simple secret validation
-  const expectedSecret = process.env.SANITY_PREVIEW_SECRET || 'my-secret-preview-token-12345';
+  const expectedSecret = process.env.SANITY_PREVIEW_SECRET || '';
   if (secret !== expectedSecret) {
     return new Response('Invalid secret', { status: 401 })
   }
