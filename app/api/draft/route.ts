@@ -3,7 +3,6 @@ import { token } from '@/sanity/sanity.fetch'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { resolveHref } from '@/sanity/sanity.links'
-import { validatePreviewUrl } from '@sanity/preview-url-secret'
 
 
 export async function GET(request: Request) {
@@ -21,9 +20,9 @@ export async function GET(request: Request) {
     return new Response('Invalid secret', { status: 401 })
   }
 
-  const authenticatedClient = client.withConfig({ token })
-  const validation = await validatePreviewUrl(authenticatedClient, request.url)
-  if (!validation.isValid) {
+  // Simple secret validation
+  const expectedSecret = process.env.SANITY_PREVIEW_SECRET || 'my-secret-preview-token-12345';
+  if (secret !== expectedSecret) {
     return new Response('Invalid secret', { status: 401 })
   }
 

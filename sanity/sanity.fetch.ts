@@ -12,9 +12,12 @@ import {
   blogPostsGroq,
   featuredBlogPostsGroq,
   blogPostGroq,
+  subscribersGroq,
+  activeSubscribersGroq,
 } from "./sanity.queries";
 import type { QueryParams } from "@sanity/client";
-import { client } from "./sanity.client";
+import { client, draftClient } from "./sanity.client";
+import { draftMode } from "next/headers";
 import { ProfileType, ProjectType, WorkDetailsType } from "@/types";
 
 const DEFAULT_PARAMS = {} as QueryParams;
@@ -37,11 +40,37 @@ export const sanityFetch = async <QueryResponse>({
   });
 };
 
+// Function to check if we're in draft mode safely
+export const sanityFetchWithDraftMode = async <QueryResponse>({
+  query,
+  params = DEFAULT_PARAMS,
+  tags = DEFAULT_TAGS,
+}: {
+  query: string;
+  params?: QueryParams;
+  tags: string[];
+}): Promise<QueryResponse> => {
+  let isDraftMode = false;
+  try {
+    isDraftMode = (await draftMode()).isEnabled;
+  } catch (error) {
+    // If draftMode() fails, we're not in a request context, so use regular client
+    isDraftMode = false;
+  }
+  
+  const sanityClient = isDraftMode ? draftClient : client;
+  
+  return sanityClient.fetch<QueryResponse>(query, params, {
+    cache: isDraftMode || process.env.NODE_ENV === "development" ? "no-store" : "force-cache",
+    next: { tags },
+  });
+};
+
 //  SANITY FETCH FUNCTIONS
 
 // Get all projects
 export const getProjects = () => {
-  return sanityFetch<ProjectType[] | null>({
+  return sanityFetchWithDraftMode<ProjectType[] | null>({
     query: projectsGroq,
     tags: ["project"],
   });
@@ -49,7 +78,7 @@ export const getProjects = () => {
 
 // Get single project
 export const getProject = (slug: string) => {
-  return sanityFetch<ProjectType>({
+  return sanityFetchWithDraftMode<ProjectType>({
     query: projectGroq,
     params: { slug },
     tags: ["project"],
@@ -58,14 +87,14 @@ export const getProject = (slug: string) => {
 
 // Get all projects
 export const getWorks = () => {
-  return sanityFetch<WorkDetailsType[] | null>({
+  return sanityFetchWithDraftMode<WorkDetailsType[] | null>({
     query: worksGroq,
     tags: ["work"],
   });
 };
 // Get all projects
 export const getProfile = () => {
-  return sanityFetch<ProfileType[] | null>({
+  return sanityFetchWithDraftMode<ProfileType[] | null>({
     query: profileGroq,
     tags: ["profile"],
   });
@@ -126,5 +155,21 @@ export const getBlogPost = (slug: string) => {
     query: blogPostGroq,
     params: { slug },
     tags: ["blogPost"],
+  });
+};
+
+// Get all subscribers
+export const getSubscribers = () => {
+  return sanityFetch<any[] | null>({
+    query: subscribersGroq,
+    tags: ["subscriber"],
+  });
+};
+
+// Get active subscribers
+export const getActiveSubscribers = () => {
+  return sanityFetch<any[] | null>({
+    query: activeSubscribersGroq,
+    tags: ["subscriber"],
   });
 };

@@ -5,6 +5,8 @@ export const resolveHref = (
   switch (documentType) {
     case 'profile':
       return '/'
+    case 'work':
+      return '/about'
     case 'job':
       return '/about'
     case 'project':

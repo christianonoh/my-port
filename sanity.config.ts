@@ -10,7 +10,6 @@ import { Iframe, IframeOptions } from "sanity-plugin-iframe-pane";
 import {
   apiVersion,
   dataset,
-  previewSecretId,
   projectId,
 } from "@/sanity/sanity.api";
 
@@ -36,7 +35,12 @@ export const urlResolver = (document: any) => {
     return new Error('Missing slug');
   }
   
-  return `${PREVIEW_BASE_URL}?type=${document._type}&slug=${slug || ''}&secret=PLACEHOLDER`;
+  const params = new URLSearchParams();
+  params.set('type', document._type);
+  params.set('secret', process.env.SANITY_PREVIEW_SECRET || 'my-secret-preview-token-12345');
+  if (slug) params.set('slug', slug);
+  
+  return `${PREVIEW_BASE_URL}?${params.toString()}`;
 };
 
 export const iframeOptions = {
@@ -72,7 +76,6 @@ const config = defineConfig({
     }),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
     // singletonPlugin([home.name, settings.name]),
-    // Preview URL action - temporarily removed for migration
     codeInput(),
     visionTool({ defaultApiVersion: apiVersion }),
   ],

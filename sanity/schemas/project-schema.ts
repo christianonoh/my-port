@@ -44,20 +44,29 @@ const project = {
         {
           type: "object",
           fields: [
-            {
+            defineField({
               name: "key",
-              title: "Key",
+              title: "Technology",
               description: "What technology was used?",
               type: "reference",
               to: [{ type: "technology" }],
-            },
-            {
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
               name: "value",
-              title: "Value",
+              title: "Usage Description",
               type: "string",
-              description: "What was it was used for?",
-            },
+              description: "What was it used for?",
+              validation: (rule) => rule.required(),
+            }),
           ],
+          preview: {
+            select: {
+              title: "key.title",
+              subtitle: "value",
+              media: "key.logo",
+            },
+          },
         },
       ],
       validation: (rule) => rule.required(),

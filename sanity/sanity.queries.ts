@@ -144,6 +144,28 @@ const blogCategoriesGroq = `
   category
 } | order(category asc)`;
 
+const subscribersGroq = `
+*[_type == "subscriber"]{
+  _id,
+  email,
+  firstName,
+  lastName,
+  status,
+  subscribedAt,
+  unsubscribedAt,
+  source
+} | order(subscribedAt desc)`;
+
+const activeSubscribersGroq = `
+*[_type == "subscriber" && status == "active"]{
+  _id,
+  email,
+  firstName,
+  lastName,
+  subscribedAt,
+  source
+} | order(subscribedAt desc)`;
+
 export {
   profileGroq,
   worksGroq,
@@ -157,4 +179,6 @@ export {
   featuredBlogPostsGroq,
   blogPostGroq,
   blogCategoriesGroq,
+  subscribersGroq,
+  activeSubscribersGroq,
 };

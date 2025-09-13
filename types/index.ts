@@ -63,3 +63,13 @@ export interface EducationDetailsType extends Base {
   endDate?: string;
   skills?: any;
 }
+
+export interface SubscriberType extends Base {
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  status: 'active' | 'unsubscribed' | 'pending';
+  subscribedAt: string;
+  unsubscribedAt?: string;
+  source?: string;
+}

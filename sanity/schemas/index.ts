@@ -6,6 +6,7 @@ import skill from "./skill";
 import education from "./education-schema";
 import media from "./media-schema";
 import blogPost from "./blog-post-schema";
+import subscriber from "./subscriber-schema";
 
 export const schemaTypes = [
   profile,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   education,
   media,
   blogPost,
+  subscriber,
 ];

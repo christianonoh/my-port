@@ -50,4 +50,10 @@ export default defineType({
       ],
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      media: "logo",
+    },
+  },
 });

@@ -11,4 +11,19 @@ const config: ClientConfig = {
 
 const client = createClient(config);
 
-export { client };
+// Create a client with write permissions for API routes
+const writeClient = createClient({
+  ...config,
+  useCdn: false,
+  token: process.env.SANITY_API_WR_TOKEN,
+});
+
+// Create a client for draft mode that can access unpublished documents
+const draftClient = createClient({
+  ...config,
+  useCdn: false,
+  perspective: "previewDrafts",
+  token: process.env.SANITY_API_WR_TOKEN,
+});
+
+export { client, writeClient, draftClient };
