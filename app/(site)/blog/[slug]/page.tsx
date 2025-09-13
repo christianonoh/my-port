@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Transition from "@/components/shared/Transition";
 import ShareButtons from "@/components/blog/ShareButtons";
+import NewsletterBanner from "@/components/shared/NewsletterBanner";
 import { Metadata } from "next";
 import { urlForImage } from "@/sanity/sanity.image";
 
@@ -332,6 +333,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </div>
       </main>
+      <NewsletterBanner />
     </Transition>
   );
 }

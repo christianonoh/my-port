@@ -24,6 +24,7 @@ export async function submitContactForm(
   const email = formData.get('email') as string
   const phone = formData.get('phone') as string
   const message = formData.get('message') as string
+  const subscribe = formData.get('subscribe') === 'on'
 
   // Validation
   const errors: ContactFormState['errors'] = {}
@@ -88,6 +89,34 @@ export async function submitContactForm(
       return {
         success: false,
         message: 'Failed to send message. Please try again later.'
+      }
+    }
+
+    // Handle newsletter subscription if checked and email is provided
+    if (subscribe && email) {
+      try {
+        const subscribeResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/subscribe`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+            firstName: fullName.split(' ')[0] || null, // Use first part of full name
+            lastName: null,
+            source: 'contact_form',
+          }),
+        })
+
+        if (subscribeResponse.ok) {
+          return {
+            success: true,
+            message: 'Message sent successfully! You\'ve also been subscribed to the newsletter. Check your email for a welcome message.'
+          }
+        }
+      } catch (subscriptionError) {
+        console.error('Newsletter subscription error:', subscriptionError)
+        // Don't fail the contact form if subscription fails
       }
     }
 

@@ -3,6 +3,7 @@ import AnimatedText from "@/components/shared/AnimatedText";
 import Transition from "@/components/shared/Transition";
 import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
+import NewsletterBanner from "@/components/shared/NewsletterBanner";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default async function BlogPage() {
     <Transition>
       <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-8 md:py-16">
         {/* Hero Section */}
-        <div className="mb-12 md:mb-16 text-center md:text-left">
+        <div className="mb-12 md:mb-16 text-left md:text-left">
           <AnimatedText
             text="My Blog"
             className="!text-4xl md:!text-6xl lg:!text-7xl mb-6 md:mb-8"
@@ -31,17 +32,13 @@ export default async function BlogPage() {
             </p>
             
             {/* Blog stats */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-6 text-sm text-gray-500 dark:text-gray-400">
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
+            <div className="flex flex-wrap items-center md:justify-start gap-4 md:gap-6 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-1">
+                <i className="fa-solid fa-file-lines" />
                 <span>{blogPosts?.length || 0} Articles</span>
               </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                </svg>
+              <div className="flex items-center gap-1">
+                <i className="fa-solid fa-user" />
                 <span>Written by Christian Onoh</span>
               </div>
             </div>
@@ -53,7 +50,7 @@ export default async function BlogPage() {
           <section className="mb-12 md:mb-16">
             <div className="flex items-center justify-between mb-6 md:mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-dark dark:text-light">
-                ⭐ Featured Posts
+                <i className="fa-solid fa-star" />&nbsp; Featured Posts
               </h2>
               <div className="hidden md:block text-sm text-gray-500 dark:text-gray-400">
                 {featuredPosts.length} featured article{featuredPosts.length !== 1 ? 's' : ''}
@@ -71,7 +68,7 @@ export default async function BlogPage() {
         <section>
           <div className="flex items-center justify-between mb-6 md:mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-dark dark:text-light">
-              📚 All Articles
+              <i className="fa-solid fa-book" />&nbsp; All Articles
             </h2>
             <div className="hidden md:block text-sm text-gray-500 dark:text-gray-400">
               Latest posts
@@ -106,31 +103,8 @@ export default async function BlogPage() {
           )}
         </section>
 
-        {/* Newsletter signup */}
-        <section className="mt-16 md:mt-20 p-6 md:p-8 bg-gradient-to-r from-accent/10 to-accent-dark/10 dark:from-accent/15 dark:to-accent-dark/15 rounded-xl border border-accent/20 dark:border-accent/30 backdrop-blur-sm">
-          <div className="text-center max-w-2xl mx-auto">
-            <h3 className="text-xl md:text-2xl font-bold text-dark dark:text-light mb-4">
-              Stay Updated
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Get notified when I publish new articles about web development, technology, and programming insights.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-dark dark:text-light"
-              />
-              <button className="px-6 py-3 bg-accent hover:bg-accent-dark text-white rounded-lg transition-colors duration-200 font-medium">
-                Subscribe
-              </button>
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
-              No spam, unsubscribe at any time.
-            </p>
-          </div>
-        </section>
       </main>
+      <NewsletterBanner />
     </Transition>
   );
 }

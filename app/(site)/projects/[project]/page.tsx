@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { ProjectType } from "@/types";
 import { groq } from "next-sanity";
 import Transition from "@/components/shared/Transition";
+import NewsletterBanner from "@/components/shared/NewsletterBanner";
 
 type Props = {
   params: Promise<{
@@ -144,7 +145,7 @@ const Project = async ({ params }: Props) => {
                   Tech Stack
                 </h3>
               </a>
-              <div className="flex flex-col mt-8 prose prose-sm sm:prose-lg leading-7 gap-y-6">
+              <div className="flex flex-col mt-4 md:mt-6 prose prose-sm sm:prose-lg leading-7 gap-y-6">
                 <ul>
                   {project.stack.map((tech: any) => (
                     <li key={tech.key}>
@@ -170,6 +171,7 @@ const Project = async ({ params }: Props) => {
           )}
         </div>
       </main>
+      <NewsletterBanner />
     </Transition>
   );
 };

@@ -22,7 +22,7 @@ const ContactForm = () => {
 
 
   return (
-    <div className="max-w-md mx-auto w-full p-6 bg-white/50 dark:bg-gray-800/30 rounded-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm shadow-lg dark:shadow-gray-900/20">
+    <div className="max-w-md mx-auto w-full p-6 bg-gradient-to-r from-accent/10 to-accent-dark/10 dark:from-accent/15 dark:to-accent-dark/15 rounded-xl border border-accent/20 dark:border-accent/30 backdrop-blur-sm shadow-lg dark:shadow-gray-900/20">
       <h3 className="text-lg font-semibold mb-6 text-dark dark:text-light">Send Me a Message</h3>
       <form ref={formRef} action={formAction} className="space-y-5">
         <div className="transform transition-all duration-300 hover:scale-[1.02]">
@@ -93,6 +93,21 @@ const ContactForm = () => {
             </div>
           </div>
         )}
+
+        <div className="flex items-start space-x-3 p-4 bg-accent/5 dark:bg-accent/10 rounded-lg border border-accent/20 dark:border-accent/30">
+          <input
+            type="checkbox"
+            id="subscribe"
+            name="subscribe"
+            disabled={isPending}
+            className="mt-1 h-4 w-4 text-accent focus:ring-accent border-gray-300 dark:border-gray-600 rounded transition-colors disabled:opacity-50"
+          />
+          <label htmlFor="subscribe" className="text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none">
+            <span className="font-medium">📬 Subscribe to my newsletter</span>
+            <br />
+            <span className="text-xs text-gray-600 dark:text-gray-400">Get notified about new projects, blog posts, and tech insights. No spam, unsubscribe anytime.</span>
+          </label>
+        </div>
         
         <div className="transform transition-all duration-300 hover:scale-[1.02]">
           <textarea

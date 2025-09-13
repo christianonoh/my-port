@@ -100,6 +100,7 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" />
+        <script src="https://kit.fontawesome.com/2eac604974.js" crossOrigin="anonymous" async></script>
       </head>
       <body
         className={`${inter.className} ${rubik.variable} ${outfit.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base lg:text-base flex-col min-h-screen`}

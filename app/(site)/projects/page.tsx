@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { projectsGroq } from "@/sanity/sanity.queries";
 import { ProjectType } from "@/types";
 import Transition from "@/components/shared/Transition";
+import NewsletterBanner from "@/components/shared/NewsletterBanner";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -73,6 +74,7 @@ const Project = async () => {
           ))}
         </section>
       </main>
+      <NewsletterBanner />
     </Transition>
   );
 };
