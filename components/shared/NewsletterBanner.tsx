@@ -51,7 +51,7 @@ const NewsletterBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 z-40 animate-slide-up md:max-w-sm max-w-[calc(100vw-8rem)] sm:max-w-xs">
+    <div className="fixed bottom-4 left-4 z-40 animate-slide-up sm:max-w-sm max-w-xs mx-4 sm:mx-0">
       {showSuccess ? (
         <div className="bg-green-600 text-white p-4 rounded-lg shadow-xl backdrop-blur-sm border border-green-700/20 transform transition-all duration-300">
           <div className="flex items-center">
