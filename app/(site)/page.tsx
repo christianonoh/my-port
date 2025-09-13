@@ -1,7 +1,6 @@
 import { getEducations, getProfile, sanityFetch } from "@/sanity/sanity.fetch";
 import HeroSvg from "../../components/icons/HeroSvg";
 import AnimatedText from "@/components/shared/AnimatedText";
-import HireMe from "@/components/shared/ContactMe";
 import Expertise from "@/components/about/Expertise";
 import Experience from "@/components/about/Experience";
 import Education from "@/components/about/Education";

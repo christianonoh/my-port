@@ -60,7 +60,7 @@ const NewsletterBanner = () => {
             </svg>
             <div>
               <h4 className="font-semibold text-sm">🎉 Success!</h4>
-              <p className="text-xs text-white/90">You're subscribed! Check your email.</p>
+              <p className="text-xs text-white/90">You&apos;re subscribed! Check your email.</p>
             </div>
           </div>
         </div>

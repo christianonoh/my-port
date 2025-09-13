@@ -128,7 +128,7 @@ const ContactForm = () => {
         <button
           type="submit"
           disabled={isPending}
-          className={`w-full py-3 px-4 bg-accent hover:bg-accent-dark text-white rounded-lg font-medium relative overflow-hidden transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-md hover:shadow-xl ${
+          className={`w-full py-3 px-4 bg-accent hover:bg-accent-dark text-white rounded-lg font-medium relative overflow-hidden transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-md hover:shadow-xl ${
             isPending ? 'animate-pulse' : 'hover:shadow-accent/30 dark:hover:shadow-accent/20'
           }`}
         >
