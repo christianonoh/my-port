@@ -190,9 +190,9 @@ export const SendNewsletterAction: DocumentActionComponent = (props) => {
               {doc?.audienceType === 'test'
                 ? `📧 TEST MODE: Sending to ${doc?.testEmail || 'NO EMAIL SET!'}`
                 : doc?.audienceType === 'tags'
-                ? `🏷️ FILTERED: Sending to subscribers with tags: ${doc?.filterTags?.join(', ') || 'NONE'}`
+                ? `🏷️ FILTERED: Sending to subscribers with tags: ${Array.isArray(doc?.filterTags) ? doc.filterTags.join(', ') : 'NONE'}`
                 : doc?.audienceType === 'interests'
-                ? `🎯 FILTERED: Sending to subscribers interested in: ${doc?.filterInterests?.join(', ') || 'NONE'}`
+                ? `🎯 FILTERED: Sending to subscribers interested in: ${Array.isArray(doc?.filterInterests) ? doc.filterInterests.join(', ') : 'NONE'}`
                 : '👥 Sending to ALL ACTIVE SUBSCRIBERS'
               }
             </p>
