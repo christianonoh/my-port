@@ -78,6 +78,33 @@ const subscriber = defineType({
         ],
       },
     }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "Tags to segment your audience (e.g., 'developer', 'designer', 'newsletter-only')",
+      options: {
+        layout: "tags",
+      },
+    }),
+    defineField({
+      name: "interests",
+      title: "Interests",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "What topics are they interested in?",
+      options: {
+        list: [
+          { title: "Web Development", value: "web-dev" },
+          { title: "Mobile Development", value: "mobile-dev" },
+          { title: "Design", value: "design" },
+          { title: "Projects", value: "projects" },
+          { title: "Blog Posts", value: "blog" },
+          { title: "Tutorials", value: "tutorials" },
+        ],
+      },
+    }),
   ],
   preview: {
     select: {

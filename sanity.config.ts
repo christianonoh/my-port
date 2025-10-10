@@ -7,6 +7,7 @@ import { myTheme } from "./theme";
 import StudioNavbar from "./components/shared/StudioNavbar";
 import Logo from "./components/shared/Logo";
 import { Iframe, IframeOptions } from "sanity-plugin-iframe-pane";
+import { PreviewNewsletterAction, SendNewsletterAction } from "./sanity/actions/SendNewsletterAction";
 import {
   apiVersion,
   dataset,
@@ -88,6 +89,15 @@ const config = defineConfig({
     components: {
       logo: Logo,
       navbar: StudioNavbar,
+    },
+  },
+  document: {
+    actions: (prev, context) => {
+      // Add custom preview and send actions for newsletter documents
+      if (context.schemaType === 'newsletter') {
+        return [...prev, PreviewNewsletterAction, SendNewsletterAction];
+      }
+      return prev;
     },
   },
 });

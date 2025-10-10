@@ -7,6 +7,7 @@ import education from "./education-schema";
 import media from "./media-schema";
 import blogPost from "./blog-post-schema";
 import subscriber from "./subscriber-schema";
+import newsletter from "./newsletter-schema";
 
 export const schemaTypes = [
   profile,
@@ -18,4 +19,5 @@ export const schemaTypes = [
   media,
   blogPost,
   subscriber,
+  newsletter,
 ];
