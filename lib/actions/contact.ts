@@ -2,6 +2,7 @@
 
 import { Resend } from 'resend'
 import { redirect } from 'next/navigation'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -25,6 +26,16 @@ export async function submitContactForm(
   const phone = formData.get('phone') as string
   const message = formData.get('message') as string
   const subscribe = formData.get('subscribe') === 'on'
+  const turnstileToken = formData.get('turnstileToken') as string
+
+  // Verify Turnstile token
+  const isValidToken = await verifyTurnstileToken(turnstileToken)
+  if (!isValidToken) {
+    return {
+      success: false,
+      message: 'Verification failed. Please try again.'
+    }
+  }
 
   // Validation
   const errors: ContactFormState['errors'] = {}
@@ -58,7 +69,7 @@ export async function submitContactForm(
     const contactInfo = email || phone
     const contactType = email ? 'Email' : 'Phone'
 
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Contact Form <onboarding@resend.dev>',
       to: [process.env.CONTACT_EMAIL || 'info@christianonoh.com'],
       subject: `New Contact Form Submission from ${fullName}`,

@@ -1,6 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 
 export type SubscribeFormState = {
   success: boolean
@@ -19,6 +20,16 @@ export async function submitSubscribeForm(
   const email = formData.get('email') as string
   const firstName = formData.get('firstName') as string
   const source = formData.get('source') as string
+  const turnstileToken = formData.get('turnstileToken') as string
+
+  // Verify Turnstile token
+  const isValidToken = await verifyTurnstileToken(turnstileToken)
+  if (!isValidToken) {
+    return {
+      success: false,
+      message: 'Verification failed. Please try again.'
+    }
+  }
 
   // Validation
   const errors: SubscribeFormState['errors'] = {}
