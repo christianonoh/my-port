@@ -88,6 +88,17 @@ const Navbar = () => {
                 Blog
               </Link>
             </li>
+            {/* <li className="nav__item">
+              <Link
+                href="/contact"
+                className={cx(
+                  pathname === "/contact" ? "active" : "",
+                  "duration-300 dark:hover:text-accent hover:text-accent-dark font-semibold text-base lg:text-lg tracking-wide"
+                )}
+              >
+                Contact
+              </Link>
+            </li> */}
           </ul>
 
           {/* Mobile Navbar */}
@@ -129,6 +140,17 @@ const Navbar = () => {
                   className="duration-300 hover:text-accent-dark dark:hover:text-accent py-6 text-3xl font-bold text-center border-b-2 border-gray/10 border-spacing-x-4 tracking-wide "
                 >
                   Blog
+                </Link>
+              </li>
+              <li
+                className="w-full flex items-center flex-col "
+                onClick={handleToggle}
+              >
+                <Link
+                  href="/contact"
+                  className="duration-300 hover:text-accent-dark dark:hover:text-accent py-6 text-3xl font-bold text-center border-b-2 border-gray/10 border-spacing-x-4 tracking-wide "
+                >
+                  Contact
                 </Link>
               </li>
             </ul>
