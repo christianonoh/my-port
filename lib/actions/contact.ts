@@ -3,6 +3,8 @@
 import { Resend } from 'resend'
 import { redirect } from 'next/navigation'
 import { verifyTurnstileToken } from '@/lib/turnstile'
+import { render } from '@react-email/components'
+import ContactEmail from '@/emails/ContactEmail'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -66,33 +68,21 @@ export async function submitContactForm(
   }
 
   try {
-    const contactInfo = email || phone
-    const contactType = email ? 'Email' : 'Phone'
+    // Render the email template
+    const emailHtml = await render(
+      ContactEmail({
+        fullName,
+        email: email || undefined,
+        phone: phone || undefined,
+        message,
+      })
+    )
 
     const { error } = await resend.emails.send({
       from: 'Contact Form <onboarding@resend.dev>',
       to: [process.env.CONTACT_EMAIL || 'info@christianonoh.com'],
       subject: `New Contact Form Submission from ${fullName}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">New Contact Form Submission</h2>
-          
-          <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #555;">Contact Details</h3>
-            <p><strong>Name:</strong> ${fullName}</p>
-            <p><strong>${contactType}:</strong> ${contactInfo}</p>
-          </div>
-          
-          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
-            <h3 style="margin-top: 0; color: #555;">Message</h3>
-            <p style="white-space: pre-wrap;">${message}</p>
-          </div>
-          
-          <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; color: #888; font-size: 12px;">
-            <p>This message was sent from your portfolio contact form.</p>
-          </div>
-        </div>
-      `,
+      html: emailHtml,
     })
 
     if (error) {
