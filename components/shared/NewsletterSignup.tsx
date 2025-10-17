@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import {
   submitSubscribeForm,
   type SubscribeFormState,
 } from "@/lib/actions/subscribe";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 interface NewsletterSignupProps {
   source?: string;
@@ -22,6 +23,7 @@ const NewsletterSignup = ({
   onSubscribeSuccess,
 }: NewsletterSignupProps) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
 
   const initialState: SubscribeFormState = {
     success: false,
@@ -37,13 +39,14 @@ const NewsletterSignup = ({
   useEffect(() => {
     if (state.success && formRef.current) {
       formRef.current.reset();
+      setTurnstileToken(""); // Reset turnstile token
       onSubscribeSuccess?.();
     }
   }, [state.success, onSubscribeSuccess]);
 
   return (
     <section className="w-full p-6 md:p-8 bg-gradient-to-r from-accent/10 to-accent-dark/10 dark:from-accent/15 dark:to-accent-dark/15 rounded-xl border border-accent/20 dark:border-accent/30 backdrop-blur-sm shadow-lg dark:shadow-gray-900/20">
-      <div className={`max-w-md mx-auto w-full p-6 ${className}`}>
+      <div className={`max-w-md mx-auto w-full ${className}`}>
         <div className="text-center mb-6">
           <h3 className="text-lg font-semibold mb-2 text-dark dark:text-light">
             <i className='fa-bell'></i>&nbsp;
@@ -56,6 +59,7 @@ const NewsletterSignup = ({
 
         <form ref={formRef} action={formAction} className="space-y-4">
           <input type="hidden" name="source" value={source} />
+          <input type="hidden" name="turnstileToken" value={turnstileToken} />
 
           <div className="transform transition-all duration-300 hover:scale-[1.02]">
             <input
@@ -126,9 +130,19 @@ const NewsletterSignup = ({
             </div>
           )}
 
+          {/* Turnstile Widget */}
+          <div className="flex justify-center">
+            <Turnstile
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+              onSuccess={(token) => setTurnstileToken(token)}
+              onError={() => setTurnstileToken("")}
+              onExpire={() => setTurnstileToken("")}
+            />
+          </div>
+
           <button
             type="submit"
-            disabled={isPending}
+            disabled={isPending || !turnstileToken}
             className={`w-full py-3 px-4 bg-accent hover:bg-accent-dark text-white rounded-lg font-medium relative overflow-hidden transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-md hover:shadow-xl ${
               isPending
                 ? "animate-pulse"

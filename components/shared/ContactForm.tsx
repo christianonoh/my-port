@@ -1,22 +1,25 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { submitContactForm, type ContactFormState } from "@/lib/actions/contact";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 const ContactForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+
   const initialState: ContactFormState = {
     success: false,
     message: ""
   };
-  
+
   const [state, formAction, isPending] = useActionState(submitContactForm, initialState);
 
   // Reset form on successful submission
   useEffect(() => {
     if (state.success && formRef.current) {
       formRef.current.reset();
+      setTurnstileToken(""); // Reset turnstile token
     }
   }, [state.success]);
 
@@ -25,6 +28,7 @@ const ContactForm = () => {
     <div className="max-w-md mx-auto w-full p-6 bg-gradient-to-r from-accent/10 to-accent-dark/10 dark:from-accent/15 dark:to-accent-dark/15 rounded-xl border border-accent/20 dark:border-accent/30 backdrop-blur-sm shadow-lg dark:shadow-gray-900/20">
       <h3 className="text-lg font-semibold mb-6 text-dark dark:text-light">Send Me a Message</h3>
       <form ref={formRef} action={formAction} className="space-y-5">
+        <input type="hidden" name="turnstileToken" value={turnstileToken} />
         <div className="transform transition-all duration-300 hover:scale-[1.02]">
           <input
             type="text"
@@ -124,10 +128,20 @@ const ContactForm = () => {
             <p className="text-red-600 dark:text-red-400 text-sm mt-1">{state.errors.message[0]}</p>
           )}
         </div>
-        
+
+        {/* Turnstile Widget */}
+        <div className="flex justify-center">
+          <Turnstile
+            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onError={() => setTurnstileToken("")}
+            onExpire={() => setTurnstileToken("")}
+          />
+        </div>
+
         <button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || !turnstileToken}
           className={`w-full py-3 px-4 bg-accent hover:bg-accent-dark text-white rounded-lg font-medium relative overflow-hidden transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-md hover:shadow-xl ${
             isPending ? 'animate-pulse' : 'hover:shadow-accent/30 dark:hover:shadow-accent/20'
           }`}
