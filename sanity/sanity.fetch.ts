@@ -151,7 +151,7 @@ export const getFeaturedBlogPosts = () => {
 
 // Get single blog post
 export const getBlogPost = (slug: string) => {
-  return sanityFetch<any>({
+  return sanityFetchWithDraftMode<any>({
     query: blogPostGroq,
     params: { slug },
     tags: ["blogPost"],

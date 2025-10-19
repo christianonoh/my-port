@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import Transition from "@/components/shared/Transition";
 import ShareButtons from "@/components/blog/ShareButtons";
 import NewsletterBanner from "@/components/shared/NewsletterBanner";
+import MarkdownRenderer from "@/components/blog/MarkdownRenderer";
 import { Metadata } from "next";
 import { urlForImage } from "@/sanity/sanity.image";
 
@@ -68,6 +69,52 @@ const components = {
           {value.code}
         </code>
       </pre>
+    ),
+    table: ({ value }: any) => (
+      <div className="my-8 overflow-x-auto rounded-xl shadow-sm">
+        <table className="min-w-full">
+          {value.rows && value.rows.length > 0 && (
+            <>
+              <thead>
+                <tr className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/30">
+                  {value.rows[0].cells.map((cell: string, cellIndex: number) => (
+                    <th
+                      key={cellIndex}
+                      className="px-6 py-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100"
+                    >
+                      {cell}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {value.rows.slice(1).map((row: any, rowIndex: number) => (
+                  <tr
+                    key={rowIndex}
+                    className={`
+                      border-b border-gray-200/30 dark:border-gray-700/20 last:border-b-0
+                      hover:bg-accent/5 transition-colors duration-150
+                      ${rowIndex % 2 === 0
+                        ? 'bg-white dark:bg-gray-900'
+                        : 'bg-gray-50/30 dark:bg-gray-800/20'
+                      }
+                    `}
+                  >
+                    {row.cells.map((cell: string, cellIndex: number) => (
+                      <td
+                        key={cellIndex}
+                        className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </>
+          )}
+        </table>
+      </div>
     ),
   },
   marks: {
@@ -209,16 +256,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </header>
 
             {/* Content with better mobile typography */}
-            <div className="prose prose-sm md:prose-lg dark:prose-invert max-w-none 
-                           prose-headings:text-dark dark:prose-headings:text-light
-                           prose-p:text-gray-700 dark:prose-p:text-gray-300
-                           prose-p:leading-relaxed prose-li:text-gray-700 dark:prose-li:text-gray-300
-                           prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-                           prose-code:text-accent prose-code:bg-gray-100 dark:prose-code:bg-gray-800
-                           prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800
-                           prose-blockquote:border-accent prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400">
-              <PortableText value={post.content} components={components} />
-            </div>
+            {post.contentType === "markdown" && post.markdownContent ? (
+              <MarkdownRenderer content={post.markdownContent} />
+            ) : (
+              <div className="prose prose-sm md:prose-lg dark:prose-invert max-w-none
+                             prose-headings:text-dark dark:prose-headings:text-light
+                             prose-p:text-gray-700 dark:prose-p:text-gray-300
+                             prose-p:leading-relaxed prose-li:text-gray-700 dark:prose-li:text-gray-300
+                             prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+                             prose-code:text-accent prose-code:bg-gray-100 dark:prose-code:bg-gray-800
+                             prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800
+                             prose-blockquote:border-accent prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400">
+                <PortableText value={post.content} components={components} />
+              </div>
+            )}
 
             <hr className="border-t border-gray-200 dark:border-gray-700 my-6 md:my-8 block" />
 
@@ -235,7 +286,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <aside className="lg:col-span-4 lg:sticky lg:top-8 lg:self-start">
             <div className="space-y-6">
               {/* Author info card */}
-              <div className="p-6 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
+              <div className="p-6 bg-white/20 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
                 <h3 className="text-lg font-semibold text-dark dark:text-light mb-3">
                   About the Author
                 </h3>
@@ -248,7 +299,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     href="https://twitter.com/onohchristian" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-accent hover:text-accent-dark text-sm transition-colors duration-200"
+                    className="text-accent-dark dark:text-accent hover:text-accent-dark text-sm transition-colors duration-200"
                   >
                     Follow on Twitter
                   </a>
@@ -257,7 +308,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     href="https://github.com/christianonoh" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-accent hover:text-accent-dark text-sm transition-colors duration-200"
+                    className="text-accent-dark dark:text-accent hover:text-accent-dark text-sm transition-colors duration-200"
                   >
                     GitHub
                   </a>
@@ -273,14 +324,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
 
               {/* Related posts placeholder */}
-              <div className="p-6 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
+              <div className="p-6 bg-white/20 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
                 <h3 className="text-lg font-semibold text-dark dark:text-light mb-3">
                   More Articles
                 </h3>
                 <div className="space-y-3">
                   <Link 
                     href="/blog"
-                    className="block text-sm text-gray-600 dark:text-gray-400 hover:text-accent transition-colors duration-200"
+                    className="block text-sm text-gray-600 dark:text-gray-400 text-accent-dark dark:text-accent transition-colors duration-200"
                   >
                     View all blog posts →
                   </Link>
