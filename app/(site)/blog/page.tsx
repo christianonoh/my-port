@@ -5,10 +5,14 @@ import BlogCard from "@/components/blog/BlogCard";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import NewsletterBanner from "@/components/shared/NewsletterBanner";
 import { Metadata } from "next";
+import siteMetadata from "@/utils/siteMetaData";
 
 export const metadata: Metadata = {
   title: "Blog",
   description: "Read my latest thoughts on web development, technology, and career insights.",
+  alternates: {
+    canonical: `${siteMetadata.siteUrl}/blog`,
+  },
 };
 
 export default async function BlogPage() {

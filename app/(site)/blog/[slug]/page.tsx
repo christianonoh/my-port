@@ -9,6 +9,7 @@ import NewsletterBanner from "@/components/shared/NewsletterBanner";
 import MarkdownRenderer from "@/components/blog/MarkdownRenderer";
 import { Metadata } from "next";
 import { urlForImage } from "@/sanity/sanity.image";
+import siteMetadata from "@/utils/siteMetaData";
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -27,20 +28,40 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPost(slug);
-  
+
   if (!post) {
     return {
       title: "Post not found",
     };
   }
 
+  const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`;
+  const imageUrl = post.coverImage?.image
+    ? urlForImage(post.coverImage.image)?.width(1200).height(630).url() || ""
+    : siteMetadata.socialBanner;
+
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
+      type: "article",
+      url: postUrl,
       title: post.title,
       description: post.excerpt,
-      images: post.coverImage?.image ? [urlForImage(post.coverImage.image)?.width(1200).height(630).url() || ""] : [],
+      images: [imageUrl],
+      publishedTime: post.publishedAt,
+      authors: [siteMetadata.author],
+      tags: post.tags || [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [imageUrl],
+      creator: "@onohchristian",
     },
   };
 }
@@ -172,8 +193,49 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     day: "numeric",
   });
 
+  const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`;
+  const imageUrl = post.coverImage?.image
+    ? urlForImage(post.coverImage.image)?.width(1200).height(630).url() || ""
+    : siteMetadata.socialBanner;
+
+  // JSON-LD structured data for SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: imageUrl,
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt, // Use _updatedAt when available
+    author: {
+      "@type": "Person",
+      name: siteMetadata.author,
+      url: siteMetadata.siteUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteMetadata.title,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteMetadata.siteUrl}${siteMetadata.siteLogo}`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": postUrl,
+    },
+    keywords: post.tags?.join(", ") || "",
+    articleSection: post.category || "Technology",
+    ...(post.readingTime && { timeRequired: `PT${post.readingTime}M` }),
+  };
+
   return (
     <Transition>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-8 md:py-16">
         {/* Mobile-optimized navigation */}
         <div className="mb-6 md:mb-8">
