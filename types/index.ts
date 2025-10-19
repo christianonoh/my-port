@@ -73,3 +73,21 @@ export interface SubscriberType extends Base {
   unsubscribedAt?: string;
   source?: string;
 }
+
+export interface BlogPostType extends Base {
+  title: string;
+  slug: string;
+  excerpt?: string;
+  coverImage?: {
+    alt: string;
+    image: any;
+  };
+  contentType: 'richtext' | 'markdown';
+  content?: PortableTextBlock[];
+  markdownContent?: string;
+  category?: string;
+  tags?: string[];
+  publishedAt: string;
+  featured?: boolean;
+  readingTime?: number;
+}

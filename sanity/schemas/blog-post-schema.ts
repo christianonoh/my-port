@@ -45,9 +45,25 @@ const blogPostSchema = defineType({
       ],
     }),
     defineField({
+      name: "contentType",
+      title: "Content Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Rich Text Editor", value: "richtext" },
+          { title: "Markdown", value: "markdown" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "richtext",
+      validation: (rule) => rule.required(),
+      description: "Choose how you want to edit the content for this post",
+    }),
+    defineField({
       name: "content",
-      title: "Content",
+      title: "Rich Text Content",
       type: "array",
+      hidden: ({ document }) => document?.contentType !== "richtext",
       of: [
         {
           type: "block",
@@ -110,7 +126,18 @@ const blogPostSchema = defineType({
             ],
           },
         },
+        {
+          type: "table",
+        },
       ],
+    }),
+    defineField({
+      name: "markdownContent",
+      title: "Markdown Content",
+      type: "text",
+      rows: 20,
+      hidden: ({ document }) => document?.contentType !== "markdown",
+      description: "Write your content using Markdown syntax. Supports GFM (tables, footnotes, task lists, etc.). Use the Preview tab to see the rendered output.",
     }),
     defineField({
       name: "category",
