@@ -85,14 +85,14 @@ const components = {
       </div>
     ),
     code: ({ value }: any) => (
-      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-6">
+      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-6 max-w-full">
         <code className={`language-${value.language || 'javascript'}`}>
           {value.code}
         </code>
       </pre>
     ),
     table: ({ value }: any) => (
-      <div className="my-8 overflow-x-auto rounded-xl shadow-sm">
+      <div className="my-8 overflow-x-auto rounded-xl shadow-sm max-w-full">
         <table className="min-w-full">
           {value.rows && value.rows.length > 0 && (
             <>
@@ -236,7 +236,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-8 md:py-16">
+      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-8 md:py-16 overflow-x-hidden">
         {/* Mobile-optimized navigation */}
         <div className="mb-6 md:mb-8">
           <Link
@@ -252,11 +252,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Main Content */}
-          <article className="lg:col-span-8">
+          <article className="lg:col-span-8 min-w-0">
             <header className="mb-8 md:mb-12">
               {/* Mobile-optimized cover image */}
               {post.coverImage?.image && (
-                <div className="mb-6 md:mb-8 -mx-6 md:mx-0">
+                <div className="mb-6 md:mb-8 -mx-6 md:mx-0 overflow-hidden">
                   <Image
                     src={urlForImage(post.coverImage.image)?.url() || ""}
                     alt={post.coverImage.alt || post.title}
@@ -321,13 +321,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.contentType === "markdown" && post.markdownContent ? (
               <MarkdownRenderer content={post.markdownContent} />
             ) : (
-              <div className="prose prose-sm md:prose-lg dark:prose-invert max-w-none
+              <div className="prose prose-sm md:prose-lg dark:prose-invert max-w-none overflow-x-hidden
                              prose-headings:text-dark dark:prose-headings:text-light
                              prose-p:text-gray-700 dark:prose-p:text-gray-300
                              prose-p:leading-relaxed prose-li:text-gray-700 dark:prose-li:text-gray-300
                              prose-a:text-accent prose-a:no-underline hover:prose-a:underline
                              prose-code:text-accent prose-code:bg-gray-100 dark:prose-code:bg-gray-800
                              prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800
+                             prose-pre:overflow-x-auto prose-pre:max-w-full
                              prose-blockquote:border-accent prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400">
                 <PortableText value={post.content} components={components} />
               </div>

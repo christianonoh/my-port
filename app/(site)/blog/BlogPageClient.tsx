@@ -33,7 +33,7 @@ export default function BlogPageClient({
   initialFeaturedPosts,
 }: BlogPageClientProps) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const handleRefresh = async () => {
     // Small delay to show the refresh animation

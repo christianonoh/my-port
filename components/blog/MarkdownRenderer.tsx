@@ -48,7 +48,7 @@ function CodeBlock({ children }: { children: React.ReactNode }) {
           <Copy className="w-4 h-4 text-gray-300" />
         )}
       </button>
-      <pre className="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto my-6 shadow-sm">
+      <pre className="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto my-6 shadow-sm max-w-full">
         {children}
       </pre>
     </div>
@@ -57,7 +57,7 @@ function CodeBlock({ children }: { children: React.ReactNode }) {
 
 export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <article className="prose prose-sm sm:prose-lg prose-slate dark:prose-invert max-w-none prose-table:m-0 prose-table:border-collapse prose-thead:bg-transparent prose-th:border-0 prose-td:border-0 prose-tr:border-0">
+    <article className="prose prose-sm sm:prose-lg prose-slate dark:prose-invert max-w-none overflow-x-hidden prose-table:m-0 prose-table:border-collapse prose-thead:bg-transparent prose-th:border-0 prose-td:border-0 prose-tr:border-0">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeHighlight]}
@@ -92,30 +92,17 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
           // Code - handle inline code and code block content
           code: ({ node, inline, className, children, ...props }: any) => {
             const isInlineCode = inline === true || !className;
-  
-  // Debug log
-  console.log('Code component:', { 
-    isInlineCode, 
-    inline, 
-    className, 
-    children,
-    childrenType: typeof children 
-  });
-  
-  const cleanChildren = typeof children === 'string' 
-    ? children.replace(/^`+|`+$/g, '') 
-    : children;
-  
-  if (isInlineCode) {
-    return (
-      <code
-        className="bg-slate-100 dark:bg-slate-800 rounded px-1.5 py-0.5 text-[90%] font-mono text-slate-700 dark:text-slate-300 font-normal"
-        {...props}
-      >
-        {cleanChildren}
-      </code>
-    );
-  }
+
+            if (isInlineCode) {
+              return (
+                <code
+                  className="bg-slate-100 dark:bg-slate-800 rounded px-1.5 py-0.5 text-[90%] font-mono text-slate-700 dark:text-slate-300 font-normal"
+                  {...props}
+                >
+                  {children}
+                </code>
+              );
+            }
 
             // Code block content (triple backticks, wrapped by pre above)
             return (
@@ -138,7 +125,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           // Tables (GFM) - Completely override prose styles
           table: ({ children }) => (
-            <div className="not-prose my-8 overflow-x-auto rounded-xl shadow-lg border border-gray-200/30 dark:border-gray-700/30">
+            <div className="not-prose my-8 overflow-x-auto rounded-xl shadow-lg border border-gray-200/30 dark:border-gray-700/30 max-w-full">
               <table className="min-w-full border-collapse">{children}</table>
             </div>
           ),
