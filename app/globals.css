@@ -77,3 +77,8 @@ h3 {
 .prose li::marker {
   @apply !text-gray-dark dark:!text-gray;
 }
+
+.prose code::before,
+.prose code::after {
+  content: none !important;
+}

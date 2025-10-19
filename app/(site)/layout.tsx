@@ -1,4 +1,5 @@
 import "../globals.css";
+import "highlight.js/styles/atom-one-dark.css";
 import type { Metadata, Viewport } from "next";
 import { Inter, Rubik, Outfit } from "next/font/google";
 import Footer from "../../components/shared/Footer";
