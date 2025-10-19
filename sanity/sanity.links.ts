@@ -11,6 +11,8 @@ export const resolveHref = (
       return '/about'
     case 'project':
       return slug ? `/projects/${slug}` : undefined
+    case 'blogPost':
+      return slug ? `/blog/${slug}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined
