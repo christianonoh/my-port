@@ -2,6 +2,7 @@ import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 import { visionTool } from "@sanity/vision";
 import { codeInput } from "@sanity/code-input";
+import { table } from "@sanity/table";
 import { schemaTypes } from "./sanity/schemas";
 import { myTheme } from "./theme";
 import StudioNavbar from "./components/shared/StudioNavbar";
@@ -15,13 +16,15 @@ import {
 } from "@/sanity/sanity.api";
 
 export const PREVIEWABLE_DOCUMENT_TYPES = [
-  schemaTypes[0].name,
-  schemaTypes[1].name,
-  schemaTypes[2].name,
+  'profile',
+  'work',
+  'project',
+  'blogPost',
 ] satisfies string[];
 
 export const PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS = [
-  schemaTypes[2].name,
+  'project',
+  'blogPost',
 ] satisfies typeof PREVIEWABLE_DOCUMENT_TYPES;
 
 // Used to generate URLs for drafts and live previews
@@ -30,17 +33,19 @@ export const PREVIEW_BASE_URL = "/api/draft";
 // URL resolver function for the iframe preview
 export const urlResolver = (document: any) => {
   if (!document?._type) return undefined;
-  
+
   const slug = document.slug?.current;
   if (PREVIEWABLE_DOCUMENT_TYPES_REQUIRING_SLUGS.includes(document._type) && !slug) {
     return new Error('Missing slug');
   }
-  
+
+  const secret = process.env.NEXT_PUBLIC_SANITY_PREVIEW_SECRET || 'eWII6Cce1f001OF3m6mrBIGZ5pSoaWfZvxf0ViJHmsYxdtcALic8MFGNevudOJoUIXAXwUefBun1uB1744KS8';
+
   const params = new URLSearchParams();
   params.set('type', document._type);
-  params.set('secret', process.env.SANITY_PREVIEW_SECRET || '');
+  params.set('secret', secret);
   if (slug) params.set('slug', slug);
-  
+
   return `${PREVIEW_BASE_URL}?${params.toString()}`;
 };
 
@@ -78,6 +83,7 @@ const config = defineConfig({
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
     // singletonPlugin([home.name, settings.name]),
     codeInput(),
+    table(),
     visionTool({ defaultApiVersion: apiVersion }),
   ],
 
