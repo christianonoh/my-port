@@ -27,7 +27,7 @@ export default function FeaturedBlogCard({ post }: FeaturedBlogCardProps) {
   });
 
   return (
-    <article className="group relative bg-white dark:bg-dark rounded-lg shadow-md hover:shadow-lg dark:shadow-gray-800/20 transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+    <article className="group relative bg-white dark:bg-dark rounded-lg shadow-md hover:shadow-lg hover:shadow-accent/10 dark:shadow-gray-800/20 transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-accent/50">
       <Link href={`/blog/${post.slug}`} className="flex flex-col sm:flex-row h-full">
         {post.coverImage?.image && (
           <div className="sm:w-2/5 aspect-video sm:aspect-square overflow-hidden">

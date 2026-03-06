@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Custom Properties for animation timing */
+:root {
+  --animation-duration: 0.5s;
+  --animation-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --accent-rgb: 182, 140, 255;
+}
+
 @keyframes slide-up {
   from {
     transform: translateY(100px);
@@ -17,20 +24,36 @@
   animation: slide-up 0.5s ease-out;
 }
 
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body,
 header,
 .height__screen {
   background-image: url("/bg.svg");
 }
 
-.prose strong {
-  @apply dark:text-gray-light text-dark;
+/* Typography hierarchy */
+h1 {
+  @apply !font-outfit;
 }
 
-h1,
 h2,
 h3 {
   @apply !font-rubik;
+}
+
+.prose strong {
+  @apply dark:text-gray-light text-dark;
 }
 
 .nav__item > .active {
@@ -81,4 +104,19 @@ h3 {
 .prose code::before,
 .prose code::after {
   content: none !important;
+}
+
+/* Accent glow utility */
+.shadow-accent-glow {
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+}
+
+/* Gradient text utility */
+.text-gradient-accent {
+  @apply bg-gradient-to-r from-accent to-accent-dark bg-clip-text text-transparent;
+}
+
+/* Section divider */
+.section-divider {
+  @apply w-20 h-1 bg-gradient-to-r from-accent to-accent-dark rounded-full;
 }

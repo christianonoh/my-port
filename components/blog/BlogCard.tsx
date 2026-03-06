@@ -28,7 +28,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
   });
 
   return (
-    <article className="group bg-white dark:bg-dark rounded-lg shadow-md hover:shadow-lg dark:shadow-gray-800/20 transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+    <article className="group bg-white dark:bg-dark rounded-lg shadow-md hover:shadow-lg dark:shadow-gray-800/20 transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-l-accent hover:border-l-4">
       <Link href={`/blog/${post.slug}`}>
         {post.coverImage?.image && (
           <div className="aspect-video overflow-hidden">

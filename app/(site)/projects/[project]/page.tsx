@@ -1,14 +1,17 @@
 import AnimatedText from "@/components/shared/AnimatedText";
 import ProjectBlockText from "@/components/project/ProjectBlockText";
-import { getProject, sanityFetch } from "@/sanity/sanity.fetch";
+import { getProject, getRelatedProjects, sanityFetch } from "@/sanity/sanity.fetch";
 import Image from "next/image";
+import Link from "next/link";
 import siteMetadata from "@/utils/siteMetaData";
 import { urlForImage } from "@/sanity/sanity.image";
 import { notFound } from "next/navigation";
 import { ProjectType } from "@/types";
 import { groq } from "next-sanity";
 import Transition from "@/components/shared/Transition";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 import NewsletterBanner from "@/components/shared/NewsletterBanner";
+import { ExternalLink, Github } from "lucide-react";
 
 type Props = {
   params: Promise<{
@@ -72,7 +75,6 @@ export async function generateStaticParams() {
   const query = groq`*[_type == "post" && defined(slug.current)][]{
    "slug": slug.current
   }`;
-  // Important, use the plain Sanity Client here
   const projects = await sanityFetch<ProjectType[] | []>({
     query: query,
     tags: ["project"],
@@ -83,91 +85,183 @@ export async function generateStaticParams() {
 
 const Project = async ({ params }: Props) => {
   const { project: slug } = await params;
-  const project = await getProject(slug);
+  const [project, relatedProjects] = await Promise.all([
+    getProject(slug),
+    getRelatedProjects(slug),
+  ]);
 
   if (!project) {
     notFound();
   }
+
+  const sections = [
+    { num: "01", title: "Overview", content: project.summary },
+    { num: "02", title: "Problem Statement", content: project.problemStatement },
+    { num: "03", title: "Features", content: project.features },
+    { num: "04", title: "Milestones", content: project.milestone },
+  ].filter((s) => s.content);
+
   return (
     <Transition>
-      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-16">
-        <div className="max-w-3xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <AnimatedText
-              text={project.title}
-              className=" lg:!text-6xl sm:!text-4xl md:!text-5xl  !text-3xl lg:leading-relaxed leading-relaxed text-left max-w-xl"
-            />
-
-            <span>
-              <a
-                href={project.projectUrl}
-                rel="noreferrer noopener"
-                target="_blank"
-                aria-label="View Live Project"
-                className="dark:bg-dark dark:text-white dark:hover:border-gray-dark bg-light
-                text-gray-dark
-                hover:border-gray-light border border-transparent rounded-md px-4 py-2 shadow-sm"
-              >
-                Explore
-              </a>
-            </span>
-          </div>
-          <div className="relative w-full h-40 pt-[52.5%]">
+      <main>
+        {/* Hero banner */}
+        <div className="relative w-full h-[40vh] md:h-[50vh] overflow-hidden">
+          {project.coverImage?.image && (
             <Image
-              className="border rounded-xl border-zinc-800 object-cover object-top w-full h-full"
+              className="object-cover object-top w-full h-full"
               fill
-              placeholder="blur"
               priority
-              src={project.coverImage?.image.url}
-              alt={project.coverImage?.alt || project.title}
-              blurDataURL={project.coverImage?.image?.metadata.lqip}
-              sizes="@media (max-width: 840px) 100vw, 840px"
+              placeholder="blur"
+              src={project.coverImage.image.url}
+              alt={project.coverImage.alt || project.title}
+              blurDataURL={project.coverImage.image?.metadata?.lqip}
+              sizes="100vw"
             />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-dark/20" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-16 max-w-7xl mx-auto">
+            <p className="text-accent font-medium mb-2 font-outfit">{project.tagline}</p>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold font-outfit text-white mb-4">
+              {project.title}
+            </h1>
+            <div className="flex gap-3">
+              {project.projectUrl && (
+                <a
+                  href={project.projectUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-accent-dark text-white rounded-lg transition-colors duration-300 font-medium text-sm"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Live Demo
+                </a>
+              )}
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors duration-300 font-medium text-sm backdrop-blur-sm"
+                >
+                  <Github className="w-4 h-4" />
+                  Source Code
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            {/* Main content */}
+            <div className="lg:col-span-8">
+              {sections.map((section, index) => (
+                <ScrollReveal key={section.num} delay={index * 0.1}>
+                  <ProjectBlockText
+                    title={section.title}
+                    content={section.content}
+                    sectionNumber={section.num}
+                  />
+                </ScrollReveal>
+              ))}
+            </div>
+
+            {/* Sidebar - Quick Facts */}
+            <aside className="lg:col-span-4">
+              <div className="lg:sticky lg:top-24 space-y-6">
+                {/* Tech stack */}
+                {project.stack && (
+                  <ScrollReveal direction="right">
+                    <div className="p-6 rounded-xl border border-gray-light dark:border-gray-dark bg-light/50 dark:bg-dark/50">
+                      <h3 className="text-lg font-semibold font-rubik dark:text-light text-dark mb-4">
+                        Tech Stack
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {project.stack.map((tech: any) => (
+                          <span
+                            key={tech.key}
+                            className="text-sm font-medium px-3 py-1.5 rounded-lg bg-accent/10 text-accent dark:text-accent-light"
+                          >
+                            {tech.key}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </ScrollReveal>
+                )}
+
+                {/* Links */}
+                <ScrollReveal direction="right" delay={0.1}>
+                  <div className="p-6 rounded-xl border border-gray-light dark:border-gray-dark bg-light/50 dark:bg-dark/50">
+                    <h3 className="text-lg font-semibold font-rubik dark:text-light text-dark mb-4">
+                      Links
+                    </h3>
+                    <div className="space-y-3">
+                      {project.projectUrl && (
+                        <a
+                          href={project.projectUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-accent hover:text-accent-dark transition-colors duration-200"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Live Project
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-accent hover:text-accent-dark transition-colors duration-200"
+                        >
+                          <Github className="w-4 h-4" />
+                          Source Code
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </ScrollReveal>
+              </div>
+            </aside>
           </div>
 
-          {project.summary && (
-            <ProjectBlockText title="Summary" content={project.summary} />
-          )}
-          {project.problemStatement && (
-            <ProjectBlockText
-              title="Problem Statement"
-              content={project.problemStatement}
-            />
-          )}
-
-          {project.stack && (
-            <div className="flex flex-col mt-8 mb-4">
-              <a href="#tech-stack" aria-label="Tech Stack">
-                <h3
-                  className="capitalize headlink font-semibold text-2xl mt-12 "
-                  id="tech-stack"
-                >
-                  Tech Stack
-                </h3>
-              </a>
-              <div className="flex flex-col mt-4 md:mt-6 prose prose-sm sm:prose-lg leading-7 gap-y-6">
-                <ul>
-                  {project.stack.map((tech: any) => (
-                    <li key={tech.key}>
-                      <span className="font-semibold dark:text-accent text-accent-dark whitespace-nowrap ">
-                        {tech.key}:
-                      </span>
-                      <span className=" dark:text-gray text-gray-dark">
-                        {" "}
-                        {tech.value}
-                      </span>
-                    </li>
+          {/* More Projects */}
+          {relatedProjects && relatedProjects.length > 0 && (
+            <ScrollReveal>
+              <section className="mt-16 pt-12 border-t border-gray-light dark:border-gray-dark">
+                <h2 className="text-2xl md:text-3xl font-bold font-outfit dark:text-light text-dark mb-8">
+                  More Projects
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {relatedProjects.slice(0, 3).map((related) => (
+                    <Link
+                      key={related._id}
+                      href={`/projects/${related.slug}`}
+                      className="group p-4 rounded-xl border border-gray-light dark:border-gray-dark hover:border-accent/50 dark:hover:border-accent/50 hover:shadow-accent-glow transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-3 mb-2">
+                        {related.logo && (
+                          <Image
+                            src={related.logo}
+                            width={40}
+                            height={40}
+                            alt={related.title}
+                            className="rounded-md"
+                          />
+                        )}
+                        <h3 className="font-semibold dark:text-light text-dark group-hover:text-accent transition-colors duration-200">
+                          {related.title}
+                        </h3>
+                      </div>
+                      <p className="text-sm text-gray-dark dark:text-gray line-clamp-2">
+                        {related.tagline}
+                      </p>
+                    </Link>
                   ))}
-                </ul>
-              </div>
-            </div>
-          )}
-
-          {project.features && (
-            <ProjectBlockText title="Features" content={project.features} />
-          )}
-          {project.milestone && (
-            <ProjectBlockText title="Milestones" content={project.milestone} />
+                </div>
+              </section>
+            </ScrollReveal>
           )}
         </div>
       </main>

@@ -4,7 +4,14 @@ import {
   profileGroq,
   worksGroq,
   projectsGroq,
+  featuredProjectsGroq,
+  projectCountGroq,
+  blogCountGroq,
   projectGroq,
+  relatedProjectsGroq,
+  testimonialsGroq,
+  faqsGroq,
+  servicesGroq,
   technologiesGroq,
   educationGroq,
   skillsGroq,
@@ -97,6 +104,63 @@ export const getProfile = () => {
   return sanityFetchWithDraftMode<ProfileType[] | null>({
     query: profileGroq,
     tags: ["profile"],
+  });
+};
+
+// Get featured projects
+export const getFeaturedProjects = () => {
+  return sanityFetchWithDraftMode<ProjectType[] | null>({
+    query: featuredProjectsGroq,
+    tags: ["project"],
+  });
+};
+
+// Get project count
+export const getProjectCount = () => {
+  return sanityFetch<number>({
+    query: projectCountGroq,
+    tags: ["project"],
+  });
+};
+
+// Get blog post count
+export const getBlogPostCount = () => {
+  return sanityFetch<number>({
+    query: blogCountGroq,
+    tags: ["blogPost"],
+  });
+};
+
+// Get related projects (excluding current slug)
+export const getRelatedProjects = (slug: string) => {
+  return sanityFetchWithDraftMode<ProjectType[] | null>({
+    query: relatedProjectsGroq,
+    params: { slug },
+    tags: ["project"],
+  });
+};
+
+// Get testimonials
+export const getTestimonials = () => {
+  return sanityFetch<any[] | null>({
+    query: testimonialsGroq,
+    tags: ["testimonial"],
+  });
+};
+
+// Get FAQs
+export const getFaqs = () => {
+  return sanityFetch<any[] | null>({
+    query: faqsGroq,
+    tags: ["faq"],
+  });
+};
+
+// Get services
+export const getServices = () => {
+  return sanityFetch<any[] | null>({
+    query: servicesGroq,
+    tags: ["service"],
   });
 };
 

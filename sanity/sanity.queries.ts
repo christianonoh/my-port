@@ -34,11 +34,29 @@ const projectsGroq = `*[_type == "project"]{
     tagline,
     "slug": slug.current,
     "logo": logo.asset->url,
+    coverImage { alt, "image": asset-> },
     "stack": stack[]{
       "key": key->title,
       "value": value
     },
   } | order(title asc)`;
+
+const featuredProjectsGroq = `*[_type == "project"] | order(_createdAt desc)[0...4]{
+    _id,
+    title,
+    tagline,
+    "slug": slug.current,
+    "logo": logo.asset->url,
+    coverImage { alt, "image": asset-> },
+    "stack": stack[]{
+      "key": key->title,
+      "value": value
+    },
+  }`;
+
+const projectCountGroq = `count(*[_type == "project"])`;
+
+const blogCountGroq = `count(*[_type == "blogPost"])`;
 
 const projectGroq = `
   *[_type == "project" && slug.current == $slug][0]{
@@ -168,11 +186,59 @@ const activeSubscribersGroq = `
   source
 } | order(subscribedAt desc)`;
 
+const testimonialsGroq = `
+*[_type == "testimonial" && featured == true]{
+  _id,
+  quote,
+  author,
+  role,
+  company,
+  "avatar": avatar.asset->url,
+} | order(_createdAt desc)`;
+
+const faqsGroq = `
+*[_type == "faq"]{
+  _id,
+  question,
+  answer,
+  order,
+  category,
+} | order(order asc)`;
+
+const servicesGroq = `
+*[_type == "service"]{
+  _id,
+  title,
+  description,
+  icon,
+  order,
+} | order(order asc)`;
+
+const relatedProjectsGroq = `*[_type == "project" && slug.current != $slug] | order(_createdAt desc)[0...3]{
+    _id,
+    title,
+    tagline,
+    "slug": slug.current,
+    "logo": logo.asset->url,
+    coverImage { alt, "image": asset-> },
+    "stack": stack[]{
+      "key": key->title,
+      "value": value
+    },
+  }`;
+
 export {
   profileGroq,
   worksGroq,
   projectsGroq,
+  featuredProjectsGroq,
+  projectCountGroq,
+  blogCountGroq,
   projectGroq,
+  relatedProjectsGroq,
+  testimonialsGroq,
+  faqsGroq,
+  servicesGroq,
   technologiesGroq,
   educationGroq,
   skillsGroq,

@@ -74,6 +74,29 @@ export interface SubscriberType extends Base {
   source?: string;
 }
 
+export interface TestimonialType extends Base {
+  quote: string;
+  author: string;
+  role?: string;
+  company?: string;
+  avatar?: string;
+  featured?: boolean;
+}
+
+export interface FAQType extends Base {
+  question: string;
+  answer: string;
+  order?: number;
+  category?: string;
+}
+
+export interface ServiceType extends Base {
+  title: string;
+  description: string;
+  icon?: string;
+  order?: number;
+}
+
 export interface BlogPostType extends Base {
   title: string;
   slug: string;
