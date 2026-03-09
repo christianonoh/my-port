@@ -22,27 +22,28 @@ export const Hamburger = ({
 }) => {
   return (
     <button
-      aria-label="Hamburger Menu Toggle Button"
+      aria-label={toggled ? "Close menu" : "Open menu"}
+      aria-expanded={toggled}
       className="z-50 p-2 rounded-full hover:bg-gray/10 dark:hover:bg-light/10 sm:hidden transition-all duration-300 ease-in-out"
       onClick={() => handleToggle(toggled)}
     >
-      <div className="flex flex-col justify-center w-6 h-6 transition-all duration-300 cursor-pointer ease">
+      <div className="flex flex-col justify-center w-4 h-4 transition-all duration-300 cursor-pointer ease">
         <div className="flex flex-col justify-between h-4">
           <span
             style={{
               transform: toggled ? "rotate(-45deg) translate(-5px, 5px)" : "",
             }}
-            className="w-full transition-all duration-200 rounded h-0.5 bg-dark dark:bg-light ease"
+            className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
           />
           <span
             style={{ opacity: toggled ? 0 : 1 }}
-            className="w-full transition-all duration-200 rounded h-0.5 bg-dark dark:bg-light ease"
+            className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
           />
           <span
             style={{
               transform: toggled ? "rotate(45deg) translate(-5px, -5px)" : "",
             }}
-            className="w-full transition-all duration-200 rounded h-0.5 bg-dark dark:bg-light ease"
+            className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
           />
         </div>
       </div>

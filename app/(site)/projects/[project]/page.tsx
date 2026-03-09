@@ -238,7 +238,7 @@ const Project = async ({ params }: Props) => {
                     <Link
                       key={related._id}
                       href={`/projects/${related.slug}`}
-                      className="group p-4 rounded-xl border border-gray-light dark:border-gray-dark hover:border-accent/50 dark:hover:border-accent/50 hover:shadow-accent-glow transition-all duration-300"
+                      className="group p-4 rounded-xl border border-gray-light dark:border-gray-dark hover:border-accent/30 dark:hover:border-accent/30 transition-colors duration-300"
                     >
                       <div className="flex items-center gap-3 mb-2">
                         {related.logo && (

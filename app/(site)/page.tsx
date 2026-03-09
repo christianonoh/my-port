@@ -10,13 +10,13 @@ import {
 import Transition from "@/components/shared/Transition";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServicesSection";
-import CredibilityMetrics from "@/components/home/CredibilityMetrics";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
 import AboutSnippet from "@/components/home/AboutSnippet";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import FAQSection from "@/components/home/FAQSection";
 import BlogPreview from "@/components/home/BlogPreview";
 import ContactCTA from "@/components/home/ContactCTA";
+import FloatingImageLayout from "@/components/home/FloatingImageLayout";
 
 export default async function Home() {
   const [
@@ -42,16 +42,22 @@ export default async function Home() {
   return (
     <Transition>
       <main>
-        {profileData && <HeroSection profile={profileData} />}
-        <ServicesSection />
-        <CredibilityMetrics
-          projectCount={projectCount || 0}
-          blogCount={blogCount || 0}
-        />
+        {profileData && (
+          <FloatingImageLayout profile={profileData}>
+            <HeroSection profile={profileData} />
+            <ServicesSection />
+            <AboutSnippet
+              profile={profileData}
+              projectCount={projectCount || 0}
+              blogCount={blogCount || 0}
+            />
+          </FloatingImageLayout>
+        )}
+
         {featuredProjects && featuredProjects.length > 0 && (
           <FeaturedProjects projects={featuredProjects} />
         )}
-        {profileData && <AboutSnippet profile={profileData} />}
+
         {testimonials && testimonials.length > 0 && (
           <TestimonialsSection testimonials={testimonials} />
         )}

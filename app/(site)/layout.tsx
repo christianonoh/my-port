@@ -12,6 +12,7 @@ import siteMetadata from "@/utils/siteMetaData";
 import Script from "next/script";
 import ContactMe from "@/components/shared/ContactMe";
 import { ThemeProvider } from "next-themes";
+import LenisProvider from "@/components/providers/LenisProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -106,12 +107,13 @@ export default async function RootLayout({
       <body
         className={`${inter.className} ${rubik.variable} ${outfit.variable} dark:bg-dark relative bg-light dark:text-light text-gray-dark flex text-base lg:text-base flex-col min-h-screen`}
       >
-        <ThemeProvider 
-          attribute="class" 
-          defaultTheme="system" 
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <LenisProvider>
           <Script
             async
             src="https://burgeranalytics.vercel.app/script.js"
@@ -126,6 +128,7 @@ export default async function RootLayout({
           )}
           <ContactMe />
           <Footer />
+          </LenisProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,71 +1,94 @@
 "use client";
 
-import { Code2, Layout, Server, Smartphone } from "lucide-react";
-import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
+import { useState } from "react";
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 
 const services = [
   {
-    icon: Layout,
     title: "Frontend Development",
     description:
-      "Building responsive, performant web interfaces with React, Next.js, and modern CSS frameworks.",
+      "Building responsive, performant web interfaces with React, Next.js, and modern CSS frameworks that deliver exceptional user experiences.",
   },
   {
-    icon: Server,
     title: "Backend Development",
     description:
-      "Designing scalable APIs and server architectures with Node.js, Ruby on Rails, and databases.",
+      "Designing scalable APIs and server architectures with Node.js, Ruby on Rails, and databases to power robust applications.",
   },
   {
-    icon: Smartphone,
     title: "Responsive Design",
     description:
-      "Crafting mobile-first experiences that look and work beautifully across all devices and screens.",
+      "Crafting mobile-first experiences that look and work beautifully across all devices and screens, ensuring accessibility for every user.",
   },
   {
-    icon: Code2,
     title: "Full-Stack Solutions",
     description:
-      "End-to-end application development from concept to deployment, with a focus on performance and UX.",
+      "End-to-end application development from concept to deployment, with a focus on performance, scalability, and great UX.",
   },
 ];
 
 export default function ServicesSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <section className="py-20 lg:py-28">
-      <div className="max-w-7xl mx-auto px-6 lg:px-16">
+    <section data-section="services" className="py-20 lg:py-24">
+      <div>
         <ScrollReveal>
-          <div className="text-center mb-12 lg:mb-16">
-            <p className="text-accent font-medium mb-3 font-outfit tracking-wide">
-              What I Do
-            </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-outfit dark:text-light text-dark">
-              Services & Expertise
-            </h2>
+          <div>
+            <div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-outfit uppercase dark:text-light text-dark mb-6">
+                What I Can Do For You
+              </h2>
+              <p className="text-gray-dark dark:text-gray leading-relaxed text-lg mb-10 max-w-lg">
+                As a full-stack developer, I transform ideas into polished, high-performance web applications that drive results and deliver great user experiences.
+              </p>
+
+              {/* Accordion services */}
+              <div className="divide-y divide-gray-light dark:divide-gray-dark border-t border-gray-light dark:border-gray-dark">
+                {services.map((service, index) => (
+                  <div key={service.title}>
+                    <button
+                      onClick={() => toggle(index)}
+                      className="w-full flex items-center justify-between py-5 text-left group"
+                    >
+                      <span className="text-xl md:text-2xl font-bold font-outfit uppercase dark:text-light text-dark tracking-wide">
+                        <span className="text-gray-dark dark:text-gray font-normal mr-2">
+                          {index + 1}.
+                        </span>
+                        {service.title}
+                      </span>
+                      {openIndex === index ? (
+                        <ChevronUp className="w-5 h-5 text-gray-dark dark:text-gray flex-shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-gray-dark dark:text-gray flex-shrink-0" />
+                      )}
+                    </button>
+                    <AnimatePresence>
+                      {openIndex === index && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <p className="text-gray-dark dark:text-gray leading-relaxed pb-5 pr-8">
+                            {service.description}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </ScrollReveal>
-
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service) => {
-            const Icon = service.icon;
-            return (
-              <StaggerItem key={service.title}>
-                <div className="group p-6 rounded-xl border border-gray-light dark:border-gray-dark hover:border-accent/50 dark:hover:border-accent/50 hover:shadow-accent-glow transition-all duration-300 h-full bg-light/50 dark:bg-dark/50 backdrop-blur-sm">
-                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors duration-300">
-                    <Icon className="w-6 h-6 text-accent" />
-                  </div>
-                  <h3 className="text-lg font-semibold font-rubik dark:text-light text-dark mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-gray-dark dark:text-gray leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
       </div>
     </section>
   );

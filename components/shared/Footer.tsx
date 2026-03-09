@@ -81,7 +81,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Connect on ${social.label}`}
-                    className="w-10 h-10 rounded-lg border border-gray-light dark:border-gray-dark flex items-center justify-center hover:border-accent dark:hover:border-accent hover:shadow-accent-glow transition-all duration-300"
+                    className="w-10 h-10 rounded-lg border border-gray-light dark:border-gray-dark flex items-center justify-center hover:border-accent dark:hover:border-accent transition-colors duration-300"
                   >
                     <Icon className="h-4 w-auto fill-dark dark:fill-light hover:fill-accent dark:hover:fill-accent transition-colors duration-300" />
                   </a>

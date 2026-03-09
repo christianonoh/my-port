@@ -1,3 +1,5 @@
+@import "lenis/dist/lenis.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,7 +8,7 @@
 :root {
   --animation-duration: 0.5s;
   --animation-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --accent-rgb: 182, 140, 255;
+  --accent-rgb: 167, 139, 250;
 }
 
 @keyframes slide-up {
@@ -54,14 +56,6 @@ h3 {
 
 .prose strong {
   @apply dark:text-gray-light text-dark;
-}
-
-.nav__item > .active {
-  @apply relative;
-}
-
-.nav__item > .active::before {
-  @apply absolute -bottom-4 left-0 w-full h-1 bg-accent-dark dark:bg-accent content-[''] transition-all ease-in-out duration-300;
 }
 
 .prose h1,
@@ -116,7 +110,3 @@ h3 {
   @apply bg-gradient-to-r from-accent to-accent-dark bg-clip-text text-transparent;
 }
 
-/* Section divider */
-.section-divider {
-  @apply w-20 h-1 bg-gradient-to-r from-accent to-accent-dark rounded-full;
-}

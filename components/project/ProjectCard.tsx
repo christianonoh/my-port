@@ -13,7 +13,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block rounded-xl overflow-hidden border border-gray-light dark:border-gray-dark hover:border-accent/50 dark:hover:border-accent/50 hover:shadow-accent-glow transition-all duration-300 bg-light dark:bg-dark"
+      className="group block rounded-xl overflow-hidden border border-gray-light dark:border-gray-dark hover:border-accent/30 dark:hover:border-accent/30 transition-colors duration-300 bg-light dark:bg-dark"
     >
       {/* Cover image */}
       <div className="relative aspect-video overflow-hidden bg-gray-light dark:bg-gray-dark">

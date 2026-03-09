@@ -10,15 +10,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "accent-dark": "#6d1b89",
-        "accent-light": "#d4b8ff",
-        "accent-glow": "rgba(182,140,255,0.3)",
-        dark: "rgb(24 24 27)",
-        light: "rgb(255 255 255)",
-        accent: "rgb(182, 140, 255)",
-        gray: "rgb(161 161 170)",
-        "gray-dark": "rgb(63 63 70)",
-        "gray-light": "rgb(228 228 231)",
+        dark: "#0F0F14",
+        light: "#FCFCFD",
+
+        accent: "#6D28D9",
+        "accent-dark": "#4C1D95",
+        "accent-light": "#E9DDFB",
+        "accent-glow": "rgba(109, 40, 217, 0.18)",
+
+        gray: "#8C8CA1",
+        "gray-dark": "#2A2A33",
+        "gray-light": "#E8E8EE",
       },
       animation: {
         "spin-slow": "spin 8s linear infinite",
@@ -37,8 +39,8 @@ const config: Config = {
         },
       },
       boxShadow: {
-        "accent-glow": "0 0 20px rgba(182,140,255,0.3)",
-        "accent-glow-lg": "0 0 40px rgba(182,140,255,0.4)",
+        "accent-glow": "0 0 20px rgba(167,139,250,0.3)",
+        "accent-glow-lg": "0 0 40px rgba(167,139,250,0.4)",
       },
       fontFamily: {
         rubik: ["var(--font-rubik)"],
