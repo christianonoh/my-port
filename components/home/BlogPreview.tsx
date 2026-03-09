@@ -22,15 +22,9 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-outfit dark:text-light text-dark">
               Latest Articles
             </h2>
-            {/* <Link
-              href="/blog"
-              className="group relative inline-flex items-center gap-1 sm:gap-3 px-4 sm:px-10 py-2 sm:py-4 rounded-full border border-accent text-accent-dark font-semibold text-sm uppercase tracking-[0.15em] font-outfit transition-all duration-500 hover:bg-accent-dark hover:text-[#111] hover:border-accent-glow hover:shadow-[0_0_30px_rgba(212,245,60,0.08)]"
-            >
-              All Posts
-              <ArrowRight className="w-4 h-4" />
-            </Link> */}
-
-            <PillButton href="/blog" arrow>All Posts</PillButton>
+            <div className="hidden md:block">
+              <PillButton href="/blog" arrow>All Posts</PillButton>
+            </div>
           </div>
         </ScrollReveal>
 
@@ -43,13 +37,7 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
         </StaggerContainer>
 
         <div className="mt-8 text-center sm:hidden">
-          <Link
-            href="/blog"
-            className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-full border border-accent text-accent-dark font-semibold text-sm uppercase tracking-[0.15em] font-outfit transition-all duration-500 hover:bg-accent-dark hover:text-[#111] hover:border-accent-glow hover:shadow-[0_0_30px_rgba(212,245,60,0.08)]"
-          >
-            All Posts
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <PillButton href="/blog" arrow>All Posts</PillButton>
         </div>
       </div>
     </section>

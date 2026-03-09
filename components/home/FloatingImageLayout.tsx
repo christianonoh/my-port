@@ -297,13 +297,13 @@ export default function FloatingImageLayout({
   return (
     <div
       ref={wrapperRef}
-      className="lg:flex lg:gap-8 max-w-7xl mx-auto px-6 lg:px-16 lg:-mb-[25vh]"
+      className="lg:flex lg:gap-8 max-w-7xl mx-auto px-6 lg:px-16 lg:-pt-16"
     >
       {/* Left column: content sections */}
       <div className="flex-1 min-w-0">                                                                                                                
         {children}                                                                                                                                    
         {/* Spacer gives the sticky card enough room to stay centered through the About section */}                                                   
-        <div className="hidden lg:block lg:h-[25vh]" aria-hidden="true" />                                                                            
+        {/* <div className="hidden lg:block lg:h-[25vh]" aria-hidden="true" />                                                                             */}
       </div> 
 
       {/* Right column: cinematic sticky card (desktop only) */}

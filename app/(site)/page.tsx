@@ -41,7 +41,7 @@ export default async function Home() {
 
   return (
     <Transition>
-      <main>
+      <main className=" my-20 lg:my-28">
         {profileData && (
           <FloatingImageLayout profile={profileData}>
             <HeroSection profile={profileData} />

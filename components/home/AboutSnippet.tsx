@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import Link from "next/link";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import { ProfileType } from "@/types";
+import PillButton from "../shared/PillButton";
 
+// ── Animated Counter ─────────────────────────────────────────────────
 interface MetricProps {
   value: number;
   label: string;
@@ -40,18 +41,17 @@ function AnimatedCounter({ value, label, suffix = "" }: MetricProps) {
   }, [isInView, value]);
 
   return (
-    <div ref={ref} className="text-left">
-      <div className="text-4xl md:text-5xl font-bold font-outfit text-accent">
+    <div ref={ref}>
+      <div className="text-3xl sm:text-4xl md:text-5xl font-bold font-outfit text-accent tabular-nums">
         {count}
         {suffix}
       </div>
-      <p className="text-sm text-gray-dark dark:text-gray mt-1 font-medium">
-        {label}
-      </p>
+      <p className="text-sm text-gray mt-1.5 font-medium">{label}</p>
     </div>
   );
 }
 
+// ── About Snippet ────────────────────────────────────────────────────
 interface AboutSnippetProps {
   profile: ProfileType;
   projectCount: number;
@@ -66,62 +66,83 @@ export default function AboutSnippet({
   yearsExperience = 4,
 }: AboutSnippetProps) {
   return (
-    <section data-section="about" className="py-20 lg:py-24">
-      <div>
-        <ScrollReveal>
-          <div>
-            <div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-outfit uppercase dark:text-light text-dark mb-6">
-                About Me
-              </h2>
-              <p className="text-gray-dark dark:text-gray leading-relaxed text-lg mb-10">
-                {profile.shortBio}
-              </p>
+    <section data-section="about" className="py-20 lg:py-28">
+      <ScrollReveal>
+        {/* Heading */}
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-outfit uppercase text-dark dark:text-light mb-6 leading-[1.05]">
+          About Me
+        </h2>
 
-              {/* Stats Row */}
-              <div className="flex gap-12 mb-10">
-                <AnimatedCounter value={yearsExperience} suffix="+" label="Years of Experience" />
-                <AnimatedCounter value={projectCount + 14} suffix="+" label="Completed Projects" />
-                <AnimatedCounter value={blogCount} label="Blog Posts" />
-              </div>
+        {/* Bio */}
+        <p className="text-gray leading-relaxed text-lg mb-12 max-w-lg">
+          {profile.shortBio}
+        </p>
 
-              {/* Contact Info */}
-              <div className="flex flex-wrap gap-8 mb-8">
-                <div>
-                  <span className="font-semibold dark:text-light text-dark">Email : </span>
-                  <span className="text-gray-dark dark:text-gray">{profile.email}</span>
-                </div>
-              </div>
+        {/* Stats — separated by a top border for structure */}
+        <div className="grid grid-cols-3 gap-6 sm:gap-10 mb-12 pt-8 border-t border-dark/[0.06] dark:border-light/[0.06]">
+          <AnimatedCounter
+            value={yearsExperience}
+            suffix="+"
+            label="Years of Experience"
+          />
+          <AnimatedCounter
+            value={projectCount + 14}
+            suffix="+"
+            label="Completed Projects"
+          />
+          <AnimatedCounter value={blogCount} label="Blog Posts" />
+        </div>
 
-              {/* Social Icons */}
-              <div className="flex gap-4 mb-10">
-                {Object.entries(profile.socialLinks)
-                  .sort()
-                  .map(([key, value]) => (
-                    <a
-                      key={key}
-                      href={value}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      aria-label={`Connect on ${key}`}
-                      className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-light dark:border-gray-dark hover:border-accent dark:hover:border-accent hover:text-accent transition-colors duration-300"
-                    >
-                      <i className={`fa-brands fa-${key} text-lg`} />
-                    </a>
-                  ))}
-              </div>
+        {/* Email + Socials */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6 mb-12">
+          {/* Email */}
+          <a
+            href={`mailto:${profile.email}`}
+            className="group flex items-center gap-3 text-sm"
+          >
+            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-accent/[0.08] dark:bg-accent/[0.12] text-accent shrink-0 transition-colors duration-300 group-hover:bg-accent group-hover:text-white">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M3 5l7 5 7-5M3 5v10h14V5H3z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="text-gray group-hover:text-dark dark:group-hover:text-light transition-colors duration-300">
+              {profile.email}
+            </span>
+          </a>
 
-              {/* CTA Button */}
-              <Link
-                href="/about"
-                className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-full border border-accent text-accent-dark font-semibold text-sm uppercase tracking-[0.15em] font-outfit transition-all duration-500 hover:bg-accent-dark hover:text-[#111] hover:border-accent-glow hover:shadow-[0_0_30px_rgba(212,245,60,0.08)]"
-              >
-                My Story
-              </Link>
-            </div>
+          {/* Divider */}
+          <span className="hidden sm:block w-px h-6 bg-dark/[0.08] dark:bg-light/[0.08]" />
+
+          {/* Social icons */}
+          <div className="flex items-center gap-3">
+            {Object.entries(profile.socialLinks)
+              .sort()
+              .map(([key, value]) => (
+                <a
+                  key={key}
+                  href={value}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  aria-label={`Connect on ${key}`}
+                  className="flex items-center justify-center w-10 h-10 rounded-full border border-dark/[0.08] dark:border-light/[0.08] text-gray hover:border-accent hover:text-accent hover:bg-accent/[0.04] dark:hover:bg-accent/[0.06] transition-all duration-300"
+                >
+                  <i className={`fa-brands fa-${key} text-base`} />
+                </a>
+              ))}
           </div>
-        </ScrollReveal>
-      </div>
+        </div>
+
+        {/* CTA */}
+        <PillButton href="/about" arrow>
+          My Story
+        </PillButton>
+      </ScrollReveal>
     </section>
   );
 }
