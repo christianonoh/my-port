@@ -1,5 +1,3 @@
-import AnimatedText from "@/components/shared/AnimatedText";
-import ProjectBlockText from "@/components/project/ProjectBlockText";
 import { getProject, getRelatedProjects, sanityFetch } from "@/sanity/sanity.fetch";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,8 +8,8 @@ import { ProjectType } from "@/types";
 import { groq } from "next-sanity";
 import Transition from "@/components/shared/Transition";
 import ScrollReveal from "@/components/motion/ScrollReveal";
-import NewsletterBanner from "@/components/shared/NewsletterBanner";
-import { ExternalLink, Github } from "lucide-react";
+import ProjectBlockText from "@/components/project/ProjectBlockText";
+import PillButton from "@/components/shared/PillButton";
 
 type Props = {
   params: Promise<{
@@ -104,35 +102,43 @@ const Project = async ({ params }: Props) => {
   return (
     <Transition>
       <main>
-        {/* Hero banner */}
-        <div className="relative w-full h-[40vh] md:h-[50vh] overflow-hidden">
-          {project.coverImage?.image && (
-            <Image
-              className="object-cover object-top w-full h-full"
-              fill
-              priority
-              placeholder="blur"
-              src={project.coverImage.image.url}
-              alt={project.coverImage.alt || project.title}
-              blurDataURL={project.coverImage.image?.metadata?.lqip}
-              sizes="100vw"
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-dark/20" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-16 max-w-7xl mx-auto">
-            <p className="text-accent font-medium mb-2 font-outfit">{project.tagline}</p>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold font-outfit text-white mb-4">
-              {project.title}
-            </h1>
-            <div className="flex gap-3">
+        {/* ── Hero: Title + Meta ───────────────────────────────────── */}
+        <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-20 pt-32 md:pt-40">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
+            {/* Left: Title block */}
+            <div>
+              {/* Eyebrow */}
+              <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-4">
+                Project
+              </span>
+
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold font-outfit text-dark dark:text-light mb-4 leading-[1.05]">
+                {project.title}
+              </h1>
+
+              <p className="text-gray text-base md:text-lg max-w-xl leading-relaxed">
+                {project.tagline}
+              </p>
+            </div>
+
+            {/* Right: Action buttons */}
+            <div className="flex items-center gap-3 shrink-0">
               {project.projectUrl && (
                 <a
                   href={project.projectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-accent-dark text-white rounded-lg transition-colors duration-300 font-medium text-sm"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 bg-accent hover:bg-accent-dark text-white rounded-full transition-all duration-300 font-semibold text-sm tracking-wide hover:scale-[1.03]"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M6 3h7v7M13 3L3 13"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                   Live Demo
                 </a>
               )}
@@ -141,9 +147,11 @@ const Project = async ({ params }: Props) => {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors duration-300 font-medium text-sm backdrop-blur-sm"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 bg-dark/[0.06] dark:bg-light/[0.08] hover:bg-dark/[0.1] dark:hover:bg-light/[0.14] text-dark dark:text-light rounded-full transition-all duration-300 font-semibold text-sm tracking-wide hover:scale-[1.03]"
                 >
-                  <Github className="w-4 h-4" />
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                  </svg>
                   Source Code
                 </a>
               )}
@@ -151,12 +159,44 @@ const Project = async ({ params }: Props) => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        {/* ── Screenshot Showcase ──────────────────────────────────── */}
+        {project.coverImage?.image && (
+          <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-20 mb-16 md:mb-20">
+            <div className="relative rounded-2xl overflow-hidden border border-dark/[0.06] dark:border-light/[0.06] shadow-[0_8px_60px_-12px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_60px_-12px_rgba(0,0,0,0.4)]">
+              {/* Browser chrome — frames screenshots as a real app */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-light dark:bg-dark/80 border-b border-dark/[0.06] dark:border-light/[0.06]">
+                <span className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
+                <span className="w-3 h-3 rounded-full bg-[#28C840]" />
+                {project.projectUrl && (
+                  <span className="ml-3 text-xs text-gray truncate max-w-xs">
+                    {project.projectUrl.replace(/^https?:\/\//, "")}
+                  </span>
+                )}
+              </div>
+
+              <Image
+                className="w-full h-auto"
+                width={1400}
+                height={900}
+                priority
+                placeholder="blur"
+                src={project.coverImage.image.url}
+                alt={project.coverImage.alt || project.title}
+                blurDataURL={project.coverImage.image?.metadata?.lqip}
+                sizes="(max-width: 1280px) 100vw, 1200px"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* ── Content Area ─────────────────────────────────────────── */}
+        <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-20 py-16 md:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             {/* Main content */}
             <div className="lg:col-span-8">
               {sections.map((section, index) => (
-                <ScrollReveal key={section.num} delay={index * 0.1}>
+                <ScrollReveal key={section.num} delay={index * 0.08}>
                   <ProjectBlockText
                     title={section.title}
                     content={section.content}
@@ -166,21 +206,21 @@ const Project = async ({ params }: Props) => {
               ))}
             </div>
 
-            {/* Sidebar - Quick Facts */}
+            {/* Sidebar */}
             <aside className="lg:col-span-4">
               <div className="lg:sticky lg:top-24 space-y-6">
                 {/* Tech stack */}
                 {project.stack && (
                   <ScrollReveal direction="right">
-                    <div className="p-6 rounded-xl border border-gray-light dark:border-gray-dark bg-light/50 dark:bg-dark/50">
-                      <h3 className="text-lg font-semibold font-rubik dark:text-light text-dark mb-4">
+                    <div className="p-6 rounded-2xl border border-dark/[0.06] dark:border-light/[0.06] bg-light/50 dark:bg-dark/50">
+                      <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-dark dark:text-light mb-4">
                         Tech Stack
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {project.stack.map((tech: any) => (
                           <span
                             key={tech.key}
-                            className="text-sm font-medium px-3 py-1.5 rounded-lg bg-accent/10 text-accent dark:text-accent-light"
+                            className="text-xs font-medium px-3 py-1.5 rounded-full bg-accent/[0.08] dark:bg-accent/[0.12] text-accent dark:text-accent-light border border-accent/[0.06] dark:border-accent/[0.1]"
                           >
                             {tech.key}
                           </span>
@@ -191,81 +231,167 @@ const Project = async ({ params }: Props) => {
                 )}
 
                 {/* Links */}
-                <ScrollReveal direction="right" delay={0.1}>
-                  <div className="p-6 rounded-xl border border-gray-light dark:border-gray-dark bg-light/50 dark:bg-dark/50">
-                    <h3 className="text-lg font-semibold font-rubik dark:text-light text-dark mb-4">
-                      Links
-                    </h3>
-                    <div className="space-y-3">
-                      {project.projectUrl && (
-                        <a
-                          href={project.projectUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-accent hover:text-accent-dark transition-colors duration-200"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Live Project
-                        </a>
-                      )}
-                      {project.githubUrl && (
-                        <a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-accent hover:text-accent-dark transition-colors duration-200"
-                        >
-                          <Github className="w-4 h-4" />
-                          Source Code
-                        </a>
-                      )}
+                {(project.projectUrl || project.githubUrl) && (
+                  <ScrollReveal direction="right" delay={0.1}>
+                    <div className="p-6 rounded-2xl border border-dark/[0.06] dark:border-light/[0.06] bg-light/50 dark:bg-dark/50">
+                      <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-dark dark:text-light mb-4">
+                        Links
+                      </h3>
+                      <div className="space-y-3">
+                        {project.projectUrl && (
+                          <a
+                            href={project.projectUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-center justify-between py-2.5 px-3 -mx-3 rounded-xl text-sm text-gray hover:text-accent hover:bg-accent/[0.04] dark:hover:bg-accent/[0.06] transition-all duration-300"
+                          >
+                            <span className="flex items-center gap-2.5">
+                              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                                <path
+                                  d="M6 3h7v7M13 3L3 13"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                              Live Project
+                            </span>
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                            >
+                              <path
+                                d="M3 8h10M9 4l4 4-4 4"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </a>
+                        )}
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-center justify-between py-2.5 px-3 -mx-3 rounded-xl text-sm text-gray hover:text-accent hover:bg-accent/[0.04] dark:hover:bg-accent/[0.06] transition-all duration-300"
+                          >
+                            <span className="flex items-center gap-2.5">
+                              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                              </svg>
+                              Source Code
+                            </span>
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                            >
+                              <path
+                                d="M3 8h10M9 4l4 4-4 4"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </a>
+                        )}
+                      </div>
                     </div>
+                  </ScrollReveal>
+                )}
+
+                {/* Back to projects */}
+                <ScrollReveal direction="right" delay={0.2}>
+                  <div className="pt-2">
+                    <PillButton href="/projects" arrow size="sm">
+                      All Projects
+                    </PillButton>
                   </div>
                 </ScrollReveal>
               </div>
             </aside>
           </div>
 
-          {/* More Projects */}
+          {/* ── Related Projects ──────────────────────────────────── */}
           {relatedProjects && relatedProjects.length > 0 && (
             <ScrollReveal>
-              <section className="mt-16 pt-12 border-t border-gray-light dark:border-gray-dark">
-                <h2 className="text-2xl md:text-3xl font-bold font-outfit dark:text-light text-dark mb-8">
-                  More Projects
-                </h2>
+              <section className="mt-20 pt-16 border-t border-dark/[0.06] dark:border-light/[0.06]">
+                <div className="flex items-end justify-between mb-10">
+                  <h2 className="text-2xl md:text-3xl font-bold font-outfit text-dark dark:text-light">
+                    More Projects
+                  </h2>
+                  <div className="hidden md:block">
+                    <PillButton href="/projects" arrow size="sm">
+                      View All
+                    </PillButton>
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {relatedProjects.slice(0, 3).map((related) => (
                     <Link
                       key={related._id}
                       href={`/projects/${related.slug}`}
-                      className="group p-4 rounded-xl border border-gray-light dark:border-gray-dark hover:border-accent/30 dark:hover:border-accent/30 transition-colors duration-300"
+                      className="group relative p-5 rounded-2xl border border-dark/[0.06] dark:border-light/[0.06] hover:border-accent/30 dark:hover:border-accent/20 bg-light/50 dark:bg-dark/50 transition-all duration-500 hover:shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_8px_40px_-12px_rgba(0,0,0,0.4)]"
                     >
-                      <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-start gap-4 mb-3">
                         {related.logo && (
                           <Image
                             src={related.logo}
-                            width={40}
-                            height={40}
+                            width={44}
+                            height={44}
                             alt={related.title}
-                            className="rounded-md"
+                            className="rounded-xl border border-dark/[0.06] dark:border-light/[0.06]"
                           />
                         )}
-                        <h3 className="font-semibold dark:text-light text-dark group-hover:text-accent transition-colors duration-200">
-                          {related.title}
-                        </h3>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold font-outfit text-dark dark:text-light group-hover:text-accent transition-colors duration-300 truncate">
+                            {related.title}
+                          </h3>
+                          <p className="text-sm text-gray line-clamp-2 mt-1 leading-relaxed">
+                            {related.tagline}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-sm text-gray-dark dark:text-gray line-clamp-2">
-                        {related.tagline}
-                      </p>
+
+                      {/* Arrow — bottom right */}
+                      <div className="flex justify-end">
+                        <span className="flex items-center justify-center w-7 h-7 rounded-full bg-dark/[0.04] dark:bg-light/[0.06] text-gray transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:translate-x-0.5">
+                          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                            <path
+                              d="M3 8h10M9 4l4 4-4 4"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </div>
                     </Link>
                   ))}
+                </div>
+
+                {/* Mobile CTA */}
+                <div className="mt-8 text-center md:hidden">
+                  <PillButton href="/projects" arrow size="sm">
+                    View All
+                  </PillButton>
                 </div>
               </section>
             </ScrollReveal>
           )}
         </div>
       </main>
-      <NewsletterBanner />
     </Transition>
   );
 };

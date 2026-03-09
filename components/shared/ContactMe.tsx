@@ -36,7 +36,7 @@ const ContactMe = () => {
           href="/contact"
           className={cx(
             "relative z-10 flex items-center justify-center rounded-full font-bold text-[0.625rem] sm:text-xs uppercase tracking-wider text-center leading-tight",
-            "w-16 h-16 sm:w-20 sm:h-20 px-1",
+            "w-16 h-16 sm:w-20 sm:h-20 px-1 font-outfit",
             // Colors
             "bg-dark text-light dark:bg-light dark:text-dark",
             "border-2 border-dark/10 dark:border-light/10",
