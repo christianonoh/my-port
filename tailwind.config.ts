@@ -10,17 +10,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        dark: "#0F0F14",
-        light: "#FCFCFD",
-
+        "accent-dark": "#5B21B6",
+        "accent-light": "#E9D5FF",
+        "accent-glow": "rgba(109,40,217,0.18)",
+        dark: "#0E0E13",
+        light: "#FAF9FD",
         accent: "#6D28D9",
-        "accent-dark": "#4C1D95",
-        "accent-light": "#E9DDFB",
-        "accent-glow": "rgba(109, 40, 217, 0.18)",
-
-        gray: "#8C8CA1",
-        "gray-dark": "#2A2A33",
-        "gray-light": "#E8E8EE",
+        gray: "#71717A",
+        "gray-dark": "#27272F",
+        "gray-light": "#D6D3E1",
       },
       animation: {
         "spin-slow": "spin 8s linear infinite",

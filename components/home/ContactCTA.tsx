@@ -1,36 +1,3 @@
-// "use client";
-
-// import Link from "next/link";
-// import ScrollReveal from "@/components/motion/ScrollReveal";
-// import { ArrowRight } from "lucide-react";
-
-// export default function ContactCTA() {
-//   return (
-//     <section className="py-24 lg:py-32">
-//       <div className="max-w-7xl mx-auto px-6 lg:px-16">
-//         <ScrollReveal>
-//           <div className="text-center max-w-2xl mx-auto">
-//             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-outfit dark:text-light text-dark mb-6">
-//               Let&apos;s Work Together
-//             </h2>
-//             <p className="text-gray-dark dark:text-gray text-lg leading-relaxed mb-8">
-//               Have a project in mind or just want to chat? I&apos;m always
-//               open to discussing new opportunities and ideas.
-//             </p>
-//             <Link
-//               href="/contact"
-//               className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-full border border-accent font-semibold text-sm uppercase tracking-[0.15em] font-outfit transition-all duration-500 bg-accent-dark hover:text-[#111] border-accent-glow shadow-[0_0_30px_rgba(212,245,60,0.08)] hover:bg-accent-glow hover:shadow-[0_0_40px_rgba(212,245,60,0.12)]"
-//             >
-//               Get in Touch
-//               <ArrowRight className="w-5 h-5" />
-//             </Link>
-//           </div>
-//         </ScrollReveal>
-//       </div>
-//     </section>
-//   );
-// }
-"use client";
 "use client";
 
 import Link from "next/link";
@@ -49,7 +16,6 @@ const CallToAction = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Staggered reveal on scroll
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -82,7 +48,6 @@ const CallToAction = () => {
           "-=0.6"
         );
 
-      // Slow continuous rotation on the orbit ring
       gsap.to(orbitRef.current, {
         rotation: 360,
         duration: 30,
@@ -99,19 +64,19 @@ const CallToAction = () => {
       ref={sectionRef}
       className="relative overflow-hidden py-28 sm:py-36 font-outfit"
     >
-      {/* Radial glow behind the CTA */}
+      {/* Radial glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] rounded-full bg-accent/[0.07] dark:bg-accent/[0.05] blur-[100px]" />
+        <div className="w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] rounded-full bg-accent/[0.06] dark:bg-accent/[0.08] blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 dark:bg-accent/[0.08] mb-8">
+        {/* Eyebrow badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/[0.08] dark:bg-accent/[0.12] mb-8">
           <span className="relative flex h-2 w-2">
             <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
           </span>
-          <span className="text-xs font-semibold tracking-widest uppercase text-accent-dark dark:text-accent">
+          <span className="text-xs font-semibold tracking-widest uppercase text-accent dark:text-accent-light">
             Currently available
           </span>
         </div>
@@ -124,8 +89,7 @@ const CallToAction = () => {
           Let&apos;s build something{" "}
           <span className="relative inline-block">
             <span className="relative z-10">great</span>
-            {/* Accent underline scribble */}
-            <span className="absolute bottom-1 left-0 right-0 h-3 sm:h-4 bg-accent/20 dark:bg-accent/15 -rotate-1 rounded-sm" />
+            <span className="absolute bottom-1 left-0 right-0 h-3 sm:h-4 bg-accent/15 dark:bg-accent/20 -rotate-1 rounded-sm" />
           </span>{" "}
           together
         </h2>
@@ -133,32 +97,32 @@ const CallToAction = () => {
         {/* Subtext */}
         <p
           ref={subRef}
-          className="mt-6 text-base sm:text-lg text-dark/60 dark:text-light/60 max-w-md mx-auto leading-relaxed"
+          className="mt-6 text-base sm:text-lg text-gray dark:text-gray-light max-w-md mx-auto leading-relaxed"
         >
           Got a project in mind or just want to chat? I&apos;m always open to
           new opportunities and ideas.
         </p>
 
-        {/* CTA Button — the star of the show */}
+        {/* CTA Button */}
         <div className="mt-10 relative inline-block">
           {/* Orbiting ring */}
           <div
             ref={orbitRef}
-            className="absolute -inset-4 sm:-inset-5 rounded-full border border-dashed border-accent/20 dark:border-accent/15 pointer-events-none"
+            className="absolute -inset-4 sm:-inset-5 rounded-full border border-dashed border-accent/15 dark:border-accent/20 pointer-events-none"
           />
 
           <Link
             href="/contact"
             ref={btnRef as React.Ref<HTMLAnchorElement>}
-            className="group relative inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-dark dark:bg-light text-light dark:text-dark font-bold text-sm sm:text-base tracking-wide uppercase overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_40px_-8px_rgba(0,0,0,0.3)] dark:hover:shadow-[0_8px_40px_-8px_rgba(255,255,255,0.15)]"
+            className="group relative inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-dark dark:bg-light text-light dark:text-dark font-bold text-sm sm:text-base tracking-wide uppercase overflow-hidden transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_40px_-8px_rgba(0,0,0,0.25)] dark:hover:shadow-[0_8px_40px_-8px] dark:hover:shadow-accent-glow"
           >
-            {/* Shine sweep on hover */}
-            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+            {/* Shine sweep */}
+            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out bg-gradient-to-r from-transparent via-light/15 dark:via-dark/10 to-transparent pointer-events-none" />
 
             <span className="relative z-10">Get in touch</span>
 
-            {/* Arrow with hover animation */}
-            <span className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-accent text-dark transition-transform duration-300 group-hover:translate-x-1">
+            {/* Arrow circle */}
+            <span className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white transition-transform duration-300 group-hover:translate-x-1">
               <svg
                 width="16"
                 height="16"

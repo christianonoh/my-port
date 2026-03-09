@@ -24,7 +24,6 @@ const ArrowIcon = ({ className }: { className?: string }) => (
 type PillButtonProps = {
   href: string;
   children: React.ReactNode;
-  /** "outline" = bordered ghost (default), "solid" = filled */
   variant?: "outline" | "solid";
   arrow?: boolean;
   size?: "sm" | "md" | "lg";
@@ -42,18 +41,16 @@ const sizes = {
 // ── Variant tokens ───────────────────────────────────────────────────
 const variants = {
   outline: cx(
-    // Resting: subtle border, muted text
     "border border-dark/[0.1] dark:border-light/[0.1]",
     "text-dark/70 dark:text-light/70",
-    // Hover: border solidifies to accent, text sharpens, faint fill
-    "hover:border-[#6D28D9] dark:hover:border-[#6D28D9]",
-    "hover:text-[#6D28D9] dark:hover:text-[#8B5CF6]",
-    "hover:bg-[#6D28D9]/[0.03] dark:hover:bg-[#6D28D9]/[0.06]",
+    "hover:border-accent dark:hover:border-accent",
+    "hover:text-accent-dark dark:hover:text-accent-light",
+    "hover:bg-accent/[0.03] dark:hover:bg-accent/[0.06]",
   ),
   solid: cx(
     "border border-transparent",
-    "bg-[#6D28D9] text-white",
-    "hover:bg-[#5B21B6]",
+    "bg-accent text-white",
+    "hover:bg-accent-dark",
   ),
 } as const;
 
