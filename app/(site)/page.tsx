@@ -16,7 +16,7 @@ import TestimonialsSection from "@/components/home/TestimonialsSection";
 import FAQSection from "@/components/home/FAQSection";
 import BlogPreview from "@/components/home/BlogPreview";
 import ContactCTA from "@/components/home/ContactCTA";
-import FloatingImageLayout from "@/components/home/FloatingImageLayout";
+import HomeFloatingWrapper from "@/components/home/HomeFloatingWrapper";
 
 export default async function Home() {
   const [
@@ -43,7 +43,7 @@ export default async function Home() {
     <Transition>
       <main className=" my-20 lg:my-28">
         {profileData && (
-          <FloatingImageLayout profile={profileData}>
+          <HomeFloatingWrapper profile={profileData}>
             <HeroSection profile={profileData} />
             <ServicesSection />
             <AboutSnippet
@@ -51,7 +51,7 @@ export default async function Home() {
               projectCount={projectCount || 0}
               blogCount={blogCount || 0}
             />
-          </FloatingImageLayout>
+          </HomeFloatingWrapper>
         )}
 
         {featuredProjects && featuredProjects.length > 0 && (

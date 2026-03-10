@@ -8,6 +8,7 @@ import ProjectCard from "@/components/project/ProjectCard";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import NewsletterBanner from "@/components/shared/NewsletterBanner";
+import CallToAction from "@/components/home/ContactCTA";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -46,6 +47,7 @@ const Project = async () => {
           ))}
         </StaggerContainer>
       </main>
+      <CallToAction />
       <NewsletterBanner />
     </Transition>
   );

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import Highlight from "@/components/shared/Highlight";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -86,12 +87,7 @@ const CallToAction = () => {
           ref={headingRef}
           className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-dark dark:text-light leading-[1.1]"
         >
-          Let&apos;s build something{" "}
-          <span className="relative inline-block">
-            <span className="relative z-10">great</span>
-            <span className="absolute bottom-1 left-0 right-0 h-3 sm:h-4 bg-accent/15 dark:bg-accent/20 -rotate-1 rounded-sm" />
-          </span>{" "}
-          together
+          Let&apos;s build something <Highlight>great</Highlight> together
         </h2>
 
         {/* Subtext */}

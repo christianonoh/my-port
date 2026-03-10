@@ -1,6 +1,7 @@
 import { getSkills, getTechnologies } from "@/sanity/sanity.fetch";
 import React from "react";
 import Technology from "../shared/Technology";
+import { StaggerContainer, StaggerItem } from "../motion/StaggerContainer";
 
 const Expertise = async () => {
   const technologies = await getTechnologies();
@@ -14,34 +15,34 @@ const Expertise = async () => {
       </p>
       <div>
         <h3 className="capitalize font-semibold text-2xl mt-12 ">Skills</h3>
-        <ul className="flex flex-wrap items-center gap-3 mt-8">
-          {skills?.map((skill, id) => (
-            <li key={id}>
+        <StaggerContainer className="flex flex-wrap items-center gap-3 mt-8" staggerDelay={0.05}>
+          {skills?.map((skill) => (
+            <StaggerItem key={skill._id}>
               <Technology
                 title={skill.title}
                 description={skill.description}
                 slug={skill.slug}
               />
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </StaggerContainer>
       </div>
       <div>
         <h3 className="capitalize font-semibold text-2xl mt-12 ">
           Tools and Technologies
         </h3>
-        <ul className="flex flex-wrap items-center gap-3 mt-8">
-          {technologies?.map((tech, id) => (
-            <li key={id}>
+        <StaggerContainer className="flex flex-wrap items-center gap-3 mt-8" staggerDelay={0.05}>
+          {technologies?.map((tech) => (
+            <StaggerItem key={tech._id}>
               <Technology
                 logo={tech.logo ?? ""}
                 title={tech.title}
                 description={tech.description}
                 slug={tech.slug}
               />
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </StaggerContainer>
       </div>
     </section>
   );

@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { glassClasses, glassShadow } from "@/utils";
 
 const Technology = ({
   title,
@@ -22,29 +23,35 @@ const Technology = ({
   logo?: any;
 }) => {
   const [showDescription, setShowDescription] = useState(false);
-  const [techSlug, setTechSlug] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseEnter = (slug: string) => {
+  const handleMouseEnter = () => {
     if (enableHover) {
       setShowDescription(true);
-      setTechSlug(slug);
     }
   };
 
   const handleMouseLeave = () => {
     if (enableHover) {
       setShowDescription(false);
-      setTechSlug("");
     }
+  };
+
+  const getTooltipPosition = () => {
+    if (!containerRef.current) return "";
+    const rect = containerRef.current.getBoundingClientRect();
+    // If less than 240px of space to the right, align tooltip to the right
+    if (window.innerWidth - rect.left < 240) return "right-0";
+    return "";
   };
 
   return (
     <div
-      key={title}
-      className={`relative dark:bg-dark bg-light shadow-sm dark:shadow-light/10 border border-transparent technology flex items-center gap-2 dark:hover:border-gray-dark hover:border-gray-light rounded-md px-2 py-1 ${slug}  ${
-        enableHover ? " cursor-pointer" : ""
-      }`}
-      onMouseEnter={() => handleMouseEnter(slug ?? "")}
+      ref={containerRef}
+      className={`relative ${glassClasses} ${glassShadow} hover:border-dark/[0.15] dark:hover:border-light/[0.15] transition-all duration-300 ease-out flex items-center gap-2 rounded-md px-2 py-1 ${
+        enableHover ? "cursor-pointer" : ""
+      } ${showDescription ? "z-20" : ""}`}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {logo && (
@@ -52,32 +59,25 @@ const Technology = ({
           src={logo.url}
           width={24}
           height={24}
-          className="object-cover rounded-[1px] object-center w-4 aspect-square bg-light p-[1px]"
+          className="object-cover object-center w-5 h-5 sm:w-6 sm:h-6 rounded-md ring-1 ring-dark/[0.06] dark:ring-light/[0.06] bg-light/80 dark:bg-light/90 p-[2px]"
           alt={`${title} logo`}
           sizes="24px"
         />
       )}
-      <span className="text-xs sm:text-base">{title}</span>
-      {enableHover && showDescription && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`absolute bg-accent-dark dark:bg-accent text-center text-xs text-light dark:text-dark p-2 w-48 z-10 top-8 rounded-md mt-2 transition-all ease-in-out duration-1000 ${
-            // Check if the hovered item exists and if there's more space on the right
-            document.querySelector(`.${techSlug}`) &&
-            window.innerWidth -
-              (document.querySelector(`.${techSlug}`)!.getBoundingClientRect()
-                .left +
-                192) <
-              50
-              ? "right-0"
-              : ""
-          }`}
-        >
-          {description}
-        </motion.div>
-      )}
+      <span className="text-sm sm:text-base font-medium">{title}</span>
+      <AnimatePresence>
+        {enableHover && showDescription && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: -4 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className={`absolute bg-light dark:bg-dark backdrop-blur-none border border-dark/[0.08] dark:border-light/[0.08] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.15)] dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.5)] text-dark dark:text-light text-xs sm:text-sm leading-relaxed p-3 w-56 z-50 top-full mt-2 rounded-xl ${getTooltipPosition()}`}
+          >
+            {description}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

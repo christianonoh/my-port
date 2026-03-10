@@ -5,6 +5,7 @@ import { useInView } from "framer-motion";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import { ProfileType } from "@/types";
 import PillButton from "../shared/PillButton";
+import Highlight from "../shared/Highlight";
 
 // ── Animated Counter ─────────────────────────────────────────────────
 interface MetricProps {
@@ -70,7 +71,7 @@ export default function AboutSnippet({
       <ScrollReveal>
         {/* Heading */}
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-outfit uppercase text-dark dark:text-light mb-6 leading-[1.05]">
-          About Me
+          <Highlight>About Me</Highlight>
         </h2>
 
         {/* Bio */}

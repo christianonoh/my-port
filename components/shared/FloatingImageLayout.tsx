@@ -8,26 +8,44 @@ import { ProfileType } from "@/types";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
+export interface SectionAnimationContext {
+  card: HTMLDivElement;
+  glow: HTMLDivElement | null;
+  overlay: HTMLDivElement | null;
+  lightSweep: HTMLDivElement | null;
+  wrapper: HTMLDivElement;
+  addTrigger: (st: ScrollTrigger) => void;
+  addTween: (tw: gsap.core.Tween) => void;
+  addTimeline: (tl: gsap.core.Timeline) => void;
+  activeSectionRef: React.MutableRefObject<string>;
+}
+
 interface FloatingImageLayoutProps {
   profile: ProfileType;
   children: React.ReactNode;
+  className?: string;
+  overlayContent?: React.ReactNode;
+  setupSectionAnimations?: (ctx: SectionAnimationContext) => void;
+  alwaysTilt?: boolean;
 }
 
 // ─── Tuning Constants ────────────────────────────────────────────────────────
 
-const PARALLAX_DISTANCE = -60; // px, applied to outer container
-const MAX_TILT_DEG = 4; // max mouse-reactive tilt
-const TILT_EASE_DURATION = 0.5; // seconds
-const ENTRY_DURATION = 0.9; // card entrance animation
-const GLOW_BASE_OPACITY = 0.35; // resting glow intensity
-const GLOW_PULSE_OPACITY = 0.5; // glow during services
-const SCRUB_SMOOTHNESS = 0.6; // scrub value for section transitions
+const PARALLAX_DISTANCE = -60;
+const MAX_TILT_DEG = 4;
+const TILT_EASE_DURATION = 0.5;
+const ENTRY_DURATION = 0.9;
+const GLOW_BASE_OPACITY = 0.35;
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function FloatingImageLayout({
   profile,
   children,
+  className,
+  overlayContent,
+  setupSectionAnimations,
+  alwaysTilt = false,
 }: FloatingImageLayoutProps) {
   // ─── Refs: Layout ──────────────────────────────────────────────────────────
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -36,32 +54,35 @@ export default function FloatingImageLayout({
   // ─── Refs: Card layers ─────────────────────────────────────────────────────
   const cardRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-  const aboutOverlayRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const lightSweepRef = useRef<HTMLDivElement>(null);
 
   // ─── Refs: State tracking ──────────────────────────────────────────────────
   const activeSectionRef = useRef<string>("hero");
 
   // ─── Mouse tilt handler ────────────────────────────────────────────────────
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const card = cardRef.current;
-    if (!card) return;
-    if (activeSectionRef.current !== "hero") return;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      const card = cardRef.current;
+      if (!card) return;
+      if (!alwaysTilt && activeSectionRef.current !== "hero") return;
 
-    const rect = card.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const deltaX = (e.clientX - centerX) / (rect.width / 2);
-    const deltaY = (e.clientY - centerY) / (rect.height / 2);
+      const rect = card.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const deltaX = (e.clientX - centerX) / (rect.width / 2);
+      const deltaY = (e.clientY - centerY) / (rect.height / 2);
 
-    gsap.to(card, {
-      rotateY: deltaX * MAX_TILT_DEG,
-      rotateX: -deltaY * MAX_TILT_DEG,
-      duration: TILT_EASE_DURATION,
-      ease: "power2.out",
-      overwrite: "auto",
-    });
-  }, []);
+      gsap.to(card, {
+        rotateY: deltaX * MAX_TILT_DEG,
+        rotateX: -deltaY * MAX_TILT_DEG,
+        duration: TILT_EASE_DURATION,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
+    },
+    [alwaysTilt]
+  );
 
   const handleMouseLeave = useCallback(() => {
     if (!cardRef.current) return;
@@ -91,11 +112,12 @@ export default function FloatingImageLayout({
 
     const card = cardRef.current;
     const glow = glowRef.current;
-    const aboutOverlay = aboutOverlayRef.current;
+    const overlay = overlayRef.current;
     const lightSweep = lightSweepRef.current;
     const cardContainer = cardContainerRef.current;
+    const wrapper = wrapperRef.current;
 
-    if (!card || !cardContainer) return;
+    if (!card || !cardContainer || !wrapper) return;
 
     const triggers: ScrollTrigger[] = [];
     const tweens: gsap.core.Tween[] = [];
@@ -149,7 +171,7 @@ export default function FloatingImageLayout({
         y: PARALLAX_DISTANCE,
         ease: "none",
         scrollTrigger: {
-          trigger: wrapperRef.current,
+          trigger: wrapper,
           start: "top top",
           end: "bottom bottom",
           scrub: true,
@@ -157,130 +179,22 @@ export default function FloatingImageLayout({
       })
     );
 
-    // ── PHASE 3: Mouse tilt (hero only) ──────────────────────────────────
+    // ── PHASE 3: Mouse tilt ──────────────────────────────────────────────
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseleave", handleMouseLeave);
 
-    // ── PHASE 4: Section-reactive states ─────────────────────────────────
-
-    // --- A. Services state: subtle depth shift + glow pulse ──────────────
-    const servicesEl = document.querySelector('[data-section="services"]');
-    if (servicesEl) {
-      addTrigger(
-        ScrollTrigger.create({
-          trigger: servicesEl,
-          start: "top 55%",
-          end: "bottom 45%",
-          onEnter: () => (activeSectionRef.current = "services"),
-          onLeaveBack: () => (activeSectionRef.current = "hero"),
-          onLeave: () => (activeSectionRef.current = "hero"),
-          onEnterBack: () => (activeSectionRef.current = "services"),
-        })
-      );
-
-      const servicesTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: servicesEl,
-          start: "top 60%",
-          end: "bottom 40%",
-          scrub: 0.8,
-        },
-      });
-      servicesTl
-        .to(
-          card,
-          {
-            rotateY: 4,
-            rotateX: -2,
-            scale: 1.015,
-            duration: 0.5,
-            overwrite: false,
-          },
-          0
-        )
-        .to(glow, { opacity: GLOW_PULSE_OPACITY, duration: 0.5 }, 0)
-        .to(
-          card,
-          { rotateY: 0, rotateX: 0, scale: 1, duration: 0.5 },
-          0.5
-        )
-        .to(glow, { opacity: GLOW_BASE_OPACITY, duration: 0.5 }, 0.5);
-      addTimeline(servicesTl);
-    }
-
-    // --- B. About state: glass overlay with profile info ─────────────────
-    const aboutEl = document.querySelector('[data-section="about"]');
-    if (aboutEl && aboutOverlay) {
-      addTrigger(
-        ScrollTrigger.create({
-          trigger: aboutEl,
-          start: "top 55%",
-          end: "bottom 45%",
-          onEnter: () => (activeSectionRef.current = "about"),
-          onLeaveBack: () => (activeSectionRef.current = "hero"),
-          onLeave: () => (activeSectionRef.current = "about"),
-          onEnterBack: () => (activeSectionRef.current = "about"),
-        })
-      );
-
-      // Fade in about overlay
-      const aboutInTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: aboutEl,
-          start: "top 60%",
-          end: "top 30%",
-          scrub: SCRUB_SMOOTHNESS,
-        },
-      });
-      aboutInTl.to(aboutOverlay, { opacity: 1, duration: 1 }, 0);
-      addTimeline(aboutInTl);
-
-      // Subtle light sweep
-      if (lightSweep) {
-        const sweepTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: aboutEl,
-            start: "top 50%",
-            end: "top 15%",
-            scrub: 0.8,
-          },
-        });
-        sweepTl.fromTo(
-          lightSweep,
-          { x: "-100%" },
-          { x: "200%", duration: 1 }
-        );
-        addTimeline(sweepTl);
-      }
-
-      // Fade out about overlay before exit
-      const aboutOutTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: aboutEl,
-          start: "bottom 70%",
-          end: "bottom 50%",
-          scrub: SCRUB_SMOOTHNESS,
-        },
-      });
-      aboutOutTl.to(aboutOverlay, { opacity: 0, duration: 1 });
-      addTimeline(aboutOutTl);
-    }
-
-    // --- C. Exit animation: card gracefully fades out at About bottom ────
-    if (aboutEl) {
-      const exitTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: aboutEl,
-          start: "bottom 60%",
-          end: "bottom 30%",
-          scrub: SCRUB_SMOOTHNESS,
-        },
-      });
-      exitTl
-        .to(card, { opacity: 0, y: 20, scale: 0.97, duration: 1 }, 0)
-        .to(glow, { opacity: 0, duration: 0.8 }, 0);
-      addTimeline(exitTl);
-    }
+    // ── PHASE 4: Page-specific section animations ────────────────────────
+    setupSectionAnimations?.({
+      card,
+      glow,
+      overlay,
+      lightSweep,
+      wrapper,
+      addTrigger,
+      addTween,
+      addTimeline,
+      activeSectionRef,
+    });
 
     // ── Cleanup ──────────────────────────────────────────────────────────
     return () => {
@@ -290,21 +204,20 @@ export default function FloatingImageLayout({
       tweens.forEach((tw) => tw.kill());
       timelines.forEach((tl) => tl.kill());
     };
-  }, [handleMouseMove, handleMouseLeave]);
+  }, [handleMouseMove, handleMouseLeave, setupSectionAnimations]);
 
   // ─── Render ──────────────────────────────────────────────────────────────
 
   return (
     <div
       ref={wrapperRef}
-      className="lg:flex lg:gap-8 max-w-7xl mx-auto px-6 lg:px-16 lg:-pt-16"
+      className={
+        className ??
+        "lg:flex lg:gap-8 max-w-7xl mx-auto px-6 lg:px-16 lg:-pt-16"
+      }
     >
       {/* Left column: content sections */}
-      <div className="flex-1 min-w-0">                                                                                                                
-        {children}                                                                                                                                    
-        {/* Spacer gives the sticky card enough room to stay centered through the About section */}                                                   
-        {/* <div className="hidden lg:block lg:h-[25vh]" aria-hidden="true" />                                                                             */}
-      </div> 
+      <div className="flex-1 min-w-0">{children}</div>
 
       {/* Right column: cinematic sticky card (desktop only) */}
       <div className="hidden lg:block lg:w-[380px] lg:flex-shrink-0">
@@ -348,30 +261,32 @@ export default function FloatingImageLayout({
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-dark via-dark/50 to-transparent" />
               </div>
 
-              {/* ── Layer 3: About overlay ──────────────────────────── */}
+              {/* ── Layer 3: Overlay slot ──────────────────────────── */}
               <div
-                ref={aboutOverlayRef}
+                ref={overlayRef}
                 className="absolute inset-x-0 bottom-0 p-6 opacity-0 pointer-events-none"
                 style={{ backdropFilter: "blur(12px)" }}
               >
-                <div className="bg-dark/50 rounded-xl p-5 border border-white/[0.06]">
-                  <h3 className="font-outfit font-bold text-light text-lg mb-1">
-                    {profile.fullName}
-                  </h3>
-                  <p className="text-sm text-white/60 mb-3 leading-relaxed line-clamp-2">
-                    {profile.headline}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {profile.location && (
+                {overlayContent ?? (
+                  <div className="bg-dark/50 rounded-xl p-5 border border-white/[0.06]">
+                    <h3 className="font-outfit font-bold text-light text-lg mb-1">
+                      {profile.fullName}
+                    </h3>
+                    <p className="text-sm text-white/60 mb-3 leading-relaxed line-clamp-2">
+                      {profile.headline}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {profile.location && (
+                        <span className="text-xs px-2.5 py-1 rounded-full bg-accent/10 text-accent/80 border border-accent/10">
+                          {profile.location}
+                        </span>
+                      )}
                       <span className="text-xs px-2.5 py-1 rounded-full bg-accent/10 text-accent/80 border border-accent/10">
-                        {profile.location}
+                        {profile.email}
                       </span>
-                    )}
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-accent/10 text-accent/80 border border-accent/10">
-                      {profile.email}
-                    </span>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Light sweep */}
                 <div

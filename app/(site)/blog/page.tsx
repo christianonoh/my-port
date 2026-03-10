@@ -1,6 +1,7 @@
 import { getBlogPosts, getFeaturedBlogPosts } from "@/sanity/sanity.fetch";
 import Transition from "@/components/shared/Transition";
 import NewsletterBanner from "@/components/shared/NewsletterBanner";
+import CallToAction from "@/components/home/ContactCTA";
 import { Metadata } from "next";
 import siteMetadata from "@/utils/siteMetaData";
 import BlogPageClient from "./BlogPageClient";
@@ -25,6 +26,7 @@ export default async function BlogPage() {
         initialBlogPosts={blogPosts}
         initialFeaturedPosts={featuredPosts}
       />
+      <CallToAction />
       <NewsletterBanner />
     </Transition>
   );
