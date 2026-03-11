@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from "@/components/motion/ScrollReveal";
+import Highlight from "../shared/Highlight";
 
 const services = [
   {
@@ -44,9 +45,9 @@ export default function ServicesSection() {
 
         {/* Heading */}
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-outfit uppercase text-dark dark:text-light mb-6 leading-[1.05]">
-          What I Can Do
+          <Highlight>What I Can Do
           <br />
-          For You
+          For You</Highlight>
         </h2>
 
         {/* Subtext */}

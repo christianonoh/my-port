@@ -23,6 +23,7 @@ const worksGroq = `
   endDate,
   description,
   location,
+  companyUrl,
   "companyLogo": companyLogo.asset->url,
   skills,
 } | order(startDate desc)

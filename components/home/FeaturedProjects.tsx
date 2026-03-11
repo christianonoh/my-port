@@ -9,6 +9,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PillButton from "../shared/PillButton";
 import ScrollReveal from "../motion/ScrollReveal";
+import Highlight from "../shared/Highlight";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -79,7 +80,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           <div className="flex items-end justify-between mb-12 lg:mb-16">
             <div className="max-w-2xl">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold uppercase dark:text-light text-dark leading-[1.05] tracking-tight font-outfit">
-                Featured Projects
+                <Highlight>Featured Projects</Highlight>
               </h2>
             </div>
             {/* <Link

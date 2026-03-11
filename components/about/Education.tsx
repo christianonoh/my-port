@@ -7,6 +7,7 @@ import LiIcon from "../shared/LiIcon";
 import { PortableText } from "@portabletext/react";
 import { formatDate } from "@/utils";
 import siteMetadata from "@/utils/siteMetaData";
+import Highlight from "../shared/Highlight";
 
 const Details = ({
   discipline,
@@ -71,7 +72,9 @@ const Education = ({ schools }: { schools: EducationDetailsType[] | null }) => {
   return (
     <section className="mt-32 max-w-[731.250px] mx-auto lg:mx-0">
       <div className="mb-16">
-        <h2 className="font-semibold text-4xl mb-4">Education</h2>
+        <h2 className="font-semibold text-4xl mb-4">
+          <Highlight>Education</Highlight>
+        </h2>
       </div>
 
       <div className="relative w-full" ref={ref}>

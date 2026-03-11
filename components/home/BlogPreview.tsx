@@ -6,6 +6,7 @@ import ScrollReveal from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import FeaturedBlogCard from "@/components/blog/FeaturedBlogCard";
 import PillButton from "../shared/PillButton";
+import Highlight from "../shared/Highlight";
 
 interface BlogPreviewProps {
   posts: any[];
@@ -20,7 +21,7 @@ export default function BlogPreview({ posts }: BlogPreviewProps) {
         <ScrollReveal>
           <div className="flex items-end justify-between mb-12 lg:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-outfit dark:text-light text-dark">
-              Latest Articles
+              <Highlight>Latest Articles</Highlight>
             </h2>
             <div className="hidden md:block">
               <PillButton href="/blog" arrow>All Posts</PillButton>

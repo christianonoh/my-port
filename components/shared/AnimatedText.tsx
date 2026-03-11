@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Highlight from "./Highlight";
 
 const quote = {
   initial: {
@@ -44,7 +45,8 @@ const AnimatedText = ({
       viewport={{ once: true }}
       className={`inline-block w-full dark:text-light text-gray-dark  font-bold capitalize text-8xl ${className}`}
     >
-      {text.split(" ").map((word, index) => (
+      <Highlight>
+        {text.split(" ").map((word, index) => (
         <motion.span
           variants={singleWord}
           key={word + "-" + index}
@@ -53,6 +55,7 @@ const AnimatedText = ({
           {word === "/n" ? <br /> : word}&nbsp;
         </motion.span>
       ))}
+      </Highlight>
     </motion.h1>
   </div>
 );
