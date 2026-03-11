@@ -31,7 +31,7 @@ const About = async () => {
 
   return (
     <Transition>
-      <main className="my-20 lg:my-28">
+      <main className="py-20 md:py-28">
         {profile &&
           profile.map((data) => (
             <AboutFloatingWrapper key={data._id} profile={data}>

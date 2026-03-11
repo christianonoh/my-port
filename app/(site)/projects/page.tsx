@@ -22,7 +22,7 @@ const Project = async () => {
 
   return (
     <Transition>
-      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-16">
+      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-20 md:py-28">
         <ScrollReveal>
           <section className="max-w-2xl mb-16">
             <AnimatedText

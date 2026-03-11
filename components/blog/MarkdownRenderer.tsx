@@ -2,10 +2,9 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
+import rehypeSlug from "rehype-slug";
 import Image from "next/image";
-import { urlForImage } from "@/sanity/sanity.image";
 import { Copy, Check } from "lucide-react";
 import { useState } from "react";
 
@@ -17,7 +16,6 @@ function CodeBlock({ children }: { children: React.ReactNode }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    // Extract text content from the code element
     const codeElement = (children as any)?.props?.children;
     const textToCopy =
       typeof codeElement === "string"
@@ -35,20 +33,38 @@ function CodeBlock({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const className = (children as any)?.props?.className || "";
+  const lang = className.replace("language-", "").split(" ")[0] || "";
+
   return (
-    <div className="relative group">
-      <button
-        onClick={handleCopy}
-        className="absolute top-3 right-3 p-2 rounded-md bg-gray-700 hover:bg-gray-600 transition-colors duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100"
-        aria-label={copied ? "Copied!" : "Copy code"}
-      >
-        {copied ? (
-          <Check className="w-4 h-4 text-green-400" />
+    <div className="relative group my-6 md:my-8 -mx-6 sm:mx-0 sm:rounded-xl overflow-hidden border-y sm:border border-dark/[0.06] dark:border-light/[0.06]">
+      <div className="flex items-center justify-between px-4 py-2 bg-dark/[0.03] dark:bg-light/[0.04] border-b border-dark/[0.06] dark:border-light/[0.06]">
+        {lang ? (
+          <span className="text-[11px] font-medium uppercase tracking-wider text-gray">
+            {lang}
+          </span>
         ) : (
-          <Copy className="w-4 h-4 text-gray-300" />
+          <span />
         )}
-      </button>
-      <pre className="bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto my-6 shadow-sm max-w-full">
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1.5 text-[11px] font-medium text-gray hover:text-dark dark:hover:text-light transition-colors duration-200 sm:opacity-0 sm:group-hover:opacity-100 sm:focus:opacity-100"
+          aria-label={copied ? "Copied!" : "Copy code"}
+        >
+          {copied ? (
+            <>
+              <Check className="w-3.5 h-3.5 text-green-500" />
+              <span className="text-green-500">Copied</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-3.5 h-3.5" />
+              <span>Copy</span>
+            </>
+          )}
+        </button>
+      </div>
+      <pre className="bg-[#0d1117] dark:bg-[#0a0e14] px-4 py-4 md:p-5 overflow-x-auto text-[13px] md:text-sm leading-relaxed font-mono">
         {children}
       </pre>
     </div>
@@ -57,128 +73,164 @@ function CodeBlock({ children }: { children: React.ReactNode }) {
 
 export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <article className="prose prose-sm sm:prose-lg prose-slate dark:prose-invert max-w-none overflow-x-hidden prose-table:m-0 prose-table:border-collapse prose-thead:bg-transparent prose-th:border-0 prose-td:border-0 prose-tr:border-0">
+    <article className="max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
+        rehypePlugins={[rehypeSlug, rehypeHighlight]}
         components={{
-          // Headings
-          h1: ({ children }) => (
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4 mt-8 text-gray-900 dark:text-gray-100">
+          /* ── Headings — IDs injected by rehype-slug ────────── */
+          h1: ({ id, children }) => (
+            <h1
+              id={id}
+              className="group text-2xl md:text-4xl font-bold font-outfit text-dark dark:text-light mt-10 md:mt-16 mb-4 md:mb-6 leading-tight scroll-mt-24"
+            >
               {children}
+              {id && (
+                <a
+                  href={`#${id}`}
+                  className="ml-2 opacity-0 group-hover:opacity-40 transition-opacity duration-200 text-accent no-underline hidden sm:inline"
+                  aria-label="Link to section"
+                >
+                  #
+                </a>
+              )}
             </h1>
           ),
-          h2: ({ children }) => (
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-3 mt-6 text-gray-900 dark:text-gray-100">
+          h2: ({ id, children }) => (
+            <h2
+              id={id}
+              className="group text-xl md:text-3xl font-bold font-outfit text-dark dark:text-light mt-8 md:mt-14 mb-3 md:mb-5 leading-tight scroll-mt-24"
+            >
               {children}
+              {id && (
+                <a
+                  href={`#${id}`}
+                  className="ml-2 opacity-0 group-hover:opacity-40 transition-opacity duration-200 text-accent no-underline hidden sm:inline"
+                  aria-label="Link to section"
+                >
+                  #
+                </a>
+              )}
             </h2>
           ),
-          h3: ({ children }) => (
-            <h3 className="text-xl sm:text-2xl font-medium mb-2 mt-4 text-gray-900 dark:text-gray-100">
+          h3: ({ id, children }) => (
+            <h3
+              id={id}
+              className="group text-lg md:text-2xl font-semibold font-outfit text-dark dark:text-light mt-6 md:mt-12 mb-3 md:mb-4 leading-snug scroll-mt-24"
+            >
               {children}
+              {id && (
+                <a
+                  href={`#${id}`}
+                  className="ml-2 opacity-0 group-hover:opacity-40 transition-opacity duration-200 text-accent no-underline hidden sm:inline"
+                  aria-label="Link to section"
+                >
+                  #
+                </a>
+              )}
             </h3>
           ),
 
-          // Blockquote
-          blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-accent pl-4 italic my-4 text-gray-700 dark:text-gray-300">
+          /* ── Paragraphs ──────────────────────────────────────── */
+          p: ({ children }) => (
+            <p className="mb-5 md:mb-6 text-gray-dark dark:text-gray leading-[1.75] md:leading-[1.85] text-[15px] md:text-[17px]">
               {children}
+            </p>
+          ),
+
+          /* ── Blockquote ──────────────────────────────────────── */
+          blockquote: ({ children }) => (
+            <blockquote className="my-6 md:my-8 pl-4 md:pl-6 border-l-[3px] border-accent">
+              <div className="text-base md:text-[17px] italic text-gray leading-[1.8] [&>p]:mb-2 [&>p:last-child]:mb-0">
+                {children}
+              </div>
             </blockquote>
           ),
 
-          // Code blocks - handle the pre wrapper with copy button
+          /* ── Code ────────────────────────────────────────────── */
           pre: ({ children }: any) => <CodeBlock>{children}</CodeBlock>,
 
-          // Code - handle inline code and code block content
           code: ({ node, inline, className, children, ...props }: any) => {
-            const isInlineCode = inline === true || !className;
-
-            if (isInlineCode) {
+            if (inline === true || !className) {
               return (
                 <code
-                  className="bg-slate-100 dark:bg-slate-800 rounded px-1.5 py-0.5 text-[90%] font-mono text-slate-700 dark:text-slate-300 font-normal"
+                  className="text-accent bg-accent/[0.06] px-1.5 py-0.5 rounded-md text-[0.9em] font-mono font-normal"
                   {...props}
                 >
                   {children}
                 </code>
               );
             }
-
-            // Code block content (triple backticks, wrapped by pre above)
             return (
               <code className={className} {...props}>
                 {children}
               </code>
             );
           },
-          // Links
+
+          /* ── Links ───────────────────────────────────────────── */
           a: ({ href, children }) => (
             <a
               href={href}
               target={href?.startsWith("http") ? "_blank" : undefined}
               rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="text-accent hover:underline font-medium"
+              className="text-accent hover:text-accent-dark underline underline-offset-2 decoration-accent/30 hover:decoration-accent transition-colors duration-200 font-medium"
             >
               {children}
             </a>
           ),
 
-          // Tables (GFM) - Completely override prose styles
+          /* ── Lists ───────────────────────────────────────────── */
+          ul: ({ children }) => (
+            <ul className="mb-6 pl-6 space-y-2 text-gray-dark dark:text-gray leading-[1.8] text-base md:text-[17px] list-disc marker:text-accent/40">
+              {children}
+            </ul>
+          ),
+          ol: ({ children }) => (
+            <ol className="mb-6 pl-6 space-y-2 text-gray-dark dark:text-gray leading-[1.8] text-base md:text-[17px] list-decimal marker:text-accent marker:font-semibold">
+              {children}
+            </ol>
+          ),
+          li: ({ children }) => <li>{children}</li>,
+
+          /* ── Tables ──────────────────────────────────────────── */
           table: ({ children }) => (
-            <div className="not-prose my-8 overflow-x-auto rounded-xl shadow-lg border border-gray-200/30 dark:border-gray-700/30 max-w-full">
-              <table className="min-w-full border-collapse">{children}</table>
+            <div className="my-6 md:my-10 -mx-6 sm:mx-0 overflow-x-auto sm:rounded-xl border-y sm:border border-dark/[0.06] dark:border-light/[0.06] max-w-full">
+              <table className="min-w-full border-collapse">
+                {children}
+              </table>
             </div>
           ),
           thead: ({ children }) => (
-            <thead className="bg-gray-100 dark:bg-slate-800 border-b-2">
+            <thead className="bg-dark/[0.03] dark:bg-light/[0.04] border-b border-dark/[0.08] dark:border-light/[0.08]">
               {children}
             </thead>
           ),
-          tbody: ({ children }) => {
-            const childrenArray = Array.isArray(children)
-              ? children
-              : [children];
-            return (
-              <tbody className="divide-y divide-gray-200/30 dark:divide-gray-700/30">
-                {childrenArray.map((child: any, index: number) => {
-                  if (
-                    child?.type === "tr" ||
-                    child?.props?.node?.tagName === "tr"
-                  ) {
-                    return (
-                      <tr
-                        key={index}
-                        className={`
-                          transition-all duration-200 ease-in-out
-                          hover:bg-accent/10 hover:shadow-sm
-                          ${
-                            index % 2 === 0
-                              ? "bg-white dark:bg-slate-900/50"
-                              : "bg-gray-50 dark:bg-slate-800/50"
-                          }
-                        `}
-                      >
-                        {child.props?.children}
-                      </tr>
-                    );
-                  }
-                  return child;
-                })}
-              </tbody>
-            );
-          },
+          tbody: ({ children }) => (
+            <tbody className="divide-y divide-dark/[0.04] dark:divide-light/[0.04]">
+              {children}
+            </tbody>
+          ),
+          tr: ({ children, ...props }: any) => (
+            <tr
+              className="hover:bg-accent/[0.03] transition-colors duration-150"
+              {...props}
+            >
+              {children}
+            </tr>
+          ),
           th: ({ children }) => (
-            <th className="px-4 py-2.5 text-left text-sm font-bold uppercase tracking-wide text-gray-900 dark:text-gray-100 border-r border-gray-200/20 dark:border-gray-700/20 last:border-r-0">
+            <th className="px-3 md:px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-dark dark:text-light whitespace-nowrap">
               {children}
             </th>
           ),
           td: ({ children }) => (
-            <td className="px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 border-r border-gray-200/20 dark:border-gray-700/20 last:border-r-0">
+            <td className="px-3 md:px-5 py-3 text-sm text-gray leading-relaxed">
               {children}
             </td>
           ),
 
-          // Task lists (GFM)
+          /* ── Task lists ──────────────────────────────────────── */
           input: ({ type, checked, ...props }) => {
             if (type === "checkbox") {
               return (
@@ -186,7 +238,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
                   type="checkbox"
                   checked={checked}
                   disabled
-                  className="mr-2 accent-accent"
+                  className="mr-2 accent-accent rounded"
                   {...props}
                 />
               );
@@ -194,49 +246,35 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
             return <input type={type} {...props} />;
           },
 
-          // Paragraphs
-          p: ({ children }) => (
-            <p className="mb-4 text-gray-700 dark:text-gray-300 leading-7">
-              {children}
-            </p>
-          ),
-
-          // Lists
-          ul: ({ children }) => (
-            <ul className="list-disc list-outside pl-5 mb-4 space-y-1 text-gray-700 dark:text-gray-300">
-              {children}
-            </ul>
-          ),
-          ol: ({ children }) => (
-            <ol className="list-decimal list-outside pl-5 mb-4 space-y-1 text-gray-700 dark:text-gray-300">
-              {children}
-            </ol>
-          ),
-          li: ({ children }) => <li>{children}</li>,
-
-          // Horizontal rule
+          /* ── Horizontal rule ─────────────────────────────────── */
           hr: () => (
-            <hr className="my-8 border-t border-gray-300 dark:border-gray-700" />
+            <div className="my-12 flex items-center justify-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-dark/10 dark:bg-light/10" />
+              <span className="w-1.5 h-1.5 rounded-full bg-dark/10 dark:bg-light/10" />
+              <span className="w-1.5 h-1.5 rounded-full bg-dark/10 dark:bg-light/10" />
+            </div>
           ),
 
-          // Images
+          /* ── Images ──────────────────────────────────────────── */
           img: ({ src, alt }) => {
             if (!src || typeof src !== "string") return null;
             return (
-              <div className="my-6">
-                <Image
-                  src={src}
-                  alt={alt || "Blog post image"}
-                  width={800}
-                  height={400}
-                  className="rounded-lg shadow-md w-full h-auto"
-                />
+              <figure className="my-6 md:my-10 -mx-6 sm:mx-0">
+                <div className="sm:rounded-xl overflow-hidden border-y sm:border border-dark/[0.04] dark:border-light/[0.04]">
+                  <Image
+                    src={src}
+                    alt={alt || "Blog post image"}
+                    width={800}
+                    height={400}
+                    className="w-full h-auto"
+                  />
+                </div>
                 {alt && (
-                  <p className="text-center text-sm text-gray-500 dark:text-gray-400 italic mt-2">
+                  <figcaption className="text-[13px] text-gray text-center mt-3 px-6 sm:px-0">
                     {alt}
-                  </p>
+                  </figcaption>
                 )}
-              </div>
+              </figure>
             );
           },
         }}

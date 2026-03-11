@@ -46,7 +46,7 @@ export default function BlogPageClient({
 
   return (
     <PullToRefresh onRefresh={handleRefresh} enabled={true}>
-      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-8 md:py-16">
+      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-20 md:py-28">
         {/* Hero Section */}
         <ScrollReveal>
           <div className="mb-12 md:mb-16 text-left md:text-left">

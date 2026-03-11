@@ -1,12 +1,14 @@
 import { getBlogPost, getBlogPosts } from "@/sanity/sanity.fetch";
-import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Transition from "@/components/shared/Transition";
 import ShareButtons from "@/components/blog/ShareButtons";
+import TableOfContents from "@/components/blog/TableOfContents";
 import NewsletterBanner from "@/components/shared/NewsletterBanner";
 import MarkdownRenderer from "@/components/blog/MarkdownRenderer";
+import PortableTextContent from "@/components/blog/PortableTextContent";
+import ScrollReveal from "@/components/motion/ScrollReveal";
 import { Metadata } from "next";
 import { urlForImage } from "@/sanity/sanity.image";
 import siteMetadata from "@/utils/siteMetaData";
@@ -19,13 +21,17 @@ interface BlogPostPageProps {
 
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
-  
-  return posts?.map((post) => ({
-    slug: post.slug,
-  })) || [];
+
+  return (
+    posts?.map((post) => ({
+      slug: post.slug,
+    })) || []
+  );
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPost(slug);
 
@@ -66,119 +72,6 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-const components = {
-  types: {
-    image: ({ value }: any) => (
-      <div className="my-8">
-        <Image
-          src={urlForImage(value)?.url() || ""}
-          alt={value.alt || "Blog image"}
-          width={800}
-          height={400}
-          className="rounded-lg w-full h-auto"
-        />
-        {value.alt && (
-          <p className="text-sm text-gray-500 text-center mt-2 italic">
-            {value.alt}
-          </p>
-        )}
-      </div>
-    ),
-    code: ({ value }: any) => (
-      <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-6 max-w-full">
-        <code className={`language-${value.language || 'javascript'}`}>
-          {value.code}
-        </code>
-      </pre>
-    ),
-    table: ({ value }: any) => (
-      <div className="my-8 overflow-x-auto rounded-xl shadow-sm max-w-full">
-        <table className="min-w-full">
-          {value.rows && value.rows.length > 0 && (
-            <>
-              <thead>
-                <tr className="bg-gray-100 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/30">
-                  {value.rows[0].cells.map((cell: string, cellIndex: number) => (
-                    <th
-                      key={cellIndex}
-                      className="px-6 py-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100"
-                    >
-                      {cell}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {value.rows.slice(1).map((row: any, rowIndex: number) => (
-                  <tr
-                    key={rowIndex}
-                    className={`
-                      border-b border-gray-200/30 dark:border-gray-700/20 last:border-b-0
-                      hover:bg-accent/5 transition-colors duration-150
-                      ${rowIndex % 2 === 0
-                        ? 'bg-white dark:bg-gray-900'
-                        : 'bg-gray-50/30 dark:bg-gray-800/20'
-                      }
-                    `}
-                  >
-                    {row.cells.map((cell: string, cellIndex: number) => (
-                      <td
-                        key={cellIndex}
-                        className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300"
-                      >
-                        {cell}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </>
-          )}
-        </table>
-      </div>
-    ),
-  },
-  marks: {
-    link: ({ children, value }: any) => (
-      <a
-        href={value.href}
-        target={value.blank ? "_blank" : "_self"}
-        rel={value.blank ? "noopener noreferrer" : ""}
-        className="text-accent hover:text-accent-dark underline"
-      >
-        {children}
-      </a>
-    ),
-    code: ({ children }: any) => (
-      <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">
-        {children}
-      </code>
-    ),
-  },
-  block: {
-    h1: ({ children }: any) => (
-      <h1 className="text-4xl font-bold text-dark dark:text-light mt-12 mb-6">
-        {children}
-      </h1>
-    ),
-    h2: ({ children }: any) => (
-      <h2 className="text-3xl font-bold text-dark dark:text-light mt-10 mb-4">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }: any) => (
-      <h3 className="text-2xl font-bold text-dark dark:text-light mt-8 mb-4">
-        {children}
-      </h3>
-    ),
-    blockquote: ({ children }: any) => (
-      <blockquote className="border-l-4 border-accent pl-6 my-6 text-lg italic text-gray-600 dark:text-gray-300">
-        {children}
-      </blockquote>
-    ),
-  },
-};
-
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const post = await getBlogPost(slug);
@@ -187,18 +80,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const publishedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const publishedDate = new Date(post.publishedAt).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
 
   const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`;
   const imageUrl = post.coverImage?.image
     ? urlForImage(post.coverImage.image)?.width(1200).height(630).url() || ""
     : siteMetadata.socialBanner;
 
-  // JSON-LD structured data for SEO
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -206,7 +101,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     description: post.excerpt,
     image: imageUrl,
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt, // Use _updatedAt when available
+    dateModified: post.publishedAt,
     author: {
       "@type": "Person",
       name: siteMetadata.author,
@@ -231,222 +126,292 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <Transition>
-      {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="max-w-7xl mx-auto md:px-16 px-6 lg:px-20 py-8 md:py-16 overflow-x-hidden">
-        {/* Mobile-optimized navigation */}
-        <div className="mb-6 md:mb-8">
-          <Link
-            href="/blog"
-            className="inline-flex items-center text-accent hover:text-accent-dark font-medium text-sm md:text-base transition-colors duration-200"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Blog
-          </Link>
-        </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Main Content */}
-          <article className="lg:col-span-8 min-w-0">
-            <header className="mb-8 md:mb-12">
-              {/* Mobile-optimized cover image */}
-              {post.coverImage?.image && (
-                <div className="mb-6 md:mb-8 -mx-6 md:mx-0 overflow-hidden">
-                  <Image
-                    src={urlForImage(post.coverImage.image)?.url() || ""}
-                    alt={post.coverImage.alt || post.title}
-                    width={800}
-                    height={400}
-                    className="w-full h-48 md:h-64 lg:h-80 object-cover md:rounded-lg shadow-lg"
-                    priority
-                  />
-                </div>
-              )}
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-dark dark:text-light mb-4 md:mb-6 leading-tight">
-                {post.title}
-              </h1>
-              
-              {/* {post.excerpt && (
-                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-6 md:mb-8 leading-relaxed">
-                  {post.excerpt}
-                </p>
-              )} */}
+      <main className="pt-20 md:pt-28">
+        {/* ── Article Header ─────────────────────────────────────── */}
+        <header className="max-w-7xl mx-auto px-6 md:px-16 lg:px-20 pb-4 md:pb-6">
+          <nav className="mb-4 md:mb-6">
+            <Link
+              href="/blog"
+              className="group inline-flex items-center gap-2 text-sm text-gray hover:text-accent transition-colors duration-200"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="transition-transform duration-200 group-hover:-translate-x-0.5"
+              >
+                <path
+                  d="M10 12L6 8l4-4"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Back to Blog
+            </Link>
+          </nav>
 
-              <hr className="border-t border-gray-200 dark:border-gray-700 mt-6 md:mt-8 mb-3" />
-
-              {/* Post meta */}
-              <div className="flex flex-wrap items-center gap-2 md:gap-4 text-sm text-gray-500 dark:text-gray-400 ">
-                <i className="fa fa-calendar-alt mr-1"></i>
-                <time dateTime={post.publishedAt} className="font-medium">
-                  {publishedDate}
-                </time>
-                {post.readingTime && (
-                  <>
-                    <span className="hidden md:inline">•</span>
-                    <i className="fa fa-clock mr-1 text-small"></i>
-                    <span>{post.readingTime} min read</span>
-                  </>
-                )}
-                {post.category && (
-                  <>
-                    <span className="hidden md:inline">•</span>
-                    <span className="bg-accent/10 text-accent px-2 py-1 rounded text-xs md:text-sm">
-                      {post.category}
-                    </span>
-                  </>
-                )}
-              </div>
-
-              {post.tags && post.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {post.tags.map((tag: string) => (
-                    <span
-                      key={tag}
-                      className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-3 py-1 rounded-full text-xs md:text-sm"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <hr className="border-t border-gray-200 dark:border-gray-700 " />
-            </header>
-
-            {/* Content with better mobile typography */}
-            {post.contentType === "markdown" && post.markdownContent ? (
-              <MarkdownRenderer content={post.markdownContent} />
-            ) : (
-              <div className="prose prose-sm md:prose-lg dark:prose-invert max-w-none overflow-x-hidden
-                             prose-headings:text-dark dark:prose-headings:text-light
-                             prose-p:text-gray-700 dark:prose-p:text-gray-300
-                             prose-p:leading-relaxed prose-li:text-gray-700 dark:prose-li:text-gray-300
-                             prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-                             prose-code:text-accent prose-code:bg-gray-100 dark:prose-code:bg-gray-800
-                             prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800
-                             prose-pre:overflow-x-auto prose-pre:max-w-full
-                             prose-blockquote:border-accent prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400">
-                <PortableText value={post.content} components={components} />
-              </div>
+          <div className="flex flex-wrap items-center gap-3 mb-6 text-sm text-gray">
+            <time dateTime={post.publishedAt} className="font-medium">
+              {publishedDate}
+            </time>
+            {post.readingTime && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-gray/40" />
+                <span>{post.readingTime} min read</span>
+              </>
             )}
+            {post.category && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-gray/40" />
+                <span className="text-accent font-medium">
+                  {post.category}
+                </span>
+              </>
+            )}
+          </div>
 
-            <hr className="border-t border-gray-200 dark:border-gray-700 my-6 md:my-8 block" />
+          <h1 className="text-3xl md:text-5xl font-bold font-outfit text-dark dark:text-light leading-[1.1] mb-6 max-w-4xl">
+            {post.title}
+          </h1>
 
-            {/* Share buttons */}
-            <div className="mt-8 md:mt-12">
-              <ShareButtons 
-                title={post.title} 
-                excerpt={post.excerpt}
-              />
+          {post.excerpt && (
+            <p className="text-lg md:text-xl text-gray max-w-2xl leading-relaxed mb-4 md:mb-6">
+              {post.excerpt}
+            </p>
+          )}
+
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map((tag: string) => (
+                <span
+                  key={tag}
+                  className="text-xs font-medium px-3 py-1.5 rounded-full bg-dark/[0.04] dark:bg-light/[0.06] text-gray"
+                >
+                  #{tag}
+                </span>
+              ))}
             </div>
-          </article>
+          )}
+        </header>
 
-          {/* Sidebar */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-8 lg:self-start">
-            <div className="space-y-6">
-              {/* Author info card */}
-              <div className="p-6 bg-white/20 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
-                <h3 className="text-lg font-semibold text-dark dark:text-light mb-3">
-                  About the Author
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  Christian Onoh is a full-stack developer passionate about building 
-                  modern web applications and sharing knowledge with the developer community.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <a 
-                    href="https://twitter.com/onohchristian" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-accent-dark dark:text-accent hover:text-accent-dark text-sm transition-colors duration-200"
-                  >
-                    Follow on Twitter
-                  </a>
-                  <span className="text-gray-400">•</span>
-                  <a 
-                    href="https://github.com/christianonoh" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-accent-dark dark:text-accent hover:text-accent-dark text-sm transition-colors duration-200"
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-
-              {/* Mobile share buttons */}
-              <div className="lg:hidden">
-                <ShareButtons 
-                  title={post.title} 
-                  excerpt={post.excerpt}
+        {/* ── Cover Image ────────────────────────────────────────── */}
+        {post.coverImage?.image && (
+          <div className="max-w-7xl mx-auto px-0 sm:px-6 md:px-16 lg:px-20 mb-10 md:mb-20">
+            <ScrollReveal>
+              <div className="relative sm:rounded-2xl overflow-hidden shadow-[0_8px_60px_-12px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_60px_-12px_rgba(0,0,0,0.4)]">
+                <Image
+                  src={urlForImage(post.coverImage.image)?.url() || ""}
+                  alt={post.coverImage.alt || post.title}
+                  width={1400}
+                  height={700}
+                  className="w-full h-auto"
+                  priority
                 />
               </div>
+            </ScrollReveal>
+          </div>
+        )}
 
-              {/* Related posts placeholder */}
-              <div className="p-6 bg-white/20 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
-                <h3 className="text-lg font-semibold text-dark dark:text-light mb-3">
-                  More Articles
-                </h3>
-                <div className="space-y-3">
-                  <Link 
+        {/* ── Content + Sidebar ──────────────────────────────────── */}
+        <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-20 pb-16 md:pb-24">
+          {/* Mobile TOC — visible only below lg */}
+          <div className="lg:hidden mb-8">
+            <div className="p-4 rounded-xl border border-dark/[0.06] dark:border-light/[0.06] bg-light/50 dark:bg-dark/50 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              <TableOfContents
+                content={
+                  post.contentType !== "markdown" ? post.content : null
+                }
+                markdownContent={
+                  post.contentType === "markdown"
+                    ? post.markdownContent
+                    : null
+                }
+                // defaultOpen={false}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            {/* ── Main Article ──────────────────────────────────── */}
+            <article className="lg:col-span-8 min-w-0">
+              <div className="w-12 h-0.5 bg-accent/30 mb-10 rounded-full" />
+
+              {post.contentType === "markdown" && post.markdownContent ? (
+                <MarkdownRenderer content={post.markdownContent} />
+              ) : (
+                <PortableTextContent content={post.content} />
+              )}
+
+              {/* ── Post Footer ────────────────────────────────── */}
+              <div className="mt-10 md:mt-16 pt-8 md:pt-10 border-t border-dark/[0.06] dark:border-light/[0.06]">
+                <ScrollReveal>
+                  <ShareButtons
+                    title={post.title}
+                    excerpt={post.excerpt}
+                  />
+                </ScrollReveal>
+
+                <ScrollReveal delay={0.08}>
+                  <div className="mt-8 md:mt-10 flex items-start gap-4 md:gap-5 p-4 md:p-6 rounded-xl md:rounded-2xl border border-dark/[0.06] dark:border-light/[0.06] bg-light/50 dark:bg-dark/50">
+                    <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                      <span className="text-accent font-bold font-outfit text-lg">
+                        C
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold font-outfit text-dark dark:text-light mb-1">
+                        Christian Onoh
+                      </h3>
+                      <p className="text-sm text-gray leading-relaxed mb-3">
+                        Full-stack developer building modern web applications
+                        and sharing knowledge with the developer community.
+                      </p>
+                      <div className="flex items-center gap-4">
+                        <a
+                          href="https://twitter.com/onohchristian"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-medium text-gray hover:text-accent transition-colors duration-200"
+                        >
+                          Twitter
+                        </a>
+                        <a
+                          href="https://github.com/christianonoh"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-medium text-gray hover:text-accent transition-colors duration-200"
+                        >
+                          GitHub
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollReveal>
+
+                <ScrollReveal delay={0.16}>
+                  <div className="mt-8 md:mt-10">
+                    <Link
+                      href="/blog"
+                      className="group inline-flex items-center gap-2.5 text-sm font-semibold text-dark dark:text-light hover:text-accent transition-colors duration-200"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        className="transition-transform duration-200 group-hover:-translate-x-1"
+                      >
+                        <path
+                          d="M13 8H3M7 4L3 8l4 4"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      All Posts
+                    </Link>
+                  </div>
+                </ScrollReveal>
+              </div>
+            </article>
+
+            {/* ── Sidebar ───────────────────────────────────────── */}
+            <aside className="lg:col-span-4 hidden lg:block">
+              <div className="lg:sticky lg:top-12 space-y-8">
+                <div className="p-6 rounded-2xl border border-dark/[0.06] dark:border-light/[0.06] bg-light/50 dark:bg-dark/50">
+                  <TableOfContents
+                    content={
+                      post.contentType !== "markdown" ? post.content : null
+                    }
+                    markdownContent={
+                      post.contentType === "markdown"
+                        ? post.markdownContent
+                        : null
+                    }
+                  />
+                </div>
+
+                <div className="p-6 rounded-2xl border border-dark/[0.06] dark:border-light/[0.06] bg-light/50 dark:bg-dark/50">
+                  <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-dark dark:text-light mb-4">
+                    Written by
+                  </h3>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                      <span className="text-accent font-bold font-outfit">
+                        C
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-dark dark:text-light">
+                        Christian Onoh
+                      </p>
+                      <p className="text-xs text-gray">
+                        Full-stack Developer
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 mt-4">
+                    <a
+                      href="https://twitter.com/onohchristian"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-medium text-gray hover:text-accent transition-colors duration-200"
+                    >
+                      Twitter
+                    </a>
+                    <span className="w-1 h-1 rounded-full bg-gray/30" />
+                    <a
+                      href="https://github.com/christianonoh"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-medium text-gray hover:text-accent transition-colors duration-200"
+                    >
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-6 rounded-2xl border border-dark/[0.06] dark:border-light/[0.06] bg-light/50 dark:bg-dark/50">
+                  <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-dark dark:text-light mb-4">
+                    More Articles
+                  </h3>
+                  <Link
                     href="/blog"
-                    className="block text-sm text-gray-600 dark:text-gray-400 text-accent-dark dark:text-accent transition-colors duration-200"
+                    className="group flex items-center justify-between text-sm text-gray hover:text-accent transition-colors duration-200"
                   >
-                    View all blog posts →
+                    <span>View all blog posts</span>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                    >
+                      <path
+                        d="M3 8h10M9 4l4 4-4 4"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </Link>
                 </div>
               </div>
-            </div>
-          </aside>
-        </div>
-
-        {/* Footer navigation */}
-        <div className="mt-12 md:mt-16 pt-6 md:pt-8 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <Link
-              href="/blog"
-              className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-accent hover:bg-accent-dark text-white rounded-lg transition-colors duration-200 text-sm md:text-base"
-            >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              All Posts
-            </Link>
-            
-            <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-              <span>Share this article:</span>
-              <div className="flex items-center gap-2">
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-1 hover:text-accent transition-colors duration-200"
-                  aria-label="Share on Twitter"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                </a>
-                <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-1 hover:text-accent transition-colors duration-200"
-                  aria-label="Share on LinkedIn"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                </a>
-              </div>
-            </div>
+            </aside>
           </div>
         </div>
       </main>
+
       <NewsletterBanner />
     </Transition>
   );
