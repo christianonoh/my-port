@@ -80,10 +80,12 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                     rel="noopener noreferrer"
                     target="_blank"
                     aria-label={`Connect on ${key}`}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-light dark:border-gray-dark hover:border-accent dark:hover:border-accent transition-colors duration-300 text-sm font-medium"
+                    className="flex items-center justify-center gap-2 px-3 py-2 sm:px-4 rounded-full border border-gray-light dark:border-gray-dark hover:border-accent dark:hover:border-accent transition-colors duration-300 text-sm font-medium"
                   >
                     <i className={`fa-brands fa-${key} text-accent`} />
-                    {key[0].toUpperCase() + key.toLowerCase().slice(1)}
+                    <span className="hidden sm:inline">
+                      {key[0].toUpperCase() + key.toLowerCase().slice(1)}
+                    </span>
                   </a>
                 ))}
             </motion.div>
