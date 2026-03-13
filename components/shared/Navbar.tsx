@@ -305,7 +305,7 @@ const Navbar = () => {
               <Link
                 href="/contact"
                 onClick={handleToggle}
-                className="flex items-center justify-center py-3 rounded-full bg-accent text-dark text-[15px] font-bold tracking-wide transition-all duration-200 hover:brightness-110"
+                className="flex items-center justify-center py-3 rounded-full bg-accent text-light text-[15px] font-bold tracking-wide transition-all duration-200 hover:brightness-110"
               >
                 Contact
               </Link>

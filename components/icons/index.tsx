@@ -13,6 +13,44 @@ export const CircularText = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+// export const Hamburger = ({
+//   handleToggle,
+//   toggled,
+// }: {
+//   handleToggle: Function;
+//   toggled: boolean;
+// }) => {
+//   return (
+//     <button
+//       aria-label={toggled ? "Close menu" : "Open menu"}
+//       aria-expanded={toggled}
+//       className="z-50 p-2 rounded-full hover:bg-gray/10 dark:hover:bg-light/10 sm:hidden transition-all duration-300 ease-in-out"
+//       onClick={() => handleToggle(toggled)}
+//     >
+//       <div className="flex flex-col justify-center w-4 h-4 transition-all duration-300 cursor-pointer ease">
+//         <div className="flex flex-col justify-between h-4">
+//           <span
+//             style={{
+//               transform: toggled ? "rotate(-45deg) translate(-5px, 5px)" : "",
+//             }}
+//             className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
+//           />
+//           <span
+//             style={{ opacity: toggled ? 0 : 1 }}
+//             className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
+//           />
+//           <span
+//             style={{
+//               transform: toggled ? "rotate(45deg) translate(-5px, -5px)" : "",
+//             }}
+//             className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
+//           />
+//         </div>
+//       </div>
+//     </button>
+//   );
+// };
+
 export const Hamburger = ({
   handleToggle,
   toggled,
@@ -24,28 +62,31 @@ export const Hamburger = ({
     <button
       aria-label={toggled ? "Close menu" : "Open menu"}
       aria-expanded={toggled}
-      className="z-50 p-2 rounded-full hover:bg-gray/10 dark:hover:bg-light/10 sm:hidden transition-all duration-300 ease-in-out"
+      className="relative z-50 flex items-center justify-center w-10 h-10 rounded-full hover:bg-dark/[0.06] dark:hover:bg-light/[0.08] active:scale-95 sm:hidden transition-all duration-300"
       onClick={() => handleToggle(toggled)}
     >
-      <div className="flex flex-col justify-center w-4 h-4 transition-all duration-300 cursor-pointer ease">
-        <div className="flex flex-col justify-between h-4">
-          <span
-            style={{
-              transform: toggled ? "rotate(-45deg) translate(-5px, 5px)" : "",
-            }}
-            className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
-          />
-          <span
-            style={{ opacity: toggled ? 0 : 1 }}
-            className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
-          />
-          <span
-            style={{
-              transform: toggled ? "rotate(45deg) translate(-5px, -5px)" : "",
-            }}
-            className="w-full transition-all duration-300 rounded h-0.5 bg-dark dark:bg-light ease"
-          />
-        </div>
+      <div className="w-[18px] h-3 flex flex-col justify-between">
+        <span
+          className={`block h-[2px] rounded-full bg-light dark:bg-light transition-all duration-300 ease-[cubic-bezier(0.77,0,0.18,1)] origin-center ${
+            toggled
+              ? "translate-y-[5px] rotate-45"
+              : ""
+          }`}
+        />
+        <span
+          className={`block h-[2px] rounded-full bg-light dark:bg-light transition-all duration-300 ease-[cubic-bezier(0.77,0,0.18,1)] ${
+            toggled
+              ? "opacity-0 scale-x-0"
+              : "opacity-100 scale-x-100"
+          }`}
+        />
+        <span
+          className={`block h-[2px] rounded-full bg-light dark:bg-light transition-all duration-300 ease-[cubic-bezier(0.77,0,0.18,1)] origin-center ${
+            toggled
+              ? "-translate-y-[5px] -rotate-45"
+              : ""
+          }`}
+        />
       </div>
     </button>
   );
