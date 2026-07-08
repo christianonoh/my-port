@@ -46,7 +46,10 @@ async function getAccessToken(): Promise<string | null> {
   const client_secret = process.env.STRAVA_CLIENT_SECRET;
   const refresh_token = process.env.STRAVA_REFRESH_TOKEN;
 
-  if (!client_id || !client_secret || !refresh_token) return null;
+  if (!client_id || !client_secret || !refresh_token) {
+    console.error("[strava] missing env", { client_id: !!client_id, client_secret: !!client_secret, refresh_token: !!refresh_token });
+    return null;
+  }
 
   const res = await fetch(TOKEN_URL, {
     method: "POST",
@@ -61,7 +64,10 @@ async function getAccessToken(): Promise<string | null> {
     cache: "no-store",
   });
 
-  if (!res.ok) return null;
+  if (!res.ok) {
+    console.error("[strava] token exchange failed", res.status, await res.text());
+    return null;
+  }
   const data = (await res.json()) as { access_token?: string };
   return data.access_token ?? null;
 }
@@ -89,7 +95,10 @@ export async function getRunStats(): Promise<RunStats | null> {
       headers: { Authorization: `Bearer ${token}` },
       next: { revalidate: 3600 }, // refresh at most once an hour
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error("[strava] activities fetch failed", res.status, await res.text());
+      return null;
+    }
 
     const activities = (await res.json()) as StravaActivity[];
     const runs = activities.filter((a) => a.type === "Run");
@@ -129,7 +138,8 @@ export async function getRunStats(): Promise<RunStats | null> {
       lastRun,
       spark: spark.map((km) => Math.round(km * 10) / 10),
     };
-  } catch {
+  } catch (err) {
+    console.error("[strava] unexpected error", err);
     return null;
   }
 }
