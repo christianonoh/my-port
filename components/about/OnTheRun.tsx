@@ -3,14 +3,11 @@ import Highlight from "../shared/Highlight";
 import { StravaIcon } from "../icons";
 import { BiLinkExternal } from "react-icons/bi";
 import siteMetadata from "@/utils/siteMetaData";
+import PersonalRecords from "./PersonalRecords";
 
 const OnTheRun = async () => {
   const stats = await getRunStats();
-
-  // No config / no data → render nothing so the page never breaks.
-  if (!stats) return null;
-
-  const max = Math.max(...stats.spark, 1);
+  const max = stats ? Math.max(...stats.spark, 1) : 1;
 
   return (
     <section className="mt-24 max-w-[731.250px] mx-auto lg:mx-0 lg:max-w-2xl">
@@ -19,10 +16,15 @@ const OnTheRun = async () => {
       </h2>
       <p className="text-sm sm:text-lg dark:text-gray text-gray-dark max-w-lg">
         When I&apos;m away from the keyboard, you&apos;ll usually find me
-        logging kilometres. Here&apos;s my week, pulled live from Strava.
+        logging kilometres. Here&apos;s where I&apos;m at.
       </p>
 
-      <div className="mt-8 rounded-2xl border border-gray-light dark:border-gray-dark p-6 sm:p-8 dark:bg-dark/40 bg-light/60 shadow-sm dark:shadow-light/5">
+      <div
+        className={`mt-8 grid gap-6 ${stats ? "sm:grid-cols-2" : ""}`}
+      >
+        {/* Live weekly card — only when Strava data is available */}
+        {stats && (
+        <div className="rounded-2xl border border-gray-light dark:border-gray-dark p-6 sm:p-8 dark:bg-dark/40 bg-light/60 shadow-sm dark:shadow-light/5">
         {/* Header */}
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-gray dark:text-gray">
@@ -87,6 +89,11 @@ const OnTheRun = async () => {
             </span>
           </div>
         )}
+        </div>
+        )}
+
+        {/* Personal records card */}
+        <PersonalRecords />
       </div>
     </section>
   );
