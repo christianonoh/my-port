@@ -9,6 +9,7 @@ import { BiEnvelope, BiDownload, BiLinkExternal } from "react-icons/bi";
 import Experience from "@/components/about/Experience";
 import Expertise from "@/components/about/Expertise";
 import Education from "@/components/about/Education";
+import OnTheRun from "@/components/about/OnTheRun";
 import ScrollReveal from "@/components/motion/ScrollReveal";
 import { Metadata } from "next";
 import { WorkDetailsType } from "@/types";
@@ -108,6 +109,11 @@ const About = async () => {
                   <Education schools={schools} />
                 </ScrollReveal>
               </div>
+
+              {/* Running / Strava */}
+              <ScrollReveal>
+                <OnTheRun />
+              </ScrollReveal>
             </AboutFloatingWrapper>
           ))}
       </main>

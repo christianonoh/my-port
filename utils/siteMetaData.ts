@@ -16,6 +16,7 @@ const siteMetadata = {
   github: "https://github.com/christianonoh",
   twitter: "https://twitter.com/onohchristian",
   linkedin: "https://www.linkedin.com/in/christianonoh/",
+  strava: "https://www.strava.com/athletes/christianonoh", // Update to your actual Strava profile URL
   locale: "en-US",
 };
 

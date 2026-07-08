@@ -1,5 +1,5 @@
 import siteMetadata from "@/utils/siteMetaData";
-import { GithubIcon, LinkedinIcon, XIcon } from "../icons";
+import { GithubIcon, LinkedinIcon, StravaIcon, XIcon } from "../icons";
 import Link from "next/link";
 
 const Footer = () => {
@@ -14,6 +14,7 @@ const Footer = () => {
     { href: siteMetadata.twitter, icon: XIcon, label: "Twitter" },
     { href: siteMetadata.github, icon: GithubIcon, label: "Github" },
     { href: siteMetadata.linkedin, icon: LinkedinIcon, label: "Linkedin" },
+    { href: siteMetadata.strava, icon: StravaIcon, label: "Strava" },
   ];
 
   return (
